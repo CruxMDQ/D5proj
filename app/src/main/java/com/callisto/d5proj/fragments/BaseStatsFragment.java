@@ -257,8 +257,7 @@ public class BaseStatsFragment extends Fragment {
         super.onAttach(activity);
         ((CharacterCreationActivity) activity).onSectionAttached(
             getArguments().getInt(ARG_SECTION_NUMBER));
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
+        
         try {
             onStatChangeListener = (OnStatChangeListener) activity;
         } catch (ClassCastException e) {
