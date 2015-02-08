@@ -18,4 +18,14 @@
     <string name="character_stats">character_stats</string>
     <string name="experience_points">XP</string>
     <string name="character_level">Character level</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="prof_bonus">Proficiency bonus</string>
+    <string name="saving_throws">Saving throws</string>
+    <string name="stat_name_str">Strength</string>
+    <string name="stat_name_dex">Dexterity</string>
+    <string name="stat_name_con">Constitution</string>
+    <string name="stat_name_int">Intelligence</string>
+    <string name="stat_name_wis">Wisdom</string>
+    <string name="stat_name_cha">Charisma</string>
 </resources>

@@ -8,13 +8,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.activities.CharacterCreationActivity;
 import com.callisto.d5proj.enums.BaseStatistic;
+import com.callisto.d5proj.interfaces.OnInputClickListener;
 import com.callisto.d5proj.widgets.CharSheetStatBox;
+import com.callisto.d5proj.widgets.InputDialog;
 import com.callisto.d5proj.xml.pojos.Level;
 
 import java.util.Iterator;
@@ -22,7 +23,7 @@ import java.util.Iterator;
 /**
  * Created by emiliano.desantis on 06/02/2015.
  */
-public class DerivedStatsFragment extends Fragment {
+public class DerivedStatsFragment extends Fragment implements OnInputClickListener {
 
     public static DerivedStatsFragment newInstance(int sectionNumber) {
         DerivedStatsFragment fragment = new DerivedStatsFragment();
@@ -60,6 +61,8 @@ public class DerivedStatsFragment extends Fragment {
     }
 
     private void findComponents(View rootView) {
+        localInstance = this;
+
         charStr = (CharSheetStatBox) rootView.findViewById(R.id.charStr);
         charDex = (CharSheetStatBox) rootView.findViewById(R.id.charDex);
         charCon = (CharSheetStatBox) rootView.findViewById(R.id.charCon);
@@ -67,8 +70,17 @@ public class DerivedStatsFragment extends Fragment {
         charWis = (CharSheetStatBox) rootView.findViewById(R.id.charWis);
         charCha = (CharSheetStatBox) rootView.findViewById(R.id.charCha);
 
-        editXP = (EditText) rootView.findViewById(R.id.editXP);
-        editXP.addTextChangedListener(new TextWatcher() {
+        txtXPNumber = (TextView) rootView.findViewById(R.id.txtXPNumber);
+        txtXPNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputDialog inputDialog = new InputDialog(getActivity(), "Add experience points",
+                    "Enter amount of XP earned", localInstance);
+
+                inputDialog.show();
+            }
+        });
+        txtXPNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -94,7 +106,8 @@ public class DerivedStatsFragment extends Fragment {
             }
         });
 
-        txtLevelNumber = (TextView) rootView.findViewById(R.id.txtLevelNumber);
+        txtLevelNumber = (TextView) rootView.findViewById(R.id.txtLevel);
+        txtProfBonus = (TextView) rootView.findViewById(R.id.txtProfBonus);
     }
 
     public void setStatFromBuilder(BaseStatistic stat, int value) {
@@ -126,6 +139,16 @@ public class DerivedStatsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onInputClickOk(String text) {
+        int addedXP = Integer.parseInt(text);
+
+        txtXPNumber.setText(String.valueOf(xp = xp + addedXP));
+    }
+
+    @Override
+    public void onInputClickCancel(String text) { }
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private View rootView;
@@ -146,6 +169,9 @@ public class DerivedStatsFragment extends Fragment {
     private int xp;
     private int level;
 
-    private EditText editXP;
+    private TextView txtXPNumber;
     private TextView txtLevelNumber;
+    private TextView txtProfBonus;
+
+    private DerivedStatsFragment localInstance;
 }

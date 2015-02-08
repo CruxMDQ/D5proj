@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:custom="http://schemas.android.com/apk/res-auto"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,87 +14,182 @@
             android:id="@+id/charStr"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Strength"/>
+            custom:attributeName="@string/stat_name_str"/>
+
         <com.callisto.d5proj.widgets.CharSheetStatBox
             android:id="@+id/charDex"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Dexterity"/>
+            custom:attributeName="@string/stat_name_dex"/>
+
         <com.callisto.d5proj.widgets.CharSheetStatBox
             android:id="@+id/charCon"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Constitution"/>
+            custom:attributeName="@string/stat_name_con"/>
+
         <com.callisto.d5proj.widgets.CharSheetStatBox
             android:id="@+id/charInt"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Intelligence"/>
+            custom:attributeName="@string/stat_name_int"/>
+
         <com.callisto.d5proj.widgets.CharSheetStatBox
             android:id="@+id/charWis"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Wisdom"/>
+            custom:attributeName="@string/stat_name_wis"/>
+
         <com.callisto.d5proj.widgets.CharSheetStatBox
             android:id="@+id/charCha"
             android:layout_width="@dimen/attribute_setting_row_height"
             android:layout_height="@dimen/attribute_setting_row_height"
-            custom:attributeName="Charisma"/>
+            custom:attributeName="@string/stat_name_cha"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/simple_border">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="@dimen/attribute_setting_row_height"
-            android:layout_height="@dimen/attribute_setting_row_height"
-            android:gravity="center_vertical"
-            android:padding="@dimen/padding_statbox"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/simple_border"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtXP"
-                android:padding="@dimen/padding_statbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/experience_points"
-                android:layout_gravity="center"
-                style="@style/statTitle"/>
+            <LinearLayout
+                android:layout_width="@dimen/attribute_setting_row_height"
+                android:layout_height="@dimen/attribute_setting_row_height"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_statbox">
 
-            <EditText
-                android:id="@+id/editXP"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:inputType="number"/>
+                <TextView
+                    android:id="@+id/txtXP"
+                    style="@style/statTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/padding_statbox"
+                    android:text="@string/experience_points"/>
+
+                <TextView
+                    android:id="@+id/txtXPNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="12385"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/attribute_setting_row_height"
+                android:layout_height="@dimen/attribute_setting_row_height"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_statbox">
+
+                <TextView
+                    android:id="@+id/titleLevel"
+                    style="@style/statTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/padding_statbox"
+                    android:text="@string/character_level"
+                    />
+
+                <TextView
+                    android:id="@+id/txtLevel"
+                    style="@style/statNumberFixed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/attribute_setting_row_height"
+                android:layout_height="@dimen/attribute_setting_row_height"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_statbox">
+
+                <TextView
+                    android:id="@+id/titleProfBonus"
+                    style="@style/statTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/padding_statbox"
+                    android:text="@string/prof_bonus"/>
+
+                <TextView
+                    android:id="@+id/txtProfBonus"
+                    style="@style/statNumberFixed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="2"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="@dimen/attribute_setting_row_height"
-            android:layout_height="@dimen/attribute_setting_row_height"
-            android:padding="@dimen/padding_statbox"
-            android:orientation="vertical">
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:orientation="vertical"
+            android:background="@drawable/simple_border"
+            android:padding="3dp">
 
             <TextView
-                android:id="@+id/txtLevel"
-                android:padding="@dimen/padding_statbox"
+                android:id="@+id/titleSavingThrows"
+                style="@style/statTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/character_level"
-                style="@style/statTitle"
-                />
+                android:padding="@dimen/padding_statbox"
+                android:text="@string/saving_throws" />
 
-            <TextView
-                android:id="@+id/txtLevelNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                style="@style/statNumberFixed"
-                android:text="1"/>
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveStr"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_str"/>
+
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveDex"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_dex"/>
+
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveCon"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_con"/>
+
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveInt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_int"/>
+
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveWis"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_wis"/>
+
+            <com.callisto.d5proj.widgets.SavingThrowRow
+                android:id="@+id/rowSaveCha"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                custom:attributeName="@string/stat_name_cha"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
