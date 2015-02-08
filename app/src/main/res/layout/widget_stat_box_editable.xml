@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:baselineAligned="false"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/attribute_setting_row_height">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/txtAttributeName"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:text="Sample attribute"/>
+
+        <TextView
+            android:id="@+id/txtAttributeValue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            style="@style/statNumberEditable"
+            android:text="18"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/padEditStats"
+        android:layout_width="@dimen/attribute_setting_buttonpad"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnIncreaseValue"
+            android:text="@string/btnIncrease"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_light"/>
+
+        <Button
+            android:id="@+id/btnDecreaseValue"
+            android:text="@string/btnDecrease"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_light"/>
+
+    </LinearLayout>
+</LinearLayout>

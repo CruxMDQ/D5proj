@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">D5proj</string>
+    <string name="base_stats">Base stats</string>
+    <string name="derived_stats">Derived stats</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="btnIncrease">+</string>
+    <string name="btnDecrease">-</string>
+    <string name="point_pool">Point pool</string>
+    <string name="panel_rolls_title">Rolls</string>
+    <string name="btn_roll">Roll</string>
+    <string name="btn_reset">Reset rolls</string>
+    <string name="character_stats">character_stats</string>
+</resources>

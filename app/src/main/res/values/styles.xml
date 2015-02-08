@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!--Text styles-->
+    <style name="statNumberEditable">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/font_size_XXXL</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">@color/shadow_for_text_white</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="statNumberFixed" parent="statNumberEditable">
+        <item name="android:textSize">@dimen/font_size_XL</item>
+    </style>
+
+    <style name="statTitle">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/font_size_XS</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="statModifier" parent="statTitle">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/font_size_S</item>
+    </style>
+    <!--Widget styles-->
+</resources>

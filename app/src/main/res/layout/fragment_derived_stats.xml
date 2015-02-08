@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charStr"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Strength"/>
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charDex"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Dexterity"/>
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charCon"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Constitution"/>
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charInt"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Intelligence"/>
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charWis"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Wisdom"/>
+        <com.callisto.d5proj.widgets.CharSheetStatBox
+            android:id="@+id/charCha"
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            custom:attributeName="Charisma"/>
+    </LinearLayout>
+
+</LinearLayout>
