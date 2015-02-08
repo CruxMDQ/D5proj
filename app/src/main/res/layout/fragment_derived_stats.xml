@@ -42,4 +42,59 @@
             custom:attributeName="Charisma"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/simple_border">
+
+        <LinearLayout
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            android:gravity="center_vertical"
+            android:padding="@dimen/padding_statbox"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtXP"
+                android:padding="@dimen/padding_statbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/experience_points"
+                android:layout_gravity="center"
+                style="@style/statTitle"/>
+
+            <EditText
+                android:id="@+id/editXP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:inputType="number"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/attribute_setting_row_height"
+            android:layout_height="@dimen/attribute_setting_row_height"
+            android:padding="@dimen/padding_statbox"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtLevel"
+                android:padding="@dimen/padding_statbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/character_level"
+                style="@style/statTitle"
+                />
+
+            <TextView
+                android:id="@+id/txtLevelNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                style="@style/statNumberFixed"
+                android:text="1"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

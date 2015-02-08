@@ -16,4 +16,6 @@
     <string name="btn_roll">Roll</string>
     <string name="btn_reset">Reset rolls</string>
     <string name="character_stats">character_stats</string>
+    <string name="experience_points">XP</string>
+    <string name="character_level">Character level</string>
 </resources>

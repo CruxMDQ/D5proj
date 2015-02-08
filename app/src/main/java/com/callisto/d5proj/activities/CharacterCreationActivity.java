@@ -22,6 +22,7 @@ import com.callisto.d5proj.fragments.DerivedStatsFragment;
 import com.callisto.d5proj.fragments.NavigationDrawerFragment;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.xml.ExperienceTableXMLHandler;
+import com.callisto.d5proj.xml.pojos.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -29,6 +30,7 @@ import org.xml.sax.XMLReader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -69,7 +71,7 @@ public class CharacterCreationActivity extends ActionBarActivity
         baseStatsFragment = BaseStatsFragment.newInstance(1);
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
 
-        parseXML();
+//        parseXML();
     }
 
     @Override
@@ -159,7 +161,9 @@ public class CharacterCreationActivity extends ActionBarActivity
         }
     }
 
-    private void parseXML() {
+    public ArrayList<Level> getExperienceTable() {
+        ArrayList<Level> result = null;
+
         AssetManager assetManager = getBaseContext().getAssets();
         try {
             InputStream is = assetManager.open("ExperienceTable.xml");
@@ -172,10 +176,14 @@ public class CharacterCreationActivity extends ActionBarActivity
             InputSource inStream = new InputSource(is);
             xr.parse(inStream);
 
+            result = tableXMLHandler.getLevels();
+
             is.close();
         } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
+
+        return result;
     }
 
     /**

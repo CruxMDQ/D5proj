@@ -257,7 +257,7 @@ public class BaseStatsFragment extends Fragment {
         super.onAttach(activity);
         ((CharacterCreationActivity) activity).onSectionAttached(
             getArguments().getInt(ARG_SECTION_NUMBER));
-        
+
         try {
             onStatChangeListener = (OnStatChangeListener) activity;
         } catch (ClassCastException e) {
