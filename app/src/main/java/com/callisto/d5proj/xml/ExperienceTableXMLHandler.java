@@ -1,6 +1,6 @@
 package com.callisto.d5proj.xml;
 
-import com.callisto.d5proj.xml.pojos.Level;
+import com.callisto.d5proj.pojos.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

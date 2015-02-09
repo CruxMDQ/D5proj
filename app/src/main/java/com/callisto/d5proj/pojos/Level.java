@@ -1,4 +1,4 @@
-package com.callisto.d5proj.xml.pojos;
+package com.callisto.d5proj.pojos;
 
 /**
  * Created by Crux on 07/02/2015.

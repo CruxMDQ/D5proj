@@ -1,4 +1,4 @@
-package com.callisto.d5proj.xml.pojos;
+package com.callisto.d5proj.pojos;
 
 import com.callisto.d5proj.enums.BaseStatistic;
 

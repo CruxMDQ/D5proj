@@ -14,10 +14,11 @@ import com.callisto.d5proj.R;
 import com.callisto.d5proj.activities.CharacterCreationActivity;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.interfaces.OnInputClickListener;
+import com.callisto.d5proj.pojos.Level;
 import com.callisto.d5proj.widgets.CharSheetStatBox;
 import com.callisto.d5proj.widgets.InputDialog;
-import com.callisto.d5proj.xml.pojos.Level;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -167,7 +168,9 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
     private int WIS;
     private int CHA;
     private int xp;
-    private int level;
+    private int hitPoints;
+    private int armorClass;
+    private ArrayList<Level> characterLevels;
 
     private TextView txtXPNumber;
     private TextView txtLevelNumber;

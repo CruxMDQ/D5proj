@@ -16,13 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.callisto.d5proj.R;
+import com.callisto.d5proj.db.DBCharacterClasses;
+import com.callisto.d5proj.db.DBCharacterLevels;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.BaseStatsFragment;
 import com.callisto.d5proj.fragments.DerivedStatsFragment;
 import com.callisto.d5proj.fragments.NavigationDrawerFragment;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
+import com.callisto.d5proj.pojos.Level;
 import com.callisto.d5proj.xml.ExperienceTableXMLHandler;
-import com.callisto.d5proj.xml.pojos.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -40,6 +42,12 @@ import javax.xml.parsers.SAXParserFactory;
 public class CharacterCreationActivity extends ActionBarActivity
     implements NavigationDrawerFragment.NavigationDrawerCallbacks,
     OnStatChangeListener {
+
+    /**
+     * Database stuff
+     */
+    DBCharacterClasses dbCharacterClasses;
+    DBCharacterLevels dbCharacterLevels;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -70,6 +78,9 @@ public class CharacterCreationActivity extends ActionBarActivity
 
         baseStatsFragment = BaseStatsFragment.newInstance(1);
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
+
+        dbCharacterClasses = new DBCharacterClasses(this);
+        dbCharacterLevels = new DBCharacterLevels(this);
 
 //        parseXML();
     }

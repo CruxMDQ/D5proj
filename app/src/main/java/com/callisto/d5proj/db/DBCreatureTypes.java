@@ -16,6 +16,28 @@ public class DBCreatureTypes extends DBAdapter {
                 C_DIE_SIZE, C_SKILLS, C_ATK_RATING, C_NAME});
     }
 
+    public static String getDefinition() {
+        return "CREATE TABLE" + " " + T_CREATURE_TYPES + "("
+            + C_ID + " " + "INTEGER PRIMARY KEY" + ","
+            + C_STR + " " + "INTEGER NOT NULL" + ","
+            + C_DEX + " " + "INTEGER NOT NULL" + ","
+            + C_CON + " " + "INTEGER NOT NULL" + ","
+            + C_INT + " " + "INTEGER NOT NULL" + ","
+            + C_WIS + " " + "INTEGER NOT NULL" + ","
+            + C_CHA + " " + "INTEGER NOT NULL" + ","
+            + C_DIE_SIZE + " " + "INTEGER NOT NULL" + ","
+            + C_SKILLS + " " + "INTEGER NOT NULL" + ","
+            + C_ATK_RATING + " " + "TEXT NOT NULL" + ","
+            + C_NAME + " " + "TEXT NOT NULL"
+            + ");";
+    }
+
+    public static String getIndex() {
+        return "CREATE UNIQUE INDEX" + " " + C_ID
+            + " " + "ON" + " " + T_CREATURE_TYPES
+            + "(" + C_ID + " " + "ASC)";
+    }
+
     static public final String T_CREATURE_TYPES = "creatureTypes",
             C_ID = "_id",
             C_STR = "str",
@@ -29,21 +51,4 @@ public class DBCreatureTypes extends DBAdapter {
             C_ATK_RATING = "atkRating",
             C_NAME = "name";
 
-    static public final String DEFINITION = "CREATE TABLE" + " " + T_CREATURE_TYPES + "("
-            + C_ID + " " + "INTEGER PRIMARY KEY" + ","
-            + C_STR + " " + "INTEGER NOT NULL" + ","
-            + C_DEX + " " + "INTEGER NOT NULL" + ","
-            + C_CON + " " + "INTEGER NOT NULL" + ","
-            + C_INT + " " + "INTEGER NOT NULL" + ","
-            + C_WIS + " " + "INTEGER NOT NULL" + ","
-            + C_CHA + " " + "INTEGER NOT NULL" + ","
-            + C_DIE_SIZE + " " + "INTEGER NOT NULL" + ","
-            + C_SKILLS + " " + "INTEGER NOT NULL" + ","
-            + C_ATK_RATING + " " + "TEXT NOT NULL" + ","
-            + C_NAME + " " + "TEXT NOT NULL"
-            + ");";
-
-    static public final String INDEX = "CREATE UNIQUE INDEX" + " " + C_ID
-            + " " + "ON" + " " + T_CREATURE_TYPES
-            + "(" + C_ID + " " + "ASC)";
 }
