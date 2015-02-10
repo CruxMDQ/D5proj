@@ -22,7 +22,9 @@ import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.BaseStatsFragment;
 import com.callisto.d5proj.fragments.DerivedStatsFragment;
 import com.callisto.d5proj.fragments.NavigationDrawerFragment;
+import com.callisto.d5proj.fragments.SelectClassDFragment;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
+import com.callisto.d5proj.pojos.CharacterClass;
 import com.callisto.d5proj.pojos.Level;
 import com.callisto.d5proj.xml.ExperienceTableXMLHandler;
 
@@ -46,8 +48,8 @@ public class CharacterCreationActivity extends ActionBarActivity
     /**
      * Database stuff
      */
-    DBCharacterClasses dbCharacterClasses;
-    DBCharacterLevels dbCharacterLevels;
+    private DBCharacterClasses dbCharacterClasses;
+    private DBCharacterLevels dbCharacterLevels;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -56,6 +58,7 @@ public class CharacterCreationActivity extends ActionBarActivity
 
     private BaseStatsFragment baseStatsFragment;
     private DerivedStatsFragment derivedStatsFragment;
+    private SelectClassDFragment selectClassDFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -78,6 +81,7 @@ public class CharacterCreationActivity extends ActionBarActivity
 
         baseStatsFragment = BaseStatsFragment.newInstance(1);
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
+        selectClassDFragment = SelectClassDFragment.newInstance(3);
 
         dbCharacterClasses = new DBCharacterClasses(this);
         dbCharacterLevels = new DBCharacterLevels(this);
@@ -106,6 +110,11 @@ public class CharacterCreationActivity extends ActionBarActivity
         case 1:
             fragmentManager.beginTransaction()
                 .replace(R.id.container, derivedStatsFragment)
+                .commit();
+            break;
+        case 2:
+            fragmentManager.beginTransaction()
+                .replace(R.id.container, selectClassDFragment)
                 .commit();
             break;
         default:
@@ -195,6 +204,10 @@ public class CharacterCreationActivity extends ActionBarActivity
         }
 
         return result;
+    }
+
+    public ArrayList<CharacterClass> getCharacterClasses() {
+        return dbCharacterClasses.getArrayList();
     }
 
     /**

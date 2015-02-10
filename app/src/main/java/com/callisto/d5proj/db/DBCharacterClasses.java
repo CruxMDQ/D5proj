@@ -2,12 +2,13 @@ package com.callisto.d5proj.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.enums.BaseStatistic;
+import com.callisto.d5proj.pojos.CharacterClass;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by emiliano.desantis on 09/02/2015.
@@ -34,15 +35,18 @@ public class DBCharacterClasses extends DBAdapter {
 
         loadCharacterClasses();
 
-        close();
+//        close();
     }
 
     // TODO FIND A BETTER WAY TO LOAD STATIC TABLES!
     private void loadCharacterClasses() {
+        ArrayList<CharacterClass> classes = this.getArrayList();
+
         ArrayList<BaseStatistic> keys = new ArrayList<>();
-        keys.add(BaseStatistic.STR);
 
         ArrayList<BaseStatistic> saves = new ArrayList<>();
+
+        keys.add(BaseStatistic.STR);
         saves.add(BaseStatistic.STR);
         saves.add(BaseStatistic.CON);
 
@@ -152,34 +156,59 @@ public class DBCharacterClasses extends DBAdapter {
         insert(context.getString(R.string.classname_wizard), 6, keys, saves);
     }
 
+    public ArrayList<CharacterClass> getArrayList() {
+        ArrayList<CharacterClass> characterClasses = new ArrayList<>();
+
+        Cursor c = this.getCursor();
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()) {
+            CharacterClass characterClass = new CharacterClass();
+            characterClass.setName(c.getString(c.getColumnIndexOrThrow(C_NAME)));
+            characterClass.setDieSize(c.getInt(c.getColumnIndexOrThrow(C_DIE_SIZE)));
+
+            characterClasses.add(characterClass);
+            c.moveToNext();
+        }
+
+        return characterClasses;
+    }
+
     public void insert(String name, int dieSize, ArrayList<BaseStatistic> keyStats, ArrayList<BaseStatistic> saves) {
         ContentValues reg = new ContentValues();
 
         reg.put(C_NAME, name);
         reg.put(C_DIE_SIZE, dieSize);
 
-        long classId = this.insert(reg);
+        long classId = this.insertOrThrow(reg);
 
         reg.clear();
 
+//        db.execSQL("INSERT OR IGNORE INTO " + T_CHARACTER_CLASSES + "(" + C_NAME + ", " + C_DIE_SIZE+ ")"
+//            + " VALUES (" + name + ", " + dieSize + ");");
+
         BaseStatistic stat;
 
-        Iterator<BaseStatistic> stats = keyStats.iterator();
+        for (BaseStatistic keyStat : keyStats) {
+            stat = keyStat;
+            reg.clear();
+            reg.put(C_STAT, stat.toString());
 
-        while (stats.hasNext()) {
-            stat = stats.next();
-
-            db.execSQL("INSERT INTO " + T_CLASSES_KEYSTATS + "(" + C_ID_CLASS + ", " + C_STAT + ")"
-                + " VALUES (" + classId + ", " + "\"" + stat.toString() + "\"" + ");");
+            db.insertOrThrow(T_CLASSES_SAVES, null, reg);
+//            db.execSQL("INSERT INTO " + T_CLASSES_KEYSTATS + "(" + C_ID_CLASS + ", " + C_STAT + ")"
+//                + " VALUES (" + classId + ", " + "\"" + stat.toString() + "\"" + ");");
         }
 
-        Iterator<BaseStatistic> savingThrows = saves.iterator();
+        for (BaseStatistic save : saves) {
+            stat = save;
+            reg.clear();
+            reg.put(C_STAT, stat.toString());
 
-        while (savingThrows.hasNext()) {
-            stat = savingThrows.next();
+            db.insertOrThrow(T_CLASSES_SAVES, null, reg);
 
-            db.execSQL("INSERT INTO " + T_CLASSES_SAVES + "(" + C_ID_CLASS + ", " + C_STAT + ")"
-                + " VALUES (" + classId + ", " + "\"" + stat.toString() + "\"" + ");");
+//            db.execSQL("INSERT INTO " + T_CLASSES_SAVES + "(" + C_ID_CLASS + ", " + C_STAT + ")"
+//                + " VALUES (" + classId + ", " + "\"" + stat.toString() + "\"" + ");");
         }
     }
 
@@ -193,7 +222,8 @@ public class DBCharacterClasses extends DBAdapter {
     static public final String DEFINE_PC_CLASSES = "CREATE TABLE IF NOT EXISTS" + " " + T_CHARACTER_CLASSES + "("
         + C_ID + " " + "INTEGER PRIMARY KEY" + ","
         + C_NAME + " " + "TEXT NOT NULL" + ","
-        + C_DIE_SIZE + " " + "INTEGER NOT NULL"
+        + C_DIE_SIZE + " " + "INTEGER NOT NULL,"
+        + "UNIQUE (" + C_NAME + ")"
         + ");";
 
     static public final String DEFINE_PC_CLASSES_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS" + " " + "I" + T_CHARACTER_CLASSES

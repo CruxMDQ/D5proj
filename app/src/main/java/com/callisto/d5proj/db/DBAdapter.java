@@ -91,13 +91,6 @@ public abstract class DBAdapter {
         return this.getId(filter, getKeyColumn());
     }
 
-    public Cursor getList() {
-        Cursor c = db.query(true, this.getManagedTable(), columns, null, null, null,
-            null, null, null);
-
-        return c;
-    }
-
     /**
      * Fetch a specific record from the database.
      *
@@ -130,6 +123,18 @@ public abstract class DBAdapter {
         }
 
         result = db.insert(this.getManagedTable(), null, reg);
+
+        return result;
+    }
+
+    public long insertOrThrow(ContentValues reg) {
+        long result;
+
+        if (db == null) {
+            open();
+        }
+
+        result = db.insertOrThrow(this.getManagedTable(), null, reg);
 
         return result;
     }
