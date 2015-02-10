@@ -9,6 +9,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+
     <string name="btnIncrease">+</string>
     <string name="btnDecrease">-</string>
     <string name="point_pool">Point pool</string>
@@ -22,10 +23,24 @@
     <string name="cancel">Cancel</string>
     <string name="prof_bonus">Proficiency bonus</string>
     <string name="saving_throws">Saving throws</string>
+
     <string name="stat_name_str">Strength</string>
     <string name="stat_name_dex">Dexterity</string>
     <string name="stat_name_con">Constitution</string>
     <string name="stat_name_int">Intelligence</string>
     <string name="stat_name_wis">Wisdom</string>
     <string name="stat_name_cha">Charisma</string>
+
+    <string name="classname_barbarian">Barbarian</string>
+    <string name="classname_bard">Bard</string>
+    <string name="classname_cleric">Cleric</string>
+    <string name="classname_druid">Druid</string>
+    <string name="classname_fighter">Fighter</string>
+    <string name="classname_monk">Monk</string>
+    <string name="classname_paladin">Paladin</string>
+    <string name="classname_ranger">Ranger</string>
+    <string name="classname_rogue">Rogue</string>
+    <string name="classname_sorcerer">Sorcerer</string>
+    <string name="classname_warlock">Warlock</string>
+    <string name="classname_wizard">Wizard</string>
 </resources>

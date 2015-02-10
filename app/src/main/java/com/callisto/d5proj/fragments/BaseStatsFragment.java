@@ -158,7 +158,6 @@ public class BaseStatsFragment extends Fragment {
         return !getCharSharedPrefs().getAll().isEmpty();
     }
 
-
     private void generateRolls() {
         SharedPreferences sharedPref = getCharSharedPrefs();
 

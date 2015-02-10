@@ -3,6 +3,7 @@ package com.callisto.d5proj.db;
 import android.content.ContentValues;
 import android.content.Context;
 
+import com.callisto.d5proj.R;
 import com.callisto.d5proj.enums.BaseStatistic;
 
 import java.util.ArrayList;
@@ -30,17 +31,125 @@ public class DBCharacterClasses extends DBAdapter {
         db.delete(T_CHARACTER_CLASSES, null, null);
         db.delete(T_CLASSES_KEYSTATS, null, null);
         db.delete(T_CLASSES_SAVES, null, null);
-        
+
+        loadCharacterClasses();
+
+        close();
+    }
+
+    // TODO FIND A BETTER WAY TO LOAD STATIC TABLES!
+    private void loadCharacterClasses() {
         ArrayList<BaseStatistic> keys = new ArrayList<>();
         keys.add(BaseStatistic.STR);
-        
+
         ArrayList<BaseStatistic> saves = new ArrayList<>();
         saves.add(BaseStatistic.STR);
         saves.add(BaseStatistic.CON);
-        
-        insert("Barbarian", 12, keys, new ArrayList<BaseStatistic>() {} );
 
-        close();
+        insert(context.getString(R.string.classname_barbarian), 12, keys, saves );
+
+        keys.clear();
+        keys.add(BaseStatistic.CHA);
+
+        saves.clear();
+        saves.add(BaseStatistic.DEX);
+        saves.add(BaseStatistic.CHA);
+
+        insert(context.getString(R.string.classname_bard), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.WIS);
+
+        saves.clear();
+        saves.add(BaseStatistic.WIS);
+        saves.add(BaseStatistic.CHA);
+
+        insert(context.getString(R.string.classname_cleric), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.WIS);
+
+        saves.clear();
+        saves.add(BaseStatistic.INT);
+        saves.add(BaseStatistic.WIS);
+
+        insert(context.getString(R.string.classname_druid), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.STR);
+        keys.add(BaseStatistic.DEX);
+
+        saves.clear();
+        saves.add(BaseStatistic.STR);
+        saves.add(BaseStatistic.CON);
+
+        insert(context.getString(R.string.classname_fighter), 10, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.WIS);
+        keys.add(BaseStatistic.DEX);
+
+        saves.clear();
+        saves.add(BaseStatistic.STR);
+        saves.add(BaseStatistic.DEX);
+
+        insert(context.getString(R.string.classname_monk), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.STR);
+        keys.add(BaseStatistic.CHA);
+
+        saves.clear();
+        saves.add(BaseStatistic.WIS);
+        saves.add(BaseStatistic.CHA);
+
+        insert(context.getString(R.string.classname_paladin), 10, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.WIS);
+        keys.add(BaseStatistic.DEX);
+
+        saves.clear();
+        saves.add(BaseStatistic.STR);
+        saves.add(BaseStatistic.DEX);
+
+        insert(context.getString(R.string.classname_ranger), 10, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.DEX);
+
+        saves.clear();
+        saves.add(BaseStatistic.INT);
+        saves.add(BaseStatistic.DEX);
+
+        insert(context.getString(R.string.classname_rogue), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.CHA);
+
+        saves.clear();
+        saves.add(BaseStatistic.CON);
+        saves.add(BaseStatistic.CHA);
+
+        insert(context.getString(R.string.classname_sorcerer), 6, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.CHA);
+
+        saves.clear();
+        saves.add(BaseStatistic.WIS);
+        saves.add(BaseStatistic.CHA);
+
+        insert(context.getString(R.string.classname_warlock), 8, keys, saves);
+
+        keys.clear();
+        keys.add(BaseStatistic.INT);
+
+        saves.clear();
+        saves.add(BaseStatistic.INT);
+        saves.add(BaseStatistic.WIS);
+
+        insert(context.getString(R.string.classname_wizard), 6, keys, saves);
     }
 
     public void insert(String name, int dieSize, ArrayList<BaseStatistic> keyStats, ArrayList<BaseStatistic> saves) {
@@ -52,8 +161,6 @@ public class DBCharacterClasses extends DBAdapter {
         long classId = this.insert(reg);
 
         reg.clear();
-
-        open();
 
         BaseStatistic stat;
 
@@ -74,8 +181,6 @@ public class DBCharacterClasses extends DBAdapter {
             db.execSQL("INSERT INTO " + T_CLASSES_SAVES + "(" + C_ID_CLASS + ", " + C_STAT + ")"
                 + " VALUES (" + classId + ", " + "\"" + stat.toString() + "\"" + ");");
         }
-
-        close();
     }
 
     /**
@@ -102,7 +207,8 @@ public class DBCharacterClasses extends DBAdapter {
         C_STAT = "stat";
 
     static public final String DEFINE_CLASSES_KEYSTATS = "CREATE TABLE IF NOT EXISTS" + " " + T_CLASSES_KEYSTATS + "("
-        + C_ID_CLASS + " " + "INTEGER PRIMARY KEY" + ","
+        + C_ID + " " + "INTEGER PRIMARY KEY" + ","
+        + C_ID_CLASS + " " + "INTEGER NOT NULL" + ","
         + C_STAT + " " + "TEXT NOT NULL" + ","
         + " FOREIGN KEY" + "(" + C_ID_CLASS + ")" + " REFERENCES " + DBCharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ") ON DELETE CASCADE"
         + ");";
@@ -113,7 +219,8 @@ public class DBCharacterClasses extends DBAdapter {
     static public final String T_CLASSES_SAVES = "classes_keysaves";
 
     static public final String DEFINE_CLASSES_SAVES = "CREATE TABLE IF NOT EXISTS" + " " + T_CLASSES_SAVES + "("
-        + C_ID_CLASS + " " + "INTEGER PRIMARY KEY" + ","
+        + C_ID + " " + "INTEGER PRIMARY KEY" + ","
+        + C_ID_CLASS + " " + "INTEGER NOT NULL" + ","
         + C_STAT + " " + "TEXT NOT NULL" + ","
         + " FOREIGN KEY" + "(" + C_ID_CLASS + ")" + " REFERENCES " + DBCharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ") ON DELETE CASCADE"
         + ");";
