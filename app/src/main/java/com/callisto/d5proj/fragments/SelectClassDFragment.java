@@ -35,7 +35,7 @@ public class SelectClassDFragment extends android.support.v4.app.DialogFragment 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.frag_placeholder, container, false);
+        rootView = inflater.inflate(R.layout.fragment_select_class, container, false);
 
         findComponents(rootView);
 
