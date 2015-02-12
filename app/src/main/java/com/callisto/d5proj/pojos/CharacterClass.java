@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class CharacterClass {
     String name;
     int dieSize;
+    int skills;
     ArrayList<BaseStatistic> keyStats;
     ArrayList<BaseStatistic> savingThrowProficiencies;
 
@@ -27,6 +28,14 @@ public class CharacterClass {
 
     public void setDieSize(int dieSize) {
         this.dieSize = dieSize;
+    }
+
+    public int getSkills() {
+        return skills;
+    }
+
+    public void setSkills(int skills) {
+        this.skills = skills;
     }
 
     public ArrayList<BaseStatistic> getKeyStats() {
