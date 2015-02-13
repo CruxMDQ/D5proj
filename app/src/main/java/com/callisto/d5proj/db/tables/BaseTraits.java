@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class BaseTraits extends BaseAdapter {
+public class BaseTraits extends BaseTableAdapter {
     public BaseTraits(Context context) {
         super(context);
         this.setManagedTable(T_TRAITS);

@@ -13,7 +13,7 @@ import java.io.OutputStream;
 /** Database utils, for example to execute SQL scripts
  * Source: https://github.com/greenrobot/greenDAO/blob/master/DaoCore/src/de/greenrobot/dao/DbUtils.java
  */
-public class DbUtils {
+public class DBUtils {
 
     public static void vacuum(SQLiteDatabase db) {
         db.execSQL("VACUUM");

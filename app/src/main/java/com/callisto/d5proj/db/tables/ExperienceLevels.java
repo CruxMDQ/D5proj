@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by emiliano.desantis on 09/02/2015.
  */
-public class ExperienceLevels extends BaseAdapter {
+public class ExperienceLevels extends BaseTableAdapter {
     public ExperienceLevels(Context context) {
         super(context);
         this.setManagedTable(T_EXP_LEVELS);
