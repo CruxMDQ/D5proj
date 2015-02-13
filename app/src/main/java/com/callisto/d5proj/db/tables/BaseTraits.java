@@ -1,12 +1,12 @@
-package com.callisto.d5proj.db;
+package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
 
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class DBTraits extends DBAdapter{
-    public DBTraits(Context context) {
+public class BaseTraits extends BaseAdapter {
+    public BaseTraits(Context context) {
         super(context);
         this.setManagedTable(T_TRAITS);
         this.setKeyColumn(C_ID);

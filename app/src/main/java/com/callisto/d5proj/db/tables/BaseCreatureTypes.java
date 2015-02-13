@@ -1,13 +1,13 @@
-package com.callisto.d5proj.db;
+package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
 
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class DBCreatureTypes extends DBAdapter {
+public class BaseCreatureTypes extends BaseAdapter {
 
-    public DBCreatureTypes(Context context) {
+    public BaseCreatureTypes(Context context) {
         super(context);
         this.setManagedTable(T_CREATURE_TYPES);
         this.setKeyColumn(C_ID);

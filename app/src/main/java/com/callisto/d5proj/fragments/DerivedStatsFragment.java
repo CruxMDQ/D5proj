@@ -101,6 +101,7 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
 
                     while (level.getExperience() < xp) {
                         txtLevelNumber.setText(String.valueOf(level.getNumber()));
+                        txtProfBonus.setText(String.valueOf(level.getProficiencyBonus()));
                         level = I.next();
                     }
                 }

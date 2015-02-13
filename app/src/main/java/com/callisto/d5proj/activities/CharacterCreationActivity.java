@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.db.DBCharacterClasses;
-import com.callisto.d5proj.db.DBCharacterLevels;
+import com.callisto.d5proj.db.tables.CharacterClasses;
+import com.callisto.d5proj.db.tables.ExperienceLevels;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.BaseStatsFragment;
 import com.callisto.d5proj.fragments.DerivedStatsFragment;
@@ -48,8 +48,8 @@ public class CharacterCreationActivity extends ActionBarActivity
     /**
      * Database stuff
      */
-    private DBCharacterClasses dbCharacterClasses;
-    private DBCharacterLevels dbCharacterLevels;
+    private CharacterClasses dbCharacterClasses;
+    private ExperienceLevels dbCharacterLevels;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -83,8 +83,8 @@ public class CharacterCreationActivity extends ActionBarActivity
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
         selectClassDFragment = SelectClassDFragment.newInstance(3);
 
-        dbCharacterClasses = new DBCharacterClasses(this);
-        dbCharacterLevels = new DBCharacterLevels(this);
+        dbCharacterClasses = new CharacterClasses(this);
+        dbCharacterLevels = new ExperienceLevels(this);
 
 //        parseXML();
     }

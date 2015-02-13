@@ -1,16 +1,20 @@
-package com.callisto.d5proj.db;
+package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.callisto.d5proj.db.DBUtils;
 
 import java.io.IOException;
 
 /**
  * Created by emiliano.desantis on 09/02/2015.
  */
-public class DBCharacterLevels extends DBAdapter {
-    public DBCharacterLevels(Context context) {
+public class ExperienceLevels extends BaseAdapter {
+    public ExperienceLevels(Context context) {
         super(context);
+        this.setManagedTable(T_EXP_LEVELS);
+        this.setColumns(new String[] { C_ID, C_XP, C_BONUS });
 
         create();
     }
@@ -22,30 +26,10 @@ public class DBCharacterLevels extends DBAdapter {
         db.delete(T_EXP_LEVELS, null, null);
 
         try {
-            DbUtils.executeSqlScript(context, db, "ExperienceLevels.sql");
+            DBUtils.executeSqlScript(context, db, "ExperienceLevels.sql");
         } catch (IOException e) {
             Log.e("DBCharacterLevels.java", "Error on importing SQL script");
         }
-//        insertBaseLevel(1, 0, 2);
-//        insertBaseLevel(0, 300, 2);
-//        insertBaseLevel(0, 900, 2);
-//        insertBaseLevel(0, 2700, 2);
-//        insertBaseLevel(0, 6500, 3);    // 5
-//        insertBaseLevel(0, 14000, 3);
-//        insertBaseLevel(0, 23000, 3);
-//        insertBaseLevel(0, 34000, 3);
-//        insertBaseLevel(0, 48000, 4);   // 9
-//        insertBaseLevel(0, 64000, 4);
-//        insertBaseLevel(0, 85000, 4);
-//        insertBaseLevel(0, 100000, 4);
-//        insertBaseLevel(0, 120000, 5);  // 13
-//        insertBaseLevel(0, 140000, 5);
-//        insertBaseLevel(0, 165000, 5);
-//        insertBaseLevel(0, 195000, 5);
-//        insertBaseLevel(0, 225000, 6);  // 17
-//        insertBaseLevel(0, 265000, 6);
-//        insertBaseLevel(0, 305000, 6);
-//        insertBaseLevel(0, 355000, 6);
 
         db.execSQL(DEFINE_FEATURES);
         db.execSQL(DEFINE_CLASSES_FEATURES);
@@ -65,11 +49,6 @@ public class DBCharacterLevels extends DBAdapter {
         + C_XP + " " + "INTEGER NOT NULL" + ","
         + C_BONUS + " " + "INTEGER NOT NULL"
         + ");";
-
-    private void insertBaseLevel(int level, long xp, int bonus) {
-        db.execSQL("INSERT INTO " + T_EXP_LEVELS + "(" + (level != 0 ? C_ID + ", " + C_XP + ", " + C_BONUS : C_XP + ", " + C_BONUS) + ") "
-            + "VALUES (" + (level != 0 ? level + ", " + xp + ", " + bonus : xp + ", " + bonus) + ");");
-    }
 
     /**
      * Features table stuff
@@ -95,7 +74,7 @@ public class DBCharacterLevels extends DBAdapter {
         + C_ID_FEATURE + " INTEGER NOT NULL,"
         + C_LEVEL + " INTEGER,"
         + " PRIMARY KEY (" + C_ID_CLASS + ", " + C_ID_FEATURE + "),"
-        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + DBCharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
+        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + CharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
         + " FOREIGN KEY (" + C_ID_FEATURE + ")" + " REFERENCES " + T_FEATURES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE"
         + ");";
 }

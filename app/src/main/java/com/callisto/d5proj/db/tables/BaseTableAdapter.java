@@ -1,12 +1,13 @@
-package com.callisto.d5proj.db;
+package com.callisto.d5proj.db.tables;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-public abstract class DBAdapter {
+public abstract class BaseTableAdapter {
     static public final String C_ID = "_id";
 
     protected Context context;
@@ -39,7 +40,7 @@ public abstract class DBAdapter {
         this.columns = columns;
     }
 
-    public DBAdapter(Context context) {
+    public BaseTableAdapter(Context context) {
         this.context = context;
     }
 
@@ -139,7 +140,7 @@ public abstract class DBAdapter {
         return result;
     }
 
-    public DBAdapter open() throws SQLException {
+    public BaseTableAdapter open() throws SQLException {
         dbHelper = new DBHelper(context);
         db = dbHelper.getWritableDatabase();
 
@@ -186,4 +187,21 @@ public abstract class DBAdapter {
 
         return result;
     }
+
+    public class DBHelper extends SQLiteOpenHelper {
+        public DBHelper(Context context) {
+            super(context, DB_NAME, null, DB_SCHEME_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) { }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
+
+        private static final String DB_NAME = "d5proj.sqlite";
+        private static final int DB_SCHEME_VERSION = 1;
+
+    }
 }
+
