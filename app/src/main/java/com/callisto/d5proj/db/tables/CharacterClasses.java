@@ -70,19 +70,4 @@ public class CharacterClasses extends BaseTableAdapter {
         + "UNIQUE (" + C_NAME + ")"
         + ");";
 
-//    static public final String DEFINE_PC_CLASSES_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS" + " " + "I" + T_CHARACTER_CLASSES
-//        + " ON " + T_CHARACTER_CLASSES + "(" + C_ID + " ASC" + ");";
-
-//    /**
-//     * Table definition: character class saving throws
-//     */
-//    static public final String T_CLASSES_SAVES = "classes_keysaves";
-//
-//    static public final String DEFINE_CLASSES_SAVES = "CREATE TABLE IF NOT EXISTS" + " " + T_CLASSES_SAVES + "("
-//        + C_ID + " " + "INTEGER PRIMARY KEY" + ","
-//        + DBKeyStatsPerClass.C_ID_CLASS + " " + "INTEGER NOT NULL" + ","
-//        + DBKeyStatsPerClass.C_STAT + " " + "TEXT NOT NULL" + ","
-//        + " FOREIGN KEY" + "(" + DBKeyStatsPerClass.C_ID_CLASS + ")" + " REFERENCES " + DBCharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ") ON DELETE CASCADE"
-//        + ");";
-
 }

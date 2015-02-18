@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS "RangedWeapons";
+CREATE TABLE RangedWeapons
+(
+  _id INTEGER NOT NULL,
+  shortRange INTEGER,
+  longRange INTEGER,
+  CONSTRAINT Key27 PRIMARY KEY (_id),
+  CONSTRAINT Relationship36 FOREIGN KEY (_id) REFERENCES Weapons (_id)
+);
+INSERT INTO "RangedWeapons" VALUES(28,20,60);
+INSERT INTO "RangedWeapons" VALUES(30,20,60);
+INSERT INTO "RangedWeapons" VALUES(31,30,120);
+INSERT INTO "RangedWeapons" VALUES(32,20,60);
+INSERT INTO "RangedWeapons" VALUES(36,20,60);
+INSERT INTO "RangedWeapons" VALUES(37,80,320);
+INSERT INTO "RangedWeapons" VALUES(38,20,60);
+INSERT INTO "RangedWeapons" VALUES(39,80,320);
+INSERT INTO "RangedWeapons" VALUES(40,30,120);
+INSERT INTO "RangedWeapons" VALUES(55,20,60);
+INSERT INTO "RangedWeapons" VALUES(59,25,100);
+INSERT INTO "RangedWeapons" VALUES(60,30,120);
+INSERT INTO "RangedWeapons" VALUES(61,100,400);
+INSERT INTO "RangedWeapons" VALUES(62,150,600);
+INSERT INTO "RangedWeapons" VALUES(63,5,15);
