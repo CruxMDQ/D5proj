@@ -1,11 +1,6 @@
 package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.callisto.d5proj.db.DBUtils;
-
-import java.io.IOException;
 
 /**
  * Created by emiliano.desantis on 09/02/2015.
@@ -16,25 +11,6 @@ public class ExperienceLevels extends BaseTableAdapter {
         this.setManagedTable(T_EXP_LEVELS);
         this.setColumns(new String[] { C_ID, C_XP, C_BONUS });
 
-        create();
-    }
-
-    private void create() {
-        open();
-        db.execSQL(DEFINE_EXP_LEVELS);
-
-        db.delete(T_EXP_LEVELS, null, null);
-
-        try {
-            DBUtils.executeSqlScript(context, db, "ExperienceLevels.sql");
-        } catch (IOException e) {
-            Log.e("DBCharacterLevels.java", "Error on importing SQL script");
-        }
-
-        db.execSQL(DEFINE_FEATURES);
-        db.execSQL(DEFINE_CLASSES_FEATURES);
-
-        close();
     }
 
     /**

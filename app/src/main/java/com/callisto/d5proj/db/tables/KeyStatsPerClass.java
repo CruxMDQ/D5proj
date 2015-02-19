@@ -1,11 +1,6 @@
 package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.callisto.d5proj.db.DBUtils;
-
-import java.io.IOException;
 
 /**
  * Created by emiliano.desantis on 12/02/2015.
@@ -32,18 +27,5 @@ public class KeyStatsPerClass extends BaseTableAdapter {
         super(context);
         this.setManagedTable(T_CLASSES_KEYSTATS);
         this.setColumns(new String[] { C_ID, C_ID_CLASS, C_STAT, C_TYPE });
-
-        create();
-    }
-
-    private void create() {
-//        db.execSQL(DEFINE_CLASSES_KEYSTATS);
-//        db.delete(T_CLASSES_KEYSTATS, null, null);
-
-        try {
-            DBUtils.executeSqlScript(context, db, "KeyStatsPerClass.sql");
-        } catch (IOException e) {
-            Log.e("DBCharacterClasses.java", "Error on importing SQL script");
-        }
     }
 }

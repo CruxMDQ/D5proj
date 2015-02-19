@@ -2,12 +2,9 @@ package com.callisto.d5proj.db.tables;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
-import com.callisto.d5proj.db.DBUtils;
 import com.callisto.d5proj.pojos.CharacterClass;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,19 +16,7 @@ public class CharacterClasses extends BaseTableAdapter {
         this.setManagedTable(T_CHARACTER_CLASSES);
         this.setColumns(new String[]{ C_ID, C_NAME, C_DIE_SIZE, C_SKILLS} );
 
-        create();
-    }
-
-    private void create() {
-        open();
-        db.execSQL(DEFINE_PC_CLASSES);
-        db.delete(T_CHARACTER_CLASSES, null, null);
-
-        try {
-            DBUtils.executeSqlScript(context, db, "CharacterClasses.sql");
-        } catch (IOException e) {
-            Log.e("DBCharacterClasses.java", "Error on importing SQL script");
-        }
+//        create();
     }
 
     public ArrayList<CharacterClass> getArrayList() {
