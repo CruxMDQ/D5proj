@@ -380,6 +380,19 @@ CREATE TABLE FeatureLanguages
 INSERT INTO "FeatureLanguages" VALUES(8,1);
 INSERT INTO "FeatureLanguages" VALUES(9,2);
 INSERT INTO "FeatureLanguages" VALUES(20,3);
+INSERT INTO "FeatureLanguages" VALUES(26,4);
+INSERT INTO "FeatureLanguages" VALUES(27,5);
+INSERT INTO "FeatureLanguages" VALUES(28,6);
+INSERT INTO "FeatureLanguages" VALUES(29,7);
+INSERT INTO "FeatureLanguages" VALUES(30,8);
+INSERT INTO "FeatureLanguages" VALUES(31,9);
+INSERT INTO "FeatureLanguages" VALUES(32,10);
+INSERT INTO "FeatureLanguages" VALUES(33,11);
+INSERT INTO "FeatureLanguages" VALUES(34,12);
+INSERT INTO "FeatureLanguages" VALUES(35,13);
+INSERT INTO "FeatureLanguages" VALUES(36,14);
+INSERT INTO "FeatureLanguages" VALUES(37,15);
+INSERT INTO "FeatureLanguages" VALUES(38,16);
 DROP TABLE IF EXISTS "FeatureProficiencies";
 CREATE TABLE FeatureProficiencies
 (
@@ -411,6 +424,16 @@ CREATE TABLE FeatureProficiencyGroups
 );
 INSERT INTO "FeatureProficiencyGroups" VALUES(15,1);
 INSERT INTO "FeatureProficiencyGroups" VALUES(16,2);
+DROP TABLE IF EXISTS "FeatureSkills";
+CREATE TABLE FeatureSkills
+(
+id_feature INTEGER NOT NULL,
+id_skill INTEGER NOT NULL,
+CONSTRAINT pk_comp_feature_skills PRIMARY KEY (id_feature, id_skill),
+CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_skill FOREIGN KEY (id_skill) REFERENCES Skills (_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+INSERT INTO "FeatureSkills" VALUES(17,13);
 DROP TABLE IF EXISTS "Features";
 CREATE TABLE Features
 (
@@ -465,6 +488,7 @@ choices INTEGER DEFAULT 2,
 CONSTRAINT fk_feat_fopts FOREIGN KEY (id_feature) REFERENCES Features (_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 INSERT INTO "FeaturesWithOptions" VALUES(3,1);
+INSERT INTO "FeaturesWithOptions" VALUES(18,1);
 DROP TABLE IF EXISTS "KeyStatsPerClass";
 CREATE TABLE KeyStatsPerClass
 (
@@ -953,6 +977,11 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
+CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
+FROM Languages, Features
+JOIN FeatureLanguages
+WHERE Languages._id = FeatureLanguages.id_language
+AND Features._id = FeatureLanguages.id_feature;
 CREATE VIEW CheckFeatureProficiencies AS SELECT DISTINCT Equipment.name AS Equipment, Features.name AS Feature
 FROM Equipment, Features
 JOIN FeatureProficiencies
