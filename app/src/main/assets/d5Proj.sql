@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS "AmmoPerWeapon";
-CREATE TABLE IF NOT EXISTS AmmoPerWeapon
+CREATE TABLE AmmoPerWeapon
 (
   id_weapon INTEGER NOT NULL,
   id_ammo INTEGER NOT NULL,
@@ -7,15 +7,22 @@ CREATE TABLE IF NOT EXISTS AmmoPerWeapon
   CONSTRAINT Relationship38 FOREIGN KEY (id_weapon) REFERENCES RangedWeapons (_id),
   CONSTRAINT Relationship39 FOREIGN KEY (id_ammo) REFERENCES Equipment (_id)
 );
+DROP TABLE IF EXISTS "AreasOfEffect";
+CREATE TABLE AreasOfEffect
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key5 PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
 DROP TABLE IF EXISTS "ArmorProficiencyGroups";
-CREATE TABLE IF NOT EXISTS ArmorProficiencyGroups
+CREATE TABLE ArmorProficiencyGroups
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key11 PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL
 );
 DROP TABLE IF EXISTS "ArmorProfsPerClass";
-CREATE TABLE IF NOT EXISTS ArmorProfsPerClass
+CREATE TABLE ArmorProfsPerClass
 (
   id_class INTEGER NOT NULL,
   id_armor INTEGER NOT NULL,
@@ -24,7 +31,7 @@ CREATE TABLE IF NOT EXISTS ArmorProfsPerClass
   CONSTRAINT Relationship22 FOREIGN KEY (id_armor) REFERENCES Armors (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Armors";
-CREATE TABLE IF NOT EXISTS Armors
+CREATE TABLE Armors
 (
   _id INTEGER NOT NULL,
   bonus INTEGER NOT NULL,
@@ -49,7 +56,7 @@ INSERT INTO "Armors" VALUES(11,7,1,15,0);
 INSERT INTO "Armors" VALUES(12,8,1,15,0);
 INSERT INTO "Armors" VALUES(13,2,0,NULL,NULL);
 DROP TABLE IF EXISTS "CharacterClasses";
-CREATE TABLE IF NOT EXISTS "CharacterClasses"
+CREATE TABLE "CharacterClasses"
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key6 PRIMARY KEY AUTOINCREMENT,
@@ -71,16 +78,15 @@ INSERT INTO "CharacterClasses" VALUES(10,'Sorcerer',6,2);
 INSERT INTO "CharacterClasses" VALUES(11,'Warlock',8,2);
 INSERT INTO "CharacterClasses" VALUES(12,'Wizard',6,2);
 DROP TABLE IF EXISTS "CharacterInventory";
-CREATE TABLE IF NOT EXISTS CharacterInventory
-(
-  id_character INTEGER NOT NULL,
-  id_item INTEGER NOT NULL,
-  CONSTRAINT Key24 PRIMARY KEY (id_character,id_item),
-  CONSTRAINT Relationship29 FOREIGN KEY (id_character) REFERENCES Characters (_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT Relationship30 FOREIGN KEY (id_item) REFERENCES Equipment (_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "CharacterInventory" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"id_character"  INTEGER NOT NULL,
+"id_item"  INTEGER NOT NULL,
+CONSTRAINT "fk_character" FOREIGN KEY ("id_character") REFERENCES "Characters" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_equipment" FOREIGN KEY ("id_item") REFERENCES "Equipment" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "CharacterLevels";
-CREATE TABLE IF NOT EXISTS CharacterLevels
+CREATE TABLE CharacterLevels
 (
   id_character INTEGER NOT NULL,
   id_class INTEGER NOT NULL,
@@ -90,22 +96,22 @@ CREATE TABLE IF NOT EXISTS CharacterLevels
   CONSTRAINT Relationship28 FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Characters";
-CREATE TABLE IF NOT EXISTS Characters
-(
-  _id INTEGER NOT NULL
-        CONSTRAINT Key22 PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  strength INTEGER NOT NULL,
-  dexterity INTEGER NOT NULL,
-  constitution INTEGER NOT NULL,
-  intelligence INTEGER NOT NULL,
-  wisdom INTEGER NOT NULL,
-  charisma INTEGER NOT NULL,
-  hitPoints INTEGER NOT NULL,
-  experience INTEGER NOT NULL
+CREATE TABLE "Characters" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"id_race"  INTEGER NOT NULL,
+"name"  TEXT NOT NULL,
+"strength"  INTEGER NOT NULL,
+"dexterity"  INTEGER NOT NULL,
+"constitution"  INTEGER NOT NULL,
+"intelligence"  INTEGER NOT NULL,
+"wisdom"  INTEGER NOT NULL,
+"charisma"  INTEGER NOT NULL,
+"hitPoints"  INTEGER NOT NULL,
+"experience"  INTEGER NOT NULL,
+CONSTRAINT "fk_race" FOREIGN KEY ("id_race") REFERENCES "Races" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "ClassFeatures";
-CREATE TABLE IF NOT EXISTS ClassFeatures
+CREATE TABLE ClassFeatures
 (
   id_class INTEGER NOT NULL,
   id_feature INTEGER NOT NULL,
@@ -114,7 +120,7 @@ CREATE TABLE IF NOT EXISTS ClassFeatures
   CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "ClassProficiencyGroups";
-CREATE TABLE IF NOT EXISTS "ClassProficiencyGroups"
+CREATE TABLE "ClassProficiencyGroups"
 (
   id_class INTEGER NOT NULL,
   id_group INTEGER NOT NULL,
@@ -123,7 +129,7 @@ CREATE TABLE IF NOT EXISTS "ClassProficiencyGroups"
   CONSTRAINT Relationship20 FOREIGN KEY (id_group) REFERENCES ProficiencyGroups (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "DamageTypes";
-CREATE TABLE IF NOT EXISTS DamageTypes
+CREATE TABLE DamageTypes
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key29 PRIMARY KEY AUTOINCREMENT,
@@ -132,8 +138,45 @@ CREATE TABLE IF NOT EXISTS DamageTypes
 INSERT INTO "DamageTypes" VALUES(1,'Bludgeoning');
 INSERT INTO "DamageTypes" VALUES(2,'Piercing');
 INSERT INTO "DamageTypes" VALUES(3,'Slashing');
+DROP TABLE IF EXISTS "EffectAOEs";
+CREATE TABLE EffectAOEs
+(
+  id_effect INTEGER NOT NULL,
+  id_aoe_type INTEGER NOT NULL,
+  range INTEGER NOT NULL,
+  targetsSelf INTEGER DEFAULT 1
+        CONSTRAINT checkNeverSomeAlways CHECK (targetsSelf IN (0, 1, 2)),
+  CONSTRAINT Key6 PRIMARY KEY (id_aoe_type,id_effect),
+  CONSTRAINT fk_aoe_effect FOREIGN KEY (id_aoe_type) REFERENCES AreasOfEffect (_id),
+  CONSTRAINT fk_effect_aoe FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
+);
+DROP TABLE IF EXISTS "EffectDiceValues";
+CREATE TABLE EffectDiceValues
+(
+  id_effect INTEGER NOT NULL,
+  dice INTEGER NOT NULL,
+  dieSize INTEGER NOT NULL,
+  CONSTRAINT Key4 PRIMARY KEY (id_effect),
+  CONSTRAINT fk_eff_dice_values FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
+);
+DROP TABLE IF EXISTS "EffectDiscreteTargets";
+CREATE TABLE EffectDiscreteTargets
+(
+  id_effect INTEGER NOT NULL,
+  numberOfTargets INTEGER NOT NULL,
+  CONSTRAINT Key8 PRIMARY KEY (id_effect),
+  CONSTRAINT fk_eff_discrete_targets FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
+);
+DROP TABLE IF EXISTS "EffectFixedValues";
+CREATE TABLE EffectFixedValues
+(
+  id_effect INTEGER NOT NULL,
+  value INTEGER NOT NULL,
+  CONSTRAINT Key4 PRIMARY KEY (id_effect),
+  CONSTRAINT fk_eff_val_fixed FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS "Equipment";
-CREATE TABLE IF NOT EXISTS Equipment
+CREATE TABLE Equipment
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key9 PRIMARY KEY AUTOINCREMENT,
@@ -329,7 +372,7 @@ INSERT INTO "Equipment" VALUES(196,'Navigator''s tools',2,250000,NULL);
 INSERT INTO "Equipment" VALUES(197,'Poisoner''s kit',2,500000,NULL);
 INSERT INTO "Equipment" VALUES(198,'Thieves'' tools',1,250000,NULL);
 DROP TABLE IF EXISTS "ExperienceLevels";
-CREATE TABLE IF NOT EXISTS ExperienceLevels
+CREATE TABLE ExperienceLevels
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key21 PRIMARY KEY AUTOINCREMENT,
@@ -357,7 +400,7 @@ INSERT INTO "ExperienceLevels" VALUES(18,265000,6);
 INSERT INTO "ExperienceLevels" VALUES(19,305000,6);
 INSERT INTO "ExperienceLevels" VALUES(20,355000,6);
 DROP TABLE IF EXISTS "FeatureChoices";
-CREATE TABLE IF NOT EXISTS "FeatureChoices"
+CREATE TABLE "FeatureChoices"
 (
 id_feature INTEGER NOT NULL,
 id_choice INTEGER NOT NULL CHECK (id_choice IS NOT id_feature),
@@ -369,7 +412,7 @@ INSERT INTO "FeatureChoices" VALUES(3,4);
 INSERT INTO "FeatureChoices" VALUES(3,5);
 INSERT INTO "FeatureChoices" VALUES(3,6);
 DROP TABLE IF EXISTS "FeatureLanguages";
-CREATE TABLE IF NOT EXISTS FeatureLanguages
+CREATE TABLE FeatureLanguages
 (
   id_feature INTEGER NOT NULL,
   id_language INTEGER NOT NULL,
@@ -394,7 +437,7 @@ INSERT INTO "FeatureLanguages" VALUES(36,14);
 INSERT INTO "FeatureLanguages" VALUES(37,15);
 INSERT INTO "FeatureLanguages" VALUES(38,16);
 DROP TABLE IF EXISTS "FeatureProficiencies";
-CREATE TABLE IF NOT EXISTS FeatureProficiencies
+CREATE TABLE FeatureProficiencies
 (
   id_feature INTEGER NOT NULL,
   id_equipment INTEGER NOT NULL,
@@ -414,7 +457,7 @@ INSERT INTO "FeatureProficiencies" VALUES(22,54);
 INSERT INTO "FeatureProficiencies" VALUES(23,39);
 INSERT INTO "FeatureProficiencies" VALUES(24,62);
 DROP TABLE IF EXISTS "FeatureProficiencyGroups";
-CREATE TABLE IF NOT EXISTS FeatureProficiencyGroups
+CREATE TABLE FeatureProficiencyGroups
 (
   id_feature INTEGER NOT NULL,
   id_profgroup INTEGER NOT NULL,
@@ -425,7 +468,7 @@ CREATE TABLE IF NOT EXISTS FeatureProficiencyGroups
 INSERT INTO "FeatureProficiencyGroups" VALUES(15,1);
 INSERT INTO "FeatureProficiencyGroups" VALUES(16,2);
 DROP TABLE IF EXISTS "FeatureSkills";
-CREATE TABLE IF NOT EXISTS FeatureSkills
+CREATE TABLE FeatureSkills
 (
 id_feature INTEGER NOT NULL,
 id_skill INTEGER NOT NULL,
@@ -435,7 +478,7 @@ CONSTRAINT fk_skill FOREIGN KEY (id_skill) REFERENCES Skills (_id) ON UPDATE CAS
 );
 INSERT INTO "FeatureSkills" VALUES(17,13);
 DROP TABLE IF EXISTS "Features";
-CREATE TABLE IF NOT EXISTS Features
+CREATE TABLE Features
 (
 _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
@@ -481,7 +524,7 @@ INSERT INTO "Features" VALUES(36,'Language: primordial',0);
 INSERT INTO "Features" VALUES(37,'Language: sylvan',0);
 INSERT INTO "Features" VALUES(38,'Language: undercommon',0);
 DROP TABLE IF EXISTS "FeaturesWithOptions";
-CREATE TABLE IF NOT EXISTS FeaturesWithOptions 
+CREATE TABLE FeaturesWithOptions 
 (
 id_feature INTEGER NOT NULL,
 choices INTEGER DEFAULT 2,
@@ -489,8 +532,17 @@ CONSTRAINT fk_feat_fopts FOREIGN KEY (id_feature) REFERENCES Features (_id) ON U
 );
 INSERT INTO "FeaturesWithOptions" VALUES(3,1);
 INSERT INTO "FeaturesWithOptions" VALUES(18,1);
+DROP TABLE IF EXISTS "HigherCastings";
+CREATE TABLE HigherCastings
+(
+  id_spell_effect INTEGER NOT NULL,
+  affects TEXT NOT NULL,
+  levelFactor INTEGER NOT NULL,
+  value INTEGER NOT NULL,
+  CONSTRAINT fk_spell_high_cast FOREIGN KEY (id_spell_effect) REFERENCES SpellEffects (_id)
+);
 DROP TABLE IF EXISTS "KeyStatsPerClass";
-CREATE TABLE IF NOT EXISTS KeyStatsPerClass
+CREATE TABLE KeyStatsPerClass
 (
   _id INTEGER NOT NULL,
   id_class INTEGER NOT NULL,
@@ -539,8 +591,18 @@ INSERT INTO "KeyStatsPerClass" VALUES(37,11,'WIS','Save');
 INSERT INTO "KeyStatsPerClass" VALUES(38,12,'INT','Primary');
 INSERT INTO "KeyStatsPerClass" VALUES(39,12,'INT','Save');
 INSERT INTO "KeyStatsPerClass" VALUES(40,12,'WIS','Save');
+DROP TABLE IF EXISTS "KnownSpellsPerCharacter";
+CREATE TABLE KnownSpellsPerCharacter
+(
+id_char INTEGER NOT NULL,
+id_spell INTEGER NOT NULL,
+requiresPreparation INTEGER NOT NULL DEFAULT 0 CHECK (requiresPreparation IN (0, 1)),
+CONSTRAINT pk_spells_char PRIMARY KEY (id_char, id_spell),
+CONSTRAINT fk_char FOREIGN KEY (id_char) REFERENCES Characters (_id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_spell FOREIGN KEY (id_spell) REFERENCES Spells (_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 DROP TABLE IF EXISTS "Languages";
-CREATE TABLE IF NOT EXISTS Languages
+CREATE TABLE Languages
 (
 _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
@@ -564,7 +626,7 @@ INSERT INTO "Languages" VALUES(14,'Primordial',2);
 INSERT INTO "Languages" VALUES(15,'Sylvan',3);
 INSERT INTO "Languages" VALUES(16,'Undercommon',3);
 DROP TABLE IF EXISTS "LanguagesPerRace";
-CREATE TABLE IF NOT EXISTS LanguagesPerRace
+CREATE TABLE LanguagesPerRace
 (
 id_race INTEGER NOT NULL,
 id_language INTEGER NOT NULL,
@@ -572,8 +634,21 @@ CONSTRAINT pk_composite_lang_race PRIMARY KEY (id_race, id_language),
 CONSTRAINT fk_composite_lr_race FOREIGN KEY (id_race) REFERENCES Races (_id) ON UPDATE CASCADE ON DELETE CASCADE,
 CONSTRAINT fk_composite_lr_language FOREIGN KEY (id_language) REFERENCES Languages (_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+DROP TABLE IF EXISTS "MagicalEffects";
+CREATE TABLE MagicalEffects
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key2 PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  targetsSelf INTEGER NOT NULL
+        CONSTRAINT CheckNeverSomeAlways CHECK (targetsSelf IN (0, 1, 2)),
+  range INTEGER NOT NULL DEFAULT 0,
+  requiresTouch INTEGER NOT NULL DEFAULT 0
+        CONSTRAINT checkBoolean CHECK (requiresTouch IN (0, 1)),
+  durationInRounds INTEGER NOT NULL DEFAULT 0
+);
 DROP TABLE IF EXISTS "ProficiencyGroups";
-CREATE TABLE IF NOT EXISTS ProficiencyGroups
+CREATE TABLE ProficiencyGroups
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key15 PRIMARY KEY AUTOINCREMENT,
@@ -586,7 +661,7 @@ INSERT INTO "ProficiencyGroups" VALUES(4,'Shield');
 INSERT INTO "ProficiencyGroups" VALUES(5,'SimpleWeapon');
 INSERT INTO "ProficiencyGroups" VALUES(6,'MartialWeapon');
 DROP TABLE IF EXISTS "Races";
-CREATE TABLE IF NOT EXISTS "Races"
+CREATE TABLE "Races"
 (
 _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
@@ -605,7 +680,7 @@ INSERT INTO "Races" VALUES(5,'High Elf',30,2,4,0);
 INSERT INTO "Races" VALUES(6,'Wood Elf',35,2,4,0);
 INSERT INTO "Races" VALUES(7,'Dark Elf (Drow)',30,2,4,0);
 DROP TABLE IF EXISTS "RacialFeatureValues";
-CREATE TABLE IF NOT EXISTS RacialFeatureValues
+CREATE TABLE RacialFeatureValues
 (
   id_value INTEGER PRIMARY KEY,
   value INTEGER NOT NULL,
@@ -615,7 +690,7 @@ INSERT INTO "RacialFeatureValues" VALUES(1,60);
 INSERT INTO "RacialFeatureValues" VALUES(18,60);
 INSERT INTO "RacialFeatureValues" VALUES(19,120);
 DROP TABLE IF EXISTS "RacialFeatures";
-CREATE TABLE IF NOT EXISTS RacialFeatures
+CREATE TABLE RacialFeatures
 (
   _id INTEGER PRIMARY KEY AUTOINCREMENT,
   id_race INTEGER NOT NULL,
@@ -651,7 +726,7 @@ INSERT INTO "RacialFeatures" VALUES(25,6,22);
 INSERT INTO "RacialFeatures" VALUES(26,6,23);
 INSERT INTO "RacialFeatures" VALUES(27,6,24);
 DROP TABLE IF EXISTS "RacialStats";
-CREATE TABLE IF NOT EXISTS RacialStats
+CREATE TABLE RacialStats
 (
   _id INTEGER NOT NULL,
   id_race INTEGER NOT NULL,
@@ -668,7 +743,7 @@ INSERT INTO "RacialStats" VALUES(5,6,'WIS',1);
 INSERT INTO "RacialStats" VALUES(6,7,'CHA',1);
 INSERT INTO "RacialStats" VALUES(7,5,'INT',1);
 DROP TABLE IF EXISTS "RangedWeapons";
-CREATE TABLE IF NOT EXISTS RangedWeapons
+CREATE TABLE RangedWeapons
 (
   _id INTEGER NOT NULL,
   shortRange INTEGER,
@@ -692,7 +767,7 @@ INSERT INTO "RangedWeapons" VALUES(61,100,400);
 INSERT INTO "RangedWeapons" VALUES(62,150,600);
 INSERT INTO "RangedWeapons" VALUES(63,5,15);
 DROP TABLE IF EXISTS "Sizes";
-CREATE TABLE IF NOT EXISTS Sizes
+CREATE TABLE Sizes
 (
 _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL
@@ -700,7 +775,7 @@ name TEXT NOT NULL
 INSERT INTO "Sizes" VALUES(1,'Small');
 INSERT INTO "Sizes" VALUES(2,'Medium');
 DROP TABLE IF EXISTS "Skills";
-CREATE TABLE IF NOT EXISTS Skills
+CREATE TABLE Skills
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key13 PRIMARY KEY AUTOINCREMENT,
@@ -727,7 +802,7 @@ INSERT INTO "Skills" VALUES(16,'Intimidation','CHA');
 INSERT INTO "Skills" VALUES(17,'Performance','CHA');
 INSERT INTO "Skills" VALUES(18,'Persuasion','CHA');
 DROP TABLE IF EXISTS "SkillsPerClass";
-CREATE TABLE IF NOT EXISTS SkillsPerClass
+CREATE TABLE SkillsPerClass
 (
   id_class INTEGER NOT NULL,
   id_skill INTEGER NOT NULL,
@@ -830,8 +905,45 @@ INSERT INTO "SkillsPerClass" VALUES(12,11);
 INSERT INTO "SkillsPerClass" VALUES(12,7);
 INSERT INTO "SkillsPerClass" VALUES(12,12);
 INSERT INTO "SkillsPerClass" VALUES(12,9);
+DROP TABLE IF EXISTS "SpellEffects";
+CREATE TABLE SpellEffects
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key3 PRIMARY KEY AUTOINCREMENT,
+  id_spell INTEGER NOT NULL,
+  id_effect INTEGER NOT NULL,
+  CONSTRAINT fk_spell FOREIGN KEY (id_spell) REFERENCES Spells (_id),
+  CONSTRAINT fk_effect FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
+);
+DROP TABLE IF EXISTS "SpellSchools";
+CREATE TABLE SpellSchools
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key1 PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
+DROP TABLE IF EXISTS "Spellbooks";
+CREATE TABLE Spellbooks
+(
+id_item INTEGER NOT NULL,
+id_spell INTEGER NOT NULL,
+CONSTRAINT pk_item_spells PRIMARY KEY (id_item, id_spell),
+CONSTRAINT fk_item FOREIGN KEY (id_item) REFERENCES CharacterInventory(_id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_spell FOREIGN KEY (id_spell) REFERENCES Spells (_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+DROP TABLE IF EXISTS "Spells";
+CREATE TABLE Spells
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key1 PRIMARY KEY AUTOINCREMENT,
+  id_school INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  detail TEXT NOT NULL,
+  level INTEGER DEFAULT 0,
+  CONSTRAINT fk_spell_school FOREIGN KEY (id_school) REFERENCES SpellSchools (_id)
+);
 DROP TABLE IF EXISTS "ToolProfsPerClass";
-CREATE TABLE IF NOT EXISTS ToolProfsPerClass
+CREATE TABLE ToolProfsPerClass
 (
   id_tool INTEGER NOT NULL,
   id_class INTEGER NOT NULL,
@@ -840,7 +952,7 @@ CREATE TABLE IF NOT EXISTS ToolProfsPerClass
   CONSTRAINT fk_composite_classes FOREIGN KEY (id_class) REFERENCES CharacterClasses (_id)
 );
 DROP TABLE IF EXISTS "Tools";
-CREATE TABLE IF NOT EXISTS Tools
+CREATE TABLE Tools
 (
   _id INTEGER NOT NULL PRIMARY KEY,
   CONSTRAINT fk_tools_eq FOREIGN KEY (_id) REFERENCES Equipment (_id)
@@ -883,14 +995,14 @@ INSERT INTO "Tools" VALUES(196);
 INSERT INTO "Tools" VALUES(197);
 INSERT INTO "Tools" VALUES(198);
 DROP TABLE IF EXISTS "WeaponFeatureTypes";
-CREATE TABLE IF NOT EXISTS WeaponFeatureTypes
+CREATE TABLE WeaponFeatureTypes
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key2 PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL
 );
 DROP TABLE IF EXISTS "WeaponFeatureValues";
-CREATE TABLE IF NOT EXISTS WeaponFeatureValues
+CREATE TABLE WeaponFeatureValues
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key4 PRIMARY KEY AUTOINCREMENT,
@@ -899,7 +1011,7 @@ CREATE TABLE IF NOT EXISTS WeaponFeatureValues
   CONSTRAINT Relationship3 FOREIGN KEY (id_feature) REFERENCES WeaponFeatures (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "WeaponFeatures";
-CREATE TABLE IF NOT EXISTS WeaponFeatures
+CREATE TABLE WeaponFeatures
 (
   _id INTEGER NOT NULL
         CONSTRAINT Key3 PRIMARY KEY AUTOINCREMENT,
@@ -909,7 +1021,7 @@ CREATE TABLE IF NOT EXISTS WeaponFeatures
   CONSTRAINT Relationship2 FOREIGN KEY (id_wp_feat_type) REFERENCES WeaponFeatureTypes (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "WeaponProfsPerClass";
-CREATE TABLE IF NOT EXISTS WeaponProfsPerClass
+CREATE TABLE WeaponProfsPerClass
 (
   id_class INTEGER NOT NULL,
   id_weapon INTEGER NOT NULL,
@@ -918,7 +1030,7 @@ CREATE TABLE IF NOT EXISTS WeaponProfsPerClass
   CONSTRAINT Relationship6 FOREIGN KEY (id_weapon) REFERENCES Weapons (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Weapons";
-CREATE TABLE IF NOT EXISTS Weapons
+CREATE TABLE Weapons
 (
   _id INTEGER NOT NULL,
   dice INTEGER NOT NULL,
@@ -966,7 +1078,7 @@ INSERT INTO "Weapons" VALUES(61,1,10,2);
 INSERT INTO "Weapons" VALUES(62,1,8,2);
 INSERT INTO "Weapons" VALUES(63,0,0,1);
 DROP TABLE IF EXISTS "WrittenAlphabets";
-CREATE TABLE IF NOT EXISTS WrittenAlphabets
+CREATE TABLE WrittenAlphabets
 (
 _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL
@@ -977,60 +1089,95 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
-
-DROP VIEW IF EXISTS CheckFeatureLanguages;
+DROP TABLE IF EXISTS "_CharacterInventory_old_20150227";
+CREATE TABLE "_CharacterInventory_old_20150227"
+(
+  id_character INTEGER NOT NULL,
+  id_item INTEGER NOT NULL,
+  CONSTRAINT Key24 PRIMARY KEY (id_character,id_item),
+  CONSTRAINT Relationship29 FOREIGN KEY (id_character) REFERENCES Characters (_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT Relationship30 FOREIGN KEY (id_item) REFERENCES Equipment (_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+DROP TABLE IF EXISTS "_Characters_old_20150227";
+CREATE TABLE "_Characters_old_20150227"
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key22 PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  strength INTEGER NOT NULL,
+  dexterity INTEGER NOT NULL,
+  constitution INTEGER NOT NULL,
+  intelligence INTEGER NOT NULL,
+  wisdom INTEGER NOT NULL,
+  charisma INTEGER NOT NULL,
+  hitPoints INTEGER NOT NULL,
+  experience INTEGER NOT NULL
+);
+DROP TABLE IF EXISTS "_Characters_old_20150227_1";
+CREATE TABLE "_Characters_old_20150227_1" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"name"  TEXT NOT NULL,
+"strength"  INTEGER NOT NULL,
+"dexterity"  INTEGER NOT NULL,
+"constitution"  INTEGER NOT NULL,
+"intelligence"  INTEGER NOT NULL,
+"wisdom"  INTEGER NOT NULL,
+"charisma"  INTEGER NOT NULL,
+"hitPoints"  INTEGER NOT NULL,
+"experience"  INTEGER NOT NULL,
+"id_race"  INTEGER NOT NULL
+);
+DROP TABLE IF EXISTS "_Characters_old_20150227_2";
+CREATE TABLE "_Characters_old_20150227_2" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"name"  TEXT NOT NULL,
+"strength"  INTEGER NOT NULL,
+"dexterity"  INTEGER NOT NULL,
+"constitution"  INTEGER NOT NULL,
+"intelligence"  INTEGER NOT NULL,
+"wisdom"  INTEGER NOT NULL,
+"charisma"  INTEGER NOT NULL,
+"hitPoints"  INTEGER NOT NULL,
+"experience"  INTEGER NOT NULL,
+"id_race"  INTEGER NOT NULL,
+CONSTRAINT "fk_race" FOREIGN KEY ("id_race") REFERENCES "Races" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
 CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
 FROM Languages, Features
 JOIN FeatureLanguages
 WHERE Languages._id = FeatureLanguages.id_language
 AND Features._id = FeatureLanguages.id_feature;
-
-Drop View If EXISTS CheckFeatureProficiencies;
 CREATE VIEW CheckFeatureProficiencies AS SELECT DISTINCT Equipment.name AS Equipment, Features.name AS Feature
 FROM Equipment, Features
 JOIN FeatureProficiencies
 WHERE Equipment._id = FeatureProficiencies.id_equipment
 AND Features._id = FeatureProficiencies.id_feature;
-
-DROP VIEW IF EXISTS CheckRacialFeatures;
 CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
 FROM Races, Features
 JOIN RacialFeatures
 WHERE Races._id = RacialFeatures.id_race
 AND Features._id = RacialFeatures.id_feature;
-
-DROP VIEW IF EXISTS CheckRacialStats;
 CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
 FROM Races, RacialStats
 WHERE Races._id = RacialStats.id_race;
-
-DROP VIEW IF EXISTS GetArmors;
 CREATE VIEW "GetArmors" AS
 SELECT Equipment._id, Equipment.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Equipment.weight, Equipment.cost
 FROM Armors, Equipment
 WHERE Equipment._id = Armors._id;
-
-DROP VIEW IF EXISTS GetClassSkills;
 CREATE VIEW GetClassSkills AS
 SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
 FROM CharacterClasses, Skills, SkillsPerClass
 WHERE Skills._id = SkillsPerClass.id_skill 
 AND CharacterClasses._id = SkillsPerClass.id_class;
-
-DROP VIEW IF EXISTS GetTools;
 CREATE VIEW "GetTools" AS SELECT Tools._id, Equipment.name, Equipment.weight, Equipment.cost FROM Tools
 JOIN Equipment
 WHERE Tools._id = Equipment._id;
-
-DROP VIEW IF EXISTS GetWeapons;
 CREATE VIEW "GetWeapons" AS SELECT DISTINCT Equipment._id, Equipment.name, Equipment.proficiencyGroup, Weapons.dice, Weapons.dieSize, Weapons.id_damageType, RangedWeapons.shortRange, RangedWeapons.longRange, Equipment.weight, Equipment.cost
 FROM Equipment, Weapons
 LEFT JOIN RangedWeapons
 ON RangedWeapons._id = Weapons._id
 WHERE Equipment._id = Weapons._id;
-
-DROP TRIGGER IF EXISTS insert_equipment_armor;
-CREATE TRIGGER IF NOT EXISTS insert_equipment_armor
+CREATE TRIGGER insert_equipment_armor
 INSTEAD OF INSERT 
 ON GetArmors
 
@@ -1050,9 +1197,7 @@ FROM Equipment
 WHERE Equipment.name = new.name;
 
 END;
-
-DROP TRIGGER IF EXISTS insert_equipment_tools;
-CREATE TRIGGER IF NOT EXISTS insert_equipment_tools
+CREATE TRIGGER insert_equipment_tools
 INSTEAD OF INSERT 
 ON GetTools
 
@@ -1072,9 +1217,7 @@ FROM Equipment
 WHERE Equipment.name = new.name;
 
 END;
-
-DROP TRIGGER IF EXISTS insert_equipment_weapon;
-CREATE TRIGGER IF NOT EXISTS insert_equipment_weapon
+CREATE TRIGGER insert_equipment_weapon
 INSTEAD OF INSERT 
 ON GetWeapons
 
@@ -1100,3 +1243,7 @@ WHERE new.shortRange NOTNULL
 AND new.name = Equipment.name;
 
 END;
+CREATE INDEX IX_Relationship1 ON Spells (id_school);
+CREATE INDEX IX_Relationship3 ON HigherCastings (id_spell_effect);
+CREATE INDEX IX_fk_effect ON SpellEffects (id_effect);
+CREATE INDEX IX_fk_spell ON SpellEffects (id_spell);
