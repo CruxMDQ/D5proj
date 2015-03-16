@@ -14,6 +14,7 @@ CREATE TABLE AreasOfEffect
         CONSTRAINT Key5 PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL
 );
+INSERT INTO "AreasOfEffect" VALUES(1,'Cone');
 DROP TABLE IF EXISTS "ArmorProficiencyGroups";
 CREATE TABLE ArmorProficiencyGroups
 (
@@ -31,16 +32,15 @@ CREATE TABLE ArmorProfsPerClass
   CONSTRAINT Relationship22 FOREIGN KEY (id_armor) REFERENCES Armors (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Armors";
-CREATE TABLE Armors
-(
-  _id INTEGER NOT NULL,
-  bonus INTEGER NOT NULL,
-  impairsStealth INTEGER NOT NULL DEFAULT 0
-        CONSTRAINT CheckConstraintA1 CHECK (impairsStealth IN (0, 1)),
-  requiredStr INTEGER,
-  maxDexBonus INTEGER,
-  CONSTRAINT Key10 PRIMARY KEY (_id),
-  CONSTRAINT Relationship10 FOREIGN KEY (_id) REFERENCES "Items" (_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "Armors" (
+"_id"  INTEGER NOT NULL,
+"bonus"  INTEGER NOT NULL,
+"impairsStealth"  INTEGER NOT NULL DEFAULT 0,
+"requiredStr"  INTEGER,
+"maxDexBonus"  INTEGER,
+PRIMARY KEY ("_id" ASC),
+CONSTRAINT "fk_equipment" FOREIGN KEY ("_id") REFERENCES "Equipment" ("id_item") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "CheckConstraintA1" CHECK (impairsStealth IN (0, 1))
 );
 INSERT INTO "Armors" VALUES(1,1,1,NULL,NULL);
 INSERT INTO "Armors" VALUES(2,1,0,NULL,NULL);
@@ -150,6 +150,14 @@ CREATE TABLE EffectAOEs
   CONSTRAINT fk_aoe_effect FOREIGN KEY (id_aoe_type) REFERENCES AreasOfEffect (_id),
   CONSTRAINT fk_effect_aoe FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
 );
+DROP TABLE IF EXISTS "EffectDamageTypes";
+CREATE TABLE "EffectDamageTypes" (
+"id_effect"  INTEGER NOT NULL,
+"id_damageType"  INTEGER NOT NULL,
+PRIMARY KEY ("id_effect", "id_damageType"),
+CONSTRAINT "fk_effect" FOREIGN KEY ("id_effect") REFERENCES "MagicalEffects" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_damageType" FOREIGN KEY ("id_damageType") REFERENCES "DamageTypes" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS "EffectDiceValues";
 CREATE TABLE EffectDiceValues
 (
@@ -175,6 +183,64 @@ CREATE TABLE EffectFixedValues
   CONSTRAINT Key4 PRIMARY KEY (id_effect),
   CONSTRAINT fk_eff_val_fixed FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+DROP TABLE IF EXISTS "Equipment";
+CREATE TABLE "Equipment" (
+"id_item"  INTEGER NOT NULL,
+"proficiencyGroup"  INTEGER NOT NULL,
+PRIMARY KEY ("id_item"),
+CONSTRAINT "fk_item" FOREIGN KEY ("id_item") REFERENCES "Items" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_profGroup" FOREIGN KEY ("proficiencyGroup") REFERENCES "ProficiencyGroups" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO "Equipment" VALUES(1,1);
+INSERT INTO "Equipment" VALUES(2,1);
+INSERT INTO "Equipment" VALUES(3,1);
+INSERT INTO "Equipment" VALUES(4,2);
+INSERT INTO "Equipment" VALUES(5,2);
+INSERT INTO "Equipment" VALUES(6,2);
+INSERT INTO "Equipment" VALUES(7,2);
+INSERT INTO "Equipment" VALUES(8,2);
+INSERT INTO "Equipment" VALUES(9,3);
+INSERT INTO "Equipment" VALUES(10,3);
+INSERT INTO "Equipment" VALUES(11,3);
+INSERT INTO "Equipment" VALUES(12,3);
+INSERT INTO "Equipment" VALUES(13,4);
+INSERT INTO "Equipment" VALUES(27,5);
+INSERT INTO "Equipment" VALUES(28,5);
+INSERT INTO "Equipment" VALUES(29,5);
+INSERT INTO "Equipment" VALUES(30,5);
+INSERT INTO "Equipment" VALUES(31,5);
+INSERT INTO "Equipment" VALUES(32,5);
+INSERT INTO "Equipment" VALUES(33,5);
+INSERT INTO "Equipment" VALUES(34,5);
+INSERT INTO "Equipment" VALUES(35,5);
+INSERT INTO "Equipment" VALUES(36,5);
+INSERT INTO "Equipment" VALUES(37,5);
+INSERT INTO "Equipment" VALUES(38,5);
+INSERT INTO "Equipment" VALUES(39,5);
+INSERT INTO "Equipment" VALUES(40,5);
+INSERT INTO "Equipment" VALUES(41,6);
+INSERT INTO "Equipment" VALUES(42,6);
+INSERT INTO "Equipment" VALUES(43,6);
+INSERT INTO "Equipment" VALUES(44,6);
+INSERT INTO "Equipment" VALUES(45,6);
+INSERT INTO "Equipment" VALUES(46,6);
+INSERT INTO "Equipment" VALUES(47,6);
+INSERT INTO "Equipment" VALUES(48,6);
+INSERT INTO "Equipment" VALUES(49,6);
+INSERT INTO "Equipment" VALUES(50,6);
+INSERT INTO "Equipment" VALUES(51,6);
+INSERT INTO "Equipment" VALUES(52,6);
+INSERT INTO "Equipment" VALUES(53,6);
+INSERT INTO "Equipment" VALUES(54,6);
+INSERT INTO "Equipment" VALUES(55,6);
+INSERT INTO "Equipment" VALUES(56,6);
+INSERT INTO "Equipment" VALUES(57,6);
+INSERT INTO "Equipment" VALUES(58,6);
+INSERT INTO "Equipment" VALUES(59,6);
+INSERT INTO "Equipment" VALUES(60,6);
+INSERT INTO "Equipment" VALUES(61,6);
+INSERT INTO "Equipment" VALUES(62,6);
+INSERT INTO "Equipment" VALUES(63,6);
 DROP TABLE IF EXISTS "ExperienceLevels";
 CREATE TABLE ExperienceLevels
 (
@@ -241,13 +307,12 @@ INSERT INTO "FeatureLanguages" VALUES(36,14);
 INSERT INTO "FeatureLanguages" VALUES(37,15);
 INSERT INTO "FeatureLanguages" VALUES(38,16);
 DROP TABLE IF EXISTS "FeatureProficiencies";
-CREATE TABLE FeatureProficiencies
-(
-  id_feature INTEGER NOT NULL,
-  id_equipment INTEGER NOT NULL,
-  CONSTRAINT pk_feature_profs PRIMARY KEY (id_feature ,id_equipment),
-  CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Feature (_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_equipment FOREIGN KEY (id_equipment) REFERENCES "Items"(_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "FeatureProficiencies" (
+"id_feature"  INTEGER NOT NULL,
+"id_equipment"  INTEGER NOT NULL,
+PRIMARY KEY ("id_feature" ASC, "id_equipment" ASC),
+CONSTRAINT "fk_feature" FOREIGN KEY ("id_feature") REFERENCES "Features" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_equipment" FOREIGN KEY ("id_equipment") REFERENCES "Equipment" ("id_item") ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO "FeatureProficiencies" VALUES(4,175);
 INSERT INTO "FeatureProficiencies" VALUES(5,163);
@@ -346,201 +411,197 @@ CREATE TABLE HigherCastings
   CONSTRAINT fk_spell_high_cast FOREIGN KEY (id_spell_effect) REFERENCES SpellEffects (_id)
 );
 DROP TABLE IF EXISTS "Items";
-CREATE TABLE "Items"
-(
-  _id INTEGER NOT NULL
-        CONSTRAINT Key9 PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  weight REAL NOT NULL,
-  cost INTEGER NOT NULL,
-  proficiencyGroup INTEGER,
-  CONSTRAINT Relationship18 FOREIGN KEY (proficiencyGroup) REFERENCES ProficiencyGroups (_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "Items" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"name"  TEXT NOT NULL,
+"weight"  REAL NOT NULL,
+"cost"  INTEGER NOT NULL
 );
-INSERT INTO "Items" VALUES(1,'Padded',8,50000,1);
-INSERT INTO "Items" VALUES(2,'Leather',10,100000,1);
-INSERT INTO "Items" VALUES(3,'Studded leather',13,450000,1);
-INSERT INTO "Items" VALUES(4,'Hide',12,100000,2);
-INSERT INTO "Items" VALUES(5,'Chain shirt',20,500000,2);
-INSERT INTO "Items" VALUES(6,'Scale mail',45,500000,2);
-INSERT INTO "Items" VALUES(7,'Breastplate',20,4000000,2);
-INSERT INTO "Items" VALUES(8,'Half plate',40,7500000,2);
-INSERT INTO "Items" VALUES(9,'Ring mail',40,300000,3);
-INSERT INTO "Items" VALUES(10,'Chain mail',55,750000,3);
-INSERT INTO "Items" VALUES(11,'Splint',60,2000000,3);
-INSERT INTO "Items" VALUES(12,'Plate',65,10000000,3);
-INSERT INTO "Items" VALUES(13,'Shield',6,100000,4);
-INSERT INTO "Items" VALUES(27,'Club',2,100,5);
-INSERT INTO "Items" VALUES(28,'Dagger',1,20000,5);
-INSERT INTO "Items" VALUES(29,'Greatclub',10,200,5);
-INSERT INTO "Items" VALUES(30,'Handaxe',2,50000,5);
-INSERT INTO "Items" VALUES(31,'Javelin',2,500,5);
-INSERT INTO "Items" VALUES(32,'Light hammer',2,20000,5);
-INSERT INTO "Items" VALUES(33,'Mace',4,50000,5);
-INSERT INTO "Items" VALUES(34,'Quarterstaff',4,200,5);
-INSERT INTO "Items" VALUES(35,'Sickle',2,10000,5);
-INSERT INTO "Items" VALUES(36,'Spear',3,10000,5);
-INSERT INTO "Items" VALUES(37,'Crossbow, light',5,250000,5);
-INSERT INTO "Items" VALUES(38,'Dart',0.25,5,5);
-INSERT INTO "Items" VALUES(39,'Shortbow',2,250000,5);
-INSERT INTO "Items" VALUES(40,'Sling',0.25,100,5);
-INSERT INTO "Items" VALUES(41,'Battleaxe',4,100000,6);
-INSERT INTO "Items" VALUES(42,'Flail',2,100000,6);
-INSERT INTO "Items" VALUES(43,'Glaive',6,200000,6);
-INSERT INTO "Items" VALUES(44,'Greataxe',7,300000,6);
-INSERT INTO "Items" VALUES(45,'Greatsword',6,500000,6);
-INSERT INTO "Items" VALUES(46,'Halberd',6,200000,6);
-INSERT INTO "Items" VALUES(47,'Lance',6,100000,6);
-INSERT INTO "Items" VALUES(48,'Longsword',3,150000,6);
-INSERT INTO "Items" VALUES(49,'Maul',10,100000,6);
-INSERT INTO "Items" VALUES(50,'Morningstar',4,150000,6);
-INSERT INTO "Items" VALUES(51,'Pike',18,50000,6);
-INSERT INTO "Items" VALUES(52,'Rapier',2,250000,6);
-INSERT INTO "Items" VALUES(53,'Scimitar',3,250000,6);
-INSERT INTO "Items" VALUES(54,'Shortsword',2,100000,6);
-INSERT INTO "Items" VALUES(55,'Trident',4,50000,6);
-INSERT INTO "Items" VALUES(56,'War pick',2,50000,6);
-INSERT INTO "Items" VALUES(57,'Warhammer',2,150000,6);
-INSERT INTO "Items" VALUES(58,'Whip',3,20000,6);
-INSERT INTO "Items" VALUES(59,'Blowgun',1,100000,6);
-INSERT INTO "Items" VALUES(60,'Crossbow, hand',3,750000,6);
-INSERT INTO "Items" VALUES(61,'Crossbow, heavy',18,500000,6);
-INSERT INTO "Items" VALUES(62,'Longbow',2,500000,6);
-INSERT INTO "Items" VALUES(63,'Net',3,10000,6);
-INSERT INTO "Items" VALUES(64,'Abacus',2,20000,NULL);
-INSERT INTO "Items" VALUES(65,'Acid (vial)',1,250000,NULL);
-INSERT INTO "Items" VALUES(66,'Alchemist''s fire (flask)',1,500000,NULL);
-INSERT INTO "Items" VALUES(67,'Arrow',0.05,500,NULL);
-INSERT INTO "Items" VALUES(68,'Blowgun needle',0.02,200,NULL);
-INSERT INTO "Items" VALUES(69,'Crossbow bolt',0.075,500,NULL);
-INSERT INTO "Items" VALUES(70,'Sling bullets (20)',1.5,4,NULL);
-INSERT INTO "Items" VALUES(71,'Antitoxin (vial)',0.5,500000,NULL);
-INSERT INTO "Items" VALUES(72,'Arcane focus: Crystal',1,100000,NULL);
-INSERT INTO "Items" VALUES(73,'Arcane focus: Orb',3,200000,NULL);
-INSERT INTO "Items" VALUES(74,'Arcane focus: Rod',2,100000,NULL);
-INSERT INTO "Items" VALUES(75,'Arcane focus: Staff',4,50000,NULL);
-INSERT INTO "Items" VALUES(76,'Arcane focus: Wand',1,100000,NULL);
-INSERT INTO "Items" VALUES(77,'Backpack',5,20000,NULL);
-INSERT INTO "Items" VALUES(78,'Ball bearings (bag of 1,000)',2,10000,NULL);
-INSERT INTO "Items" VALUES(79,'Barrel',70,20000,NULL);
-INSERT INTO "Items" VALUES(80,'Basket',2,400,NULL);
-INSERT INTO "Items" VALUES(81,'Bedroll',7,10000,NULL);
-INSERT INTO "Items" VALUES(82,'Bell',0.2,10000,NULL);
-INSERT INTO "Items" VALUES(83,'Blanket',3,500,NULL);
-INSERT INTO "Items" VALUES(84,'Block and tackle',5,10000,NULL);
-INSERT INTO "Items" VALUES(85,'Book',5,250000,NULL);
-INSERT INTO "Items" VALUES(86,'Bottle, glass',2,20000,NULL);
-INSERT INTO "Items" VALUES(87,'Bucket',2,5,NULL);
-INSERT INTO "Items" VALUES(88,'Caltrops (bag of 20)',2,10000,NULL);
-INSERT INTO "Items" VALUES(89,'Candle',0,1,NULL);
-INSERT INTO "Items" VALUES(90,'Case, crossbow bolt',1,10000,NULL);
-INSERT INTO "Items" VALUES(91,'Case, map or scroll',1,10000,NULL);
-INSERT INTO "Items" VALUES(92,'Chain (10 ft.)',10,50000,NULL);
-INSERT INTO "Items" VALUES(93,'Chalk (1 piece)',0,1,NULL);
-INSERT INTO "Items" VALUES(94,'Chest',25,50000,NULL);
-INSERT INTO "Items" VALUES(95,'Climber''s kit',12,250000,NULL);
-INSERT INTO "Items" VALUES(96,'Clothes, common',3,500,NULL);
-INSERT INTO "Items" VALUES(97,'Clothes, costume',4,50000,NULL);
-INSERT INTO "Items" VALUES(98,'Clothes, fine',6,150000,NULL);
-INSERT INTO "Items" VALUES(99,'Clothes, traveler''s',4,20000,NULL);
-INSERT INTO "Items" VALUES(100,'Component pouch',2,250000,NULL);
-INSERT INTO "Items" VALUES(101,'Druidic focus: Sprig of mistletoe',0,10000,NULL);
-INSERT INTO "Items" VALUES(102,'Druidic focus: Totem',0,10000,NULL);
-INSERT INTO "Items" VALUES(103,'Druidic focus: Wooden staff',4,50000,NULL);
-INSERT INTO "Items" VALUES(104,'Druidic focus: Yew wand',1,100000,NULL);
-INSERT INTO "Items" VALUES(105,'Fishing tackle',4,10000,NULL);
-INSERT INTO "Items" VALUES(106,'Flask or tankard',1,2,NULL);
-INSERT INTO "Items" VALUES(107,'Grappling hook',4,20000,NULL);
-INSERT INTO "Items" VALUES(108,'Hammer',3,10000,NULL);
-INSERT INTO "Items" VALUES(109,'Hammer, sledge',10,20000,NULL);
-INSERT INTO "Items" VALUES(110,'Healer''s kit',3,50000,NULL);
-INSERT INTO "Items" VALUES(111,'Holy symbol: Amulet',1,50000,NULL);
-INSERT INTO "Items" VALUES(112,'Holy symbol: Emblem',0,50000,NULL);
-INSERT INTO "Items" VALUES(113,'Holy symbol: Reliquary',2,50000,NULL);
-INSERT INTO "Items" VALUES(114,'Holy water (flask)',1,250000,NULL);
-INSERT INTO "Items" VALUES(115,'Hourglass',1,250000,NULL);
-INSERT INTO "Items" VALUES(116,'Hunting trap',25,50000,NULL);
-INSERT INTO "Items" VALUES(117,'Ink (1 ounce bottle)',0,100000,NULL);
-INSERT INTO "Items" VALUES(118,'Ink pen',0,2,NULL);
-INSERT INTO "Items" VALUES(119,'Jug or pitcher',4,2,NULL);
-INSERT INTO "Items" VALUES(120,'Ladder (10-foot)',25,100,NULL);
-INSERT INTO "Items" VALUES(121,'Lamp',1,500,NULL);
-INSERT INTO "Items" VALUES(122,'Lantern, bullseye',2,100000,NULL);
-INSERT INTO "Items" VALUES(123,'Lantern, hooded',2,50000,NULL);
-INSERT INTO "Items" VALUES(124,'Lock',1,100000,NULL);
-INSERT INTO "Items" VALUES(125,'Magnifying glass',0,1000000,NULL);
-INSERT INTO "Items" VALUES(126,'Manacles',6,20000,NULL);
-INSERT INTO "Items" VALUES(127,'Mess kit',1,200,NULL);
-INSERT INTO "Items" VALUES(128,'Mirror, steel',0.5,50000,NULL);
-INSERT INTO "Items" VALUES(129,'Oil (flask)',1,100,NULL);
-INSERT INTO "Items" VALUES(130,'Paper (one sheet)',0,200,NULL);
-INSERT INTO "Items" VALUES(131,'Parchment (one sheet)',0,100,NULL);
-INSERT INTO "Items" VALUES(132,'Perfume (vial)',0,50000,NULL);
-INSERT INTO "Items" VALUES(133,'Pick, miner''s',10,20000,NULL);
-INSERT INTO "Items" VALUES(134,'Piton',0.25,5,NULL);
-INSERT INTO "Items" VALUES(135,'Poison, basic (vial)',0,1000000,NULL);
-INSERT INTO "Items" VALUES(136,'Pole (10-foot)',7,5,NULL);
-INSERT INTO "Items" VALUES(137,'Pot, iron',10,20000,NULL);
-INSERT INTO "Items" VALUES(138,'Potion of healing',0.5,500000,NULL);
-INSERT INTO "Items" VALUES(139,'Pouch',1,500,NULL);
-INSERT INTO "Items" VALUES(140,'Quiver',1,10000,NULL);
-INSERT INTO "Items" VALUES(141,'Ram, portable',35,40000,NULL);
-INSERT INTO "Items" VALUES(142,'Rations (1 day)',2,500,NULL);
-INSERT INTO "Items" VALUES(143,'Robes',4,10000,NULL);
-INSERT INTO "Items" VALUES(144,'Rope, hempen (50 feet)',10,10000,NULL);
-INSERT INTO "Items" VALUES(145,'Rope, silk (50 feet)',5,100000,NULL);
-INSERT INTO "Items" VALUES(146,'Sack',0.5,1,NULL);
-INSERT INTO "Items" VALUES(147,'Scale, merchant''s',3,50000,NULL);
-INSERT INTO "Items" VALUES(148,'Sealing wax',0,500,NULL);
-INSERT INTO "Items" VALUES(149,'Shovel',5,20000,NULL);
-INSERT INTO "Items" VALUES(150,'Signal whistle',0,5,NULL);
-INSERT INTO "Items" VALUES(151,'Signet ring',0,50000,NULL);
-INSERT INTO "Items" VALUES(152,'Soap',0,2,NULL);
-INSERT INTO "Items" VALUES(153,'Spellbook',3,500000,NULL);
-INSERT INTO "Items" VALUES(154,'Spike, iron',0.5,1000,NULL);
-INSERT INTO "Items" VALUES(155,'Spyglass',1,10000000,NULL);
-INSERT INTO "Items" VALUES(156,'Tent, two-person',20,20000,NULL);
-INSERT INTO "Items" VALUES(157,'Tinderbox',1,500,NULL);
-INSERT INTO "Items" VALUES(158,'Torch',1,1,NULL);
-INSERT INTO "Items" VALUES(159,'Vial',0,10000,NULL);
-INSERT INTO "Items" VALUES(160,'Waterskin',5,200,NULL);
-INSERT INTO "Items" VALUES(161,'Whetstone',1,1,NULL);
-INSERT INTO "Items" VALUES(162,'Alchemist''s supplies',8,500000,NULL);
-INSERT INTO "Items" VALUES(163,'Brewer''s supplies',9,200000,NULL);
-INSERT INTO "Items" VALUES(164,'Calligrapher''s supplies',5,100000,NULL);
-INSERT INTO "Items" VALUES(165,'Carpenter''s tools',6,80000,NULL);
-INSERT INTO "Items" VALUES(166,'Cartographer''s tools',6,150000,NULL);
-INSERT INTO "Items" VALUES(167,'Cobbler''s tools',5,50000,NULL);
-INSERT INTO "Items" VALUES(168,'Cook''s utensils',8,10000,NULL);
-INSERT INTO "Items" VALUES(169,'Glassblower''s tools',5,50000,NULL);
-INSERT INTO "Items" VALUES(170,'Jeweler''s tools',2,250000,NULL);
-INSERT INTO "Items" VALUES(171,'Leatherworker''s tools',5,50000,NULL);
-INSERT INTO "Items" VALUES(172,'Mason''s tools',8,100000,NULL);
-INSERT INTO "Items" VALUES(173,'Painter''s supplies',5,100000,NULL);
-INSERT INTO "Items" VALUES(174,'Potter''s tools',3,100000,NULL);
-INSERT INTO "Items" VALUES(175,'Smith''s tools',8,200000,NULL);
-INSERT INTO "Items" VALUES(176,'Tinker''s tools',10,500000,NULL);
-INSERT INTO "Items" VALUES(177,'Weaver''s tools',5,10000,NULL);
-INSERT INTO "Items" VALUES(178,'Woodcarver''s tools',5,10000,NULL);
-INSERT INTO "Items" VALUES(179,'Disguise kit',3,250000,NULL);
-INSERT INTO "Items" VALUES(180,'Forgery kit',5,150000,NULL);
-INSERT INTO "Items" VALUES(181,'Dice set',0,100,NULL);
-INSERT INTO "Items" VALUES(182,'Dragonchess set',0.5,10000,NULL);
-INSERT INTO "Items" VALUES(183,'Playing card set',0,500,NULL);
-INSERT INTO "Items" VALUES(184,'Three-Dragon Ante set',0,10000,NULL);
-INSERT INTO "Items" VALUES(185,'Herbalism kit',3,50000,NULL);
-INSERT INTO "Items" VALUES(186,'Bagpipes',6,300000,NULL);
-INSERT INTO "Items" VALUES(187,'Drum',3,60000,NULL);
-INSERT INTO "Items" VALUES(188,'Dulcimer',10,250000,NULL);
-INSERT INTO "Items" VALUES(189,'Flute',1,20000,NULL);
-INSERT INTO "Items" VALUES(190,'Lute',2,350000,NULL);
-INSERT INTO "Items" VALUES(191,'Lyre',2,300000,NULL);
-INSERT INTO "Items" VALUES(192,'Horn',2,30000,NULL);
-INSERT INTO "Items" VALUES(193,'Pan flute',2,120000,NULL);
-INSERT INTO "Items" VALUES(194,'Shawm',1,20000,NULL);
-INSERT INTO "Items" VALUES(195,'Viol',1,300000,NULL);
-INSERT INTO "Items" VALUES(196,'Navigator''s tools',2,250000,NULL);
-INSERT INTO "Items" VALUES(197,'Poisoner''s kit',2,500000,NULL);
-INSERT INTO "Items" VALUES(198,'Thieves'' tools',1,250000,NULL);
+INSERT INTO "Items" VALUES(1,'Padded',8,50000);
+INSERT INTO "Items" VALUES(2,'Leather',10,100000);
+INSERT INTO "Items" VALUES(3,'Studded leather',13,450000);
+INSERT INTO "Items" VALUES(4,'Hide',12,100000);
+INSERT INTO "Items" VALUES(5,'Chain shirt',20,500000);
+INSERT INTO "Items" VALUES(6,'Scale mail',45,500000);
+INSERT INTO "Items" VALUES(7,'Breastplate',20,4000000);
+INSERT INTO "Items" VALUES(8,'Half plate',40,7500000);
+INSERT INTO "Items" VALUES(9,'Ring mail',40,300000);
+INSERT INTO "Items" VALUES(10,'Chain mail',55,750000);
+INSERT INTO "Items" VALUES(11,'Splint',60,2000000);
+INSERT INTO "Items" VALUES(12,'Plate',65,10000000);
+INSERT INTO "Items" VALUES(13,'Shield',6,100000);
+INSERT INTO "Items" VALUES(27,'Club',2,100);
+INSERT INTO "Items" VALUES(28,'Dagger',1,20000);
+INSERT INTO "Items" VALUES(29,'Greatclub',10,200);
+INSERT INTO "Items" VALUES(30,'Handaxe',2,50000);
+INSERT INTO "Items" VALUES(31,'Javelin',2,500);
+INSERT INTO "Items" VALUES(32,'Light hammer',2,20000);
+INSERT INTO "Items" VALUES(33,'Mace',4,50000);
+INSERT INTO "Items" VALUES(34,'Quarterstaff',4,200);
+INSERT INTO "Items" VALUES(35,'Sickle',2,10000);
+INSERT INTO "Items" VALUES(36,'Spear',3,10000);
+INSERT INTO "Items" VALUES(37,'Crossbow, light',5,250000);
+INSERT INTO "Items" VALUES(38,'Dart',0.25,5);
+INSERT INTO "Items" VALUES(39,'Shortbow',2,250000);
+INSERT INTO "Items" VALUES(40,'Sling',0.25,100);
+INSERT INTO "Items" VALUES(41,'Battleaxe',4,100000);
+INSERT INTO "Items" VALUES(42,'Flail',2,100000);
+INSERT INTO "Items" VALUES(43,'Glaive',6,200000);
+INSERT INTO "Items" VALUES(44,'Greataxe',7,300000);
+INSERT INTO "Items" VALUES(45,'Greatsword',6,500000);
+INSERT INTO "Items" VALUES(46,'Halberd',6,200000);
+INSERT INTO "Items" VALUES(47,'Lance',6,100000);
+INSERT INTO "Items" VALUES(48,'Longsword',3,150000);
+INSERT INTO "Items" VALUES(49,'Maul',10,100000);
+INSERT INTO "Items" VALUES(50,'Morningstar',4,150000);
+INSERT INTO "Items" VALUES(51,'Pike',18,50000);
+INSERT INTO "Items" VALUES(52,'Rapier',2,250000);
+INSERT INTO "Items" VALUES(53,'Scimitar',3,250000);
+INSERT INTO "Items" VALUES(54,'Shortsword',2,100000);
+INSERT INTO "Items" VALUES(55,'Trident',4,50000);
+INSERT INTO "Items" VALUES(56,'War pick',2,50000);
+INSERT INTO "Items" VALUES(57,'Warhammer',2,150000);
+INSERT INTO "Items" VALUES(58,'Whip',3,20000);
+INSERT INTO "Items" VALUES(59,'Blowgun',1,100000);
+INSERT INTO "Items" VALUES(60,'Crossbow, hand',3,750000);
+INSERT INTO "Items" VALUES(61,'Crossbow, heavy',18,500000);
+INSERT INTO "Items" VALUES(62,'Longbow',2,500000);
+INSERT INTO "Items" VALUES(63,'Net',3,10000);
+INSERT INTO "Items" VALUES(64,'Abacus',2,20000);
+INSERT INTO "Items" VALUES(65,'Acid (vial)',1,250000);
+INSERT INTO "Items" VALUES(66,'Alchemist''s fire (flask)',1,500000);
+INSERT INTO "Items" VALUES(67,'Arrow',0.05,500);
+INSERT INTO "Items" VALUES(68,'Blowgun needle',0.02,200);
+INSERT INTO "Items" VALUES(69,'Crossbow bolt',0.075,500);
+INSERT INTO "Items" VALUES(70,'Sling bullets (20)',1.5,4);
+INSERT INTO "Items" VALUES(71,'Antitoxin (vial)',0.5,500000);
+INSERT INTO "Items" VALUES(72,'Arcane focus: Crystal',1,100000);
+INSERT INTO "Items" VALUES(73,'Arcane focus: Orb',3,200000);
+INSERT INTO "Items" VALUES(74,'Arcane focus: Rod',2,100000);
+INSERT INTO "Items" VALUES(75,'Arcane focus: Staff',4,50000);
+INSERT INTO "Items" VALUES(76,'Arcane focus: Wand',1,100000);
+INSERT INTO "Items" VALUES(77,'Backpack',5,20000);
+INSERT INTO "Items" VALUES(78,'Ball bearings (bag of 1,000)',2,10000);
+INSERT INTO "Items" VALUES(79,'Barrel',70,20000);
+INSERT INTO "Items" VALUES(80,'Basket',2,400);
+INSERT INTO "Items" VALUES(81,'Bedroll',7,10000);
+INSERT INTO "Items" VALUES(82,'Bell',0.2,10000);
+INSERT INTO "Items" VALUES(83,'Blanket',3,500);
+INSERT INTO "Items" VALUES(84,'Block and tackle',5,10000);
+INSERT INTO "Items" VALUES(85,'Book',5,250000);
+INSERT INTO "Items" VALUES(86,'Bottle, glass',2,20000);
+INSERT INTO "Items" VALUES(87,'Bucket',2,5);
+INSERT INTO "Items" VALUES(88,'Caltrops (bag of 20)',2,10000);
+INSERT INTO "Items" VALUES(89,'Candle',0,1);
+INSERT INTO "Items" VALUES(90,'Case, crossbow bolt',1,10000);
+INSERT INTO "Items" VALUES(91,'Case, map or scroll',1,10000);
+INSERT INTO "Items" VALUES(92,'Chain (10 ft.)',10,50000);
+INSERT INTO "Items" VALUES(93,'Chalk (1 piece)',0,1);
+INSERT INTO "Items" VALUES(94,'Chest',25,50000);
+INSERT INTO "Items" VALUES(95,'Climber''s kit',12,250000);
+INSERT INTO "Items" VALUES(96,'Clothes, common',3,500);
+INSERT INTO "Items" VALUES(97,'Clothes, costume',4,50000);
+INSERT INTO "Items" VALUES(98,'Clothes, fine',6,150000);
+INSERT INTO "Items" VALUES(99,'Clothes, traveler''s',4,20000);
+INSERT INTO "Items" VALUES(100,'Component pouch',2,250000);
+INSERT INTO "Items" VALUES(101,'Druidic focus: Sprig of mistletoe',0,10000);
+INSERT INTO "Items" VALUES(102,'Druidic focus: Totem',0,10000);
+INSERT INTO "Items" VALUES(103,'Druidic focus: Wooden staff',4,50000);
+INSERT INTO "Items" VALUES(104,'Druidic focus: Yew wand',1,100000);
+INSERT INTO "Items" VALUES(105,'Fishing tackle',4,10000);
+INSERT INTO "Items" VALUES(106,'Flask or tankard',1,2);
+INSERT INTO "Items" VALUES(107,'Grappling hook',4,20000);
+INSERT INTO "Items" VALUES(108,'Hammer',3,10000);
+INSERT INTO "Items" VALUES(109,'Hammer, sledge',10,20000);
+INSERT INTO "Items" VALUES(110,'Healer''s kit',3,50000);
+INSERT INTO "Items" VALUES(111,'Holy symbol: Amulet',1,50000);
+INSERT INTO "Items" VALUES(112,'Holy symbol: Emblem',0,50000);
+INSERT INTO "Items" VALUES(113,'Holy symbol: Reliquary',2,50000);
+INSERT INTO "Items" VALUES(114,'Holy water (flask)',1,250000);
+INSERT INTO "Items" VALUES(115,'Hourglass',1,250000);
+INSERT INTO "Items" VALUES(116,'Hunting trap',25,50000);
+INSERT INTO "Items" VALUES(117,'Ink (1 ounce bottle)',0,100000);
+INSERT INTO "Items" VALUES(118,'Ink pen',0,2);
+INSERT INTO "Items" VALUES(119,'Jug or pitcher',4,2);
+INSERT INTO "Items" VALUES(120,'Ladder (10-foot)',25,100);
+INSERT INTO "Items" VALUES(121,'Lamp',1,500);
+INSERT INTO "Items" VALUES(122,'Lantern, bullseye',2,100000);
+INSERT INTO "Items" VALUES(123,'Lantern, hooded',2,50000);
+INSERT INTO "Items" VALUES(124,'Lock',1,100000);
+INSERT INTO "Items" VALUES(125,'Magnifying glass',0,1000000);
+INSERT INTO "Items" VALUES(126,'Manacles',6,20000);
+INSERT INTO "Items" VALUES(127,'Mess kit',1,200);
+INSERT INTO "Items" VALUES(128,'Mirror, steel',0.5,50000);
+INSERT INTO "Items" VALUES(129,'Oil (flask)',1,100);
+INSERT INTO "Items" VALUES(130,'Paper (one sheet)',0,200);
+INSERT INTO "Items" VALUES(131,'Parchment (one sheet)',0,100);
+INSERT INTO "Items" VALUES(132,'Perfume (vial)',0,50000);
+INSERT INTO "Items" VALUES(133,'Pick, miner''s',10,20000);
+INSERT INTO "Items" VALUES(134,'Piton',0.25,5);
+INSERT INTO "Items" VALUES(135,'Poison, basic (vial)',0,1000000);
+INSERT INTO "Items" VALUES(136,'Pole (10-foot)',7,5);
+INSERT INTO "Items" VALUES(137,'Pot, iron',10,20000);
+INSERT INTO "Items" VALUES(138,'Potion of healing',0.5,500000);
+INSERT INTO "Items" VALUES(139,'Pouch',1,500);
+INSERT INTO "Items" VALUES(140,'Quiver',1,10000);
+INSERT INTO "Items" VALUES(141,'Ram, portable',35,40000);
+INSERT INTO "Items" VALUES(142,'Rations (1 day)',2,500);
+INSERT INTO "Items" VALUES(143,'Robes',4,10000);
+INSERT INTO "Items" VALUES(144,'Rope, hempen (50 feet)',10,10000);
+INSERT INTO "Items" VALUES(145,'Rope, silk (50 feet)',5,100000);
+INSERT INTO "Items" VALUES(146,'Sack',0.5,1);
+INSERT INTO "Items" VALUES(147,'Scale, merchant''s',3,50000);
+INSERT INTO "Items" VALUES(148,'Sealing wax',0,500);
+INSERT INTO "Items" VALUES(149,'Shovel',5,20000);
+INSERT INTO "Items" VALUES(150,'Signal whistle',0,5);
+INSERT INTO "Items" VALUES(151,'Signet ring',0,50000);
+INSERT INTO "Items" VALUES(152,'Soap',0,2);
+INSERT INTO "Items" VALUES(153,'Spellbook',3,500000);
+INSERT INTO "Items" VALUES(154,'Spike, iron',0.5,1000);
+INSERT INTO "Items" VALUES(155,'Spyglass',1,10000000);
+INSERT INTO "Items" VALUES(156,'Tent, two-person',20,20000);
+INSERT INTO "Items" VALUES(157,'Tinderbox',1,500);
+INSERT INTO "Items" VALUES(158,'Torch',1,1);
+INSERT INTO "Items" VALUES(159,'Vial',0,10000);
+INSERT INTO "Items" VALUES(160,'Waterskin',5,200);
+INSERT INTO "Items" VALUES(161,'Whetstone',1,1);
+INSERT INTO "Items" VALUES(162,'Alchemist''s supplies',8,500000);
+INSERT INTO "Items" VALUES(163,'Brewer''s supplies',9,200000);
+INSERT INTO "Items" VALUES(164,'Calligrapher''s supplies',5,100000);
+INSERT INTO "Items" VALUES(165,'Carpenter''s tools',6,80000);
+INSERT INTO "Items" VALUES(166,'Cartographer''s tools',6,150000);
+INSERT INTO "Items" VALUES(167,'Cobbler''s tools',5,50000);
+INSERT INTO "Items" VALUES(168,'Cook''s utensils',8,10000);
+INSERT INTO "Items" VALUES(169,'Glassblower''s tools',5,50000);
+INSERT INTO "Items" VALUES(170,'Jeweler''s tools',2,250000);
+INSERT INTO "Items" VALUES(171,'Leatherworker''s tools',5,50000);
+INSERT INTO "Items" VALUES(172,'Mason''s tools',8,100000);
+INSERT INTO "Items" VALUES(173,'Painter''s supplies',5,100000);
+INSERT INTO "Items" VALUES(174,'Potter''s tools',3,100000);
+INSERT INTO "Items" VALUES(175,'Smith''s tools',8,200000);
+INSERT INTO "Items" VALUES(176,'Tinker''s tools',10,500000);
+INSERT INTO "Items" VALUES(177,'Weaver''s tools',5,10000);
+INSERT INTO "Items" VALUES(178,'Woodcarver''s tools',5,10000);
+INSERT INTO "Items" VALUES(179,'Disguise kit',3,250000);
+INSERT INTO "Items" VALUES(180,'Forgery kit',5,150000);
+INSERT INTO "Items" VALUES(181,'Dice set',0,100);
+INSERT INTO "Items" VALUES(182,'Dragonchess set',0.5,10000);
+INSERT INTO "Items" VALUES(183,'Playing card set',0,500);
+INSERT INTO "Items" VALUES(184,'Three-Dragon Ante set',0,10000);
+INSERT INTO "Items" VALUES(185,'Herbalism kit',3,50000);
+INSERT INTO "Items" VALUES(186,'Bagpipes',6,300000);
+INSERT INTO "Items" VALUES(187,'Drum',3,60000);
+INSERT INTO "Items" VALUES(188,'Dulcimer',10,250000);
+INSERT INTO "Items" VALUES(189,'Flute',1,20000);
+INSERT INTO "Items" VALUES(190,'Lute',2,350000);
+INSERT INTO "Items" VALUES(191,'Lyre',2,300000);
+INSERT INTO "Items" VALUES(192,'Horn',2,30000);
+INSERT INTO "Items" VALUES(193,'Pan flute',2,120000);
+INSERT INTO "Items" VALUES(194,'Shawm',1,20000);
+INSERT INTO "Items" VALUES(195,'Viol',1,300000);
+INSERT INTO "Items" VALUES(196,'Navigator''s tools',2,250000);
+INSERT INTO "Items" VALUES(197,'Poisoner''s kit',2,500000);
+INSERT INTO "Items" VALUES(198,'Thieves'' tools',1,250000);
 DROP TABLE IF EXISTS "KeyStatsPerClass";
 CREATE TABLE KeyStatsPerClass
 (
@@ -635,17 +696,15 @@ CONSTRAINT fk_composite_lr_race FOREIGN KEY (id_race) REFERENCES Races (_id) ON 
 CONSTRAINT fk_composite_lr_language FOREIGN KEY (id_language) REFERENCES Languages (_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS "MagicalEffects";
-CREATE TABLE MagicalEffects
-(
-  _id INTEGER NOT NULL
-        CONSTRAINT Key2 PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  targetsSelf INTEGER NOT NULL
-        CONSTRAINT CheckNeverSomeAlways CHECK (targetsSelf IN (0, 1, 2)),
-  range INTEGER NOT NULL DEFAULT 0,
-  requiresTouch INTEGER NOT NULL DEFAULT 0
-        CONSTRAINT checkBoolean CHECK (requiresTouch IN (0, 1)),
-  durationInRounds INTEGER NOT NULL DEFAULT 0
+CREATE TABLE "MagicalEffects" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"name"  TEXT NOT NULL,
+"targetsSelf"  INTEGER NOT NULL,
+"range"  INTEGER NOT NULL DEFAULT 0,
+"requiresTouch"  INTEGER NOT NULL DEFAULT 0,
+"duration"  INTEGER NOT NULL DEFAULT 0,
+CONSTRAINT "CheckNeverSomeAlways" CHECK (targetsSelf IN (0, 1, 2)),
+CONSTRAINT "checkBoolean" CHECK (requiresTouch IN (0, 1))
 );
 DROP TABLE IF EXISTS "ProficiencyGroups";
 CREATE TABLE ProficiencyGroups
@@ -908,9 +967,10 @@ INSERT INTO "SkillsPerClass" VALUES(12,9);
 DROP TABLE IF EXISTS "SpellCastingTimes";
 CREATE TABLE "SpellCastingTimes" (
 "id_spell"  INTEGER NOT NULL,
-"timeUnitType"  TEXT NOT NULL,
+"id_timeUnit"  INTEGER NOT NULL,
 "timeUnitAmount"  INTEGER,
-CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_timeUnit" FOREIGN KEY ("id_timeUnit") REFERENCES "TimeUnits" ("_id")
 );
 DROP TABLE IF EXISTS "SpellEffects";
 CREATE TABLE SpellEffects
@@ -931,12 +991,13 @@ CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DE
 CONSTRAINT "fk_item" FOREIGN KEY ("id_item") REFERENCES "Items" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "SpellSchools";
-CREATE TABLE SpellSchools
-(
-  _id INTEGER NOT NULL
-        CONSTRAINT Key1 PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL
+CREATE TABLE "SpellSchools" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"schoolName"  TEXT NOT NULL
 );
+INSERT INTO "SpellSchools" VALUES(1,'Evocation');
+INSERT INTO "SpellSchools" VALUES(2,'Abjuration');
+INSERT INTO "SpellSchools" VALUES(3,'Enchantment');
 DROP TABLE IF EXISTS "Spellbooks";
 CREATE TABLE Spellbooks
 (
@@ -949,16 +1010,29 @@ CONSTRAINT fk_spell FOREIGN KEY (id_spell) REFERENCES Spells (_id) ON UPDATE CAS
 DROP TABLE IF EXISTS "Spells";
 CREATE TABLE "Spells" (
 "_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-"id_school"  INTEGER NOT NULL,
 "name"  TEXT NOT NULL,
-"detail"  TEXT NOT NULL,
+"id_school"  INTEGER NOT NULL,
 "level"  INTEGER DEFAULT 0,
+"castingTime"  INTEGER DEFAULT 5,
 "isInstantaneous"  INTEGER DEFAULT 1,
 "requiresConcentration"  INTEGER DEFAULT 0,
 "hasVerbalComponent"  INTEGER DEFAULT 0,
 "hasSomaticComponent"  INTEGER DEFAULT 0,
 "hasMaterialComponent"  INTEGER DEFAULT 0,
+"isCombatSpell"  INTEGER DEFAULT 0,
+"detail"  TEXT NOT NULL,
 CONSTRAINT "fk_spell_school" FOREIGN KEY ("id_school") REFERENCES "SpellSchools" ("_id")
+);
+INSERT INTO "Spells" VALUES(1,'Dancing Lights',1,0,5,1,0,1,1,1,0,'You create up to four torch-sized lights within range.');
+INSERT INTO "Spells" VALUES(2,'Blade Ward',2,0,5,1,0,1,1,0,0,'Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.');
+INSERT INTO "Spells" VALUES(3,'Friends',3,0,5,0,1,0,1,1,0,'You have advantage on all Charisma checks directed at one creature of your choice that is not hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you.');
+INSERT INTO "Spells" VALUES(4,'Light',1,0,5,0,0,1,0,1,0,'One object touched no larger than 10 feet in any dimension sheds bright light in a 20-foot radius and dim light for an additional 20 feet.');
+DROP TABLE IF EXISTS "TimeUnits";
+CREATE TABLE "TimeUnits"
+(
+  _id INTEGER NOT NULL
+        CONSTRAINT Key1 PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
 );
 DROP TABLE IF EXISTS "ToolProfsPerClass";
 CREATE TABLE ToolProfsPerClass
@@ -1048,15 +1122,14 @@ CREATE TABLE WeaponProfsPerClass
   CONSTRAINT Relationship6 FOREIGN KEY (id_weapon) REFERENCES Weapons (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Weapons";
-CREATE TABLE Weapons
-(
-  _id INTEGER NOT NULL,
-  dice INTEGER NOT NULL,
-  dieSize INTEGER NOT NULL,
-  id_damageType INTEGER NOT NULL,
-  CONSTRAINT Key1 PRIMARY KEY (_id),
-  CONSTRAINT Relationship9 FOREIGN KEY (_id) REFERENCES "Items" (_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT Relationship41 FOREIGN KEY (id_damageType) REFERENCES DamageTypes (_id)
+CREATE TABLE "Weapons" (
+"_id"  INTEGER NOT NULL,
+"dice"  INTEGER NOT NULL,
+"dieSize"  INTEGER NOT NULL,
+"id_damageType"  INTEGER NOT NULL,
+PRIMARY KEY ("_id" ASC),
+CONSTRAINT "Relationship9" FOREIGN KEY ("_id") REFERENCES "Equipment" ("id_item") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "Relationship41" FOREIGN KEY ("id_damageType") REFERENCES "DamageTypes" ("_id")
 );
 INSERT INTO "Weapons" VALUES(27,1,4,1);
 INSERT INTO "Weapons" VALUES(28,1,4,2);
@@ -1107,109 +1180,3 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
-CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
-FROM Languages, Features
-JOIN FeatureLanguages
-WHERE Languages._id = FeatureLanguages.id_language
-AND Features._id = FeatureLanguages.id_feature;
-CREATE VIEW CheckFeatureProficiencies AS SELECT DISTINCT Equipment.name AS Equipment, Features.name AS Feature
-FROM Equipment, Features
-JOIN FeatureProficiencies
-WHERE Equipment._id = FeatureProficiencies.id_equipment
-AND Features._id = FeatureProficiencies.id_feature;
-CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
-FROM Races, Features
-JOIN RacialFeatures
-WHERE Races._id = RacialFeatures.id_race
-AND Features._id = RacialFeatures.id_feature;
-CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
-FROM Races, RacialStats
-WHERE Races._id = RacialStats.id_race;
-CREATE VIEW "GetArmors" AS
-SELECT Equipment._id, Equipment.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Equipment.weight, Equipment.cost
-FROM Armors, Equipment
-WHERE Equipment._id = Armors._id;
-CREATE VIEW GetClassSkills AS
-SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
-FROM CharacterClasses, Skills, SkillsPerClass
-WHERE Skills._id = SkillsPerClass.id_skill 
-AND CharacterClasses._id = SkillsPerClass.id_class;
-CREATE VIEW "GetTools" AS SELECT Tools._id, Equipment.name, Equipment.weight, Equipment.cost FROM Tools
-JOIN Equipment
-WHERE Tools._id = Equipment._id;
-CREATE VIEW "GetWeapons" AS SELECT DISTINCT Equipment._id, Equipment.name, Equipment.proficiencyGroup, Weapons.dice, Weapons.dieSize, Weapons.id_damageType, RangedWeapons.shortRange, RangedWeapons.longRange, Equipment.weight, Equipment.cost
-FROM Equipment, Weapons
-LEFT JOIN RangedWeapons
-ON RangedWeapons._id = Weapons._id
-WHERE Equipment._id = Weapons._id;
-CREATE TRIGGER insert_equipment_armor
-INSTEAD OF INSERT 
-ON GetArmors
-
-BEGIN
-
-INSERT OR IGNORE INTO     Equipment (name, weight, cost, proficiencyGroup)
-SELECT new.name, new.weight, new.cost, new.proficiencyGroup
-WHERE NOT EXISTS
-(
-SELECT 1 FROM Equipment
-WHERE name = new.name
-);
-
-INSERT OR IGNORE INTO     Armors (_id, bonus, impairsStealth, requiredStr, maxDexBonus)
-SELECT Equipment._id, new.bonus, new.impairsStealth, new.requiredStr, new.maxDexBonus
-FROM Equipment
-WHERE Equipment.name = new.name;
-
-END;
-CREATE TRIGGER insert_equipment_tools
-INSTEAD OF INSERT 
-ON GetTools
-
-BEGIN
-
-INSERT OR IGNORE INTO     Equipment (name, weight, cost)
-SELECT new.name, new.weight, new.cost
-WHERE NOT EXISTS
-(
-SELECT 1 FROM Equipment
-WHERE name = new.name
-);
-
-INSERT OR IGNORE INTO     Tools (_id)
-SELECT Equipment._id
-FROM Equipment
-WHERE Equipment.name = new.name;
-
-END;
-CREATE TRIGGER insert_equipment_weapon
-INSTEAD OF INSERT 
-ON GetWeapons
-
-BEGIN
-
-INSERT OR IGNORE INTO     Equipment (name, weight, cost, proficiencyGroup)
-SELECT new.name, new.weight, new.cost, new.proficiencyGroup
-WHERE NOT EXISTS
-(
-SELECT 1 FROM Equipment
-WHERE name = new.name
-);
-
-INSERT OR IGNORE INTO     Weapons (_id, dice, dieSize, id_damageType)
-SELECT Equipment._id, new.dice, new.dieSize, new.id_damageType
-FROM Equipment
-WHERE Equipment.name = new.name;
-
-INSERT OR IGNORE INTO     RangedWeapons (_id, shortRange, longRange)
-SELECT Equipment._id, new.shortRange, new.longRange
-FROM Equipment
-WHERE new.shortRange NOTNULL 
-AND new.name = Equipment.name;
-
-END;
-CREATE INDEX "IX_Relationship1"
-ON "Spells" ("id_school" ASC);
-CREATE INDEX IX_Relationship3 ON HigherCastings (id_spell_effect);
-CREATE INDEX IX_fk_effect ON SpellEffects (id_effect);
-CREATE INDEX IX_fk_spell ON SpellEffects (id_spell);
