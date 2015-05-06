@@ -18,5 +18,7 @@
     <dimen name="font_size_S">10sp</dimen>
     <dimen name="font_size_XS">8sp</dimen>
     <dimen name="padding_statbox">3dp</dimen>
+    <dimen name="margin_default">10dp</dimen>
+    <dimen name="margin_half">5dp</dimen>
 
 </resources>

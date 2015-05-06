@@ -4,4 +4,12 @@
         <attr name="attributeName" format="string" />
         <attr name="attributeValue" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="AttackInfo">
+        <attr name="weapon" format="string" />
+        <attr name="dice" format="integer" />
+        <attr name="dieSize" format="integer" />
+        <attr name="damageBonus" format="integer" />
+        <attr name="specialQualities" format="string" />
+    </declare-styleable>
 </resources>

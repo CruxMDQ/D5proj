@@ -44,4 +44,10 @@
     <string name="classname_warlock">Warlock</string>
     <string name="classname_wizard">Wizard</string>
     <string name="select_char_class">Select character class</string>
+    <string name="frame_text_ac">AC</string>
+    <string name="frame_text_hp">HP</string>
+    <string name="frame_text_fort">Fort</string>
+    <string name="frame_text_ref">Ref</string>
+    <string name="frame_text_will">Will</string>
+    <string name="frame_text_init">Init</string>
 </resources>
