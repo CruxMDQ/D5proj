@@ -1180,3 +1180,206 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
+CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
+FROM Languages, Features
+JOIN FeatureLanguages
+WHERE Languages._id = FeatureLanguages.id_language
+AND Features._id = FeatureLanguages.id_feature;
+CREATE VIEW "CheckFeatureProficiencies" AS SELECT DISTINCT Items.name AS Item, Features.name AS Feature
+FROM Items, Features
+JOIN FeatureProficiencies
+WHERE Items._id = FeatureProficiencies.id_equipment
+AND Features._id = FeatureProficiencies.id_feature;
+CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
+FROM Races, Features
+JOIN RacialFeatures
+WHERE Races._id = RacialFeatures.id_race
+AND Features._id = RacialFeatures.id_feature;
+CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
+FROM Races, RacialStats
+WHERE Races._id = RacialStats.id_race;
+CREATE VIEW "GetArmors" AS 
+SELECT Items._id, Items.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Items.weight, Items.cost
+FROM Armors, Equipment, Items
+WHERE Equipment.id_item = Armors._id
+AND Items._id = Equipment.id_item;
+CREATE VIEW GetClassSkills AS
+SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
+FROM CharacterClasses, Skills, SkillsPerClass
+WHERE Skills._id = SkillsPerClass.id_skill 
+AND CharacterClasses._id = SkillsPerClass.id_class;
+CREATE VIEW "GetEffectAOEs" AS 
+SELECT
+EffectAOEs.id_effect,
+AreasOfEffect.name,
+EffectAOEs.range,
+EffectAOEs.targetsSelf
+FROM
+EffectAOEs
+INNER JOIN AreasOfEffect ON EffectAOEs.id_aoe_type = AreasOfEffect._id;
+CREATE VIEW "GetSpells" AS 
+SELECT DISTINCT
+Spells._id,
+Spells.name AS spellName,
+SpellSchools.schoolName,
+Spells.level,
+Spells.castingTime,
+Spells.isInstantaneous,
+Spells.requiresConcentration,
+Spells.hasVerbalComponent,
+Spells.hasSomaticComponent,
+Spells.hasMaterialComponent,
+Spells.detail
+FROM
+Spells
+INNER JOIN SpellSchools ON Spells.id_school = SpellSchools._id;
+CREATE VIEW "GetTools" AS SELECT Tools._id, Items.name, Items.weight, Items.cost FROM Tools
+JOIN Items
+WHERE Tools._id = Items._id;
+CREATE VIEW "GetWeapons" AS SELECT DISTINCT Items._id, Items.name, Equipment.proficiencyGroup, Weapons.dice, Weapons.dieSize, Weapons.id_damageType, RangedWeapons.shortRange, RangedWeapons.longRange, Items.weight, Items.cost
+FROM Equipment, Weapons, Items
+LEFT JOIN RangedWeapons
+ON RangedWeapons._id = Weapons._id
+WHERE Equipment.id_item = Weapons._id
+AND Items._id = Weapons._id;
+CREATE TRIGGER "insert_effect_aoe" INSTEAD OF INSERT ON "GetEffectAOEs"
+BEGIN
+
+INSERT OR IGNORE INTO AreasOfEffect (name)
+SELECT new.name
+WHERE NOT EXISTS
+(
+SELECT 1 FROM AreasOfEffect
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO EffectAOEs (
+id_aoe_type, 
+range, 
+targetsSelf)
+SELECT 
+AreasOfEffect._id,
+new.range,
+new.targetsSelf
+FROM AreasOfEffect
+WHERE AreasOfEffect.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_armor
+INSTEAD OF INSERT 
+ON GetArmors
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO     Armors (_id, bonus, impairsStealth, requiredStr, maxDexBonus)
+SELECT Items._id, new.bonus, new.impairsStealth, new.requiredStr, new.maxDexBonus
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_tools
+INSTEAD OF INSERT 
+ON GetTools
+
+BEGIN
+
+INSERT OR IGNORE INTO     Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO     Tools (_id)
+SELECT Items._id
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_weapon
+INSTEAD OF INSERT 
+ON GetWeapons
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO Weapons (_id, dice, dieSize, id_damageType)
+SELECT Items._id, new.dice, new.dieSize, new.id_damageType
+FROM Items 
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO RangedWeapons (_id, shortRange, longRange)
+SELECT Items._id, new.shortRange, new.longRange
+FROM Items 
+WHERE new.shortRange NOTNULL 
+AND new.name = Items.name;
+
+END;
+CREATE TRIGGER "insert_spell" INSTEAD OF INSERT ON "GetSpells"
+BEGIN
+
+INSERT OR IGNORE INTO SpellSchools (schoolName)
+SELECT new.schoolName
+WHERE NOT EXISTS
+(
+SELECT 1 FROM SpellSchools
+WHERE schoolName = new.schoolName
+);
+
+INSERT OR IGNORE INTO Spells (
+name, 
+id_school, 
+level, 
+castingTime, 
+isInstantaneous, 
+requiresConcentration, 
+hasVerbalComponent, 
+hasSomaticComponent, 
+hasMaterialComponent,
+detail)
+SELECT 
+new.spellName, 
+SpellSchools._id, 
+new.level, 
+new.castingTime, 
+new.isInstantaneous, 
+new.requiresConcentration, 
+new.hasVerbalComponent, 
+new.hasSomaticComponent, 
+new.hasMaterialComponent,
+new.detail
+FROM SpellSchools
+WHERE SpellSchools.schoolName = new.schoolName;
+
+END;
+CREATE INDEX "IX_Relationship1"
+ON "Spells" ("id_school" ASC);
+CREATE INDEX IX_Relationship3 ON HigherCastings (id_spell_effect);
+CREATE INDEX IX_fk_effect ON SpellEffects (id_effect);
+CREATE INDEX IX_fk_spell ON SpellEffects (id_spell);

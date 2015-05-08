@@ -1,18 +1,11 @@
-package com.callisto.d5proj.fragments;
-
-/**
- * Dice-roller for character stat generation.
- * Created by Crux on 05/02/2015.
- */
+package com.callisto.d5proj.wizard.steps;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.DragEvent;
@@ -24,37 +17,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.activities.CharacterCreationActivity;
+import com.callisto.d5proj.db.tables.CharacterClasses;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.tools.DiceRoller;
 import com.callisto.d5proj.widgets.EditableStatBox;
 
-public class BaseStatsFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+import org.codepond.wizardroid.WizardStep;
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-    public static BaseStatsFragment newInstance(int sectionNumber) {
-        BaseStatsFragment fragment = new BaseStatsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class StatAllocationStep extends WizardStep {
 
-    public BaseStatsFragment() {}
+    private CharacterClasses dbCharacterClasses;
+
+    public StatAllocationStep() { super(); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_stat_edition, container, false);
+
+        dbCharacterClasses = new CharacterClasses(this.getActivity());
 
         findComponents(rootView);
 
@@ -86,7 +68,7 @@ public class BaseStatsFragment extends Fragment {
         btnRollNewValues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reroll();
+                reRoll();
             }
         });
 
@@ -125,12 +107,10 @@ public class BaseStatsFragment extends Fragment {
         // Source: http://stackoverflow.com/questions/20824634/
         editableStatBox.getTxtAttributeValue().addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -213,24 +193,10 @@ public class BaseStatsFragment extends Fragment {
         txtTotalRolls.setText(sharedPref.getString("totalRolls", "0"));
     }
 
-    private void reroll() {
+    private void reRoll() {
         generateRolls();
 
         setRolls();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((CharacterCreationActivity) activity).onSectionAttached(
-            getArguments().getInt(ARG_SECTION_NUMBER));
-
-        try {
-            onStatChangeListener = (OnStatChangeListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnStatChangeListener");
-        }
     }
 
     void decreaseStat(EditableStatBox editableStatBox) {
@@ -288,6 +254,7 @@ public class BaseStatsFragment extends Fragment {
         btnRollNewValues.setVisibility(View.GONE);
         btnResetRolls.setVisibility(View.VISIBLE);
     }
+
     private View rootView;
 
     private int pointPool;

@@ -14,11 +14,11 @@ import com.callisto.d5proj.R;
 import com.callisto.d5proj.activities.CharacterCreationActivity;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.interfaces.OnInputClickListener;
+import com.callisto.d5proj.pojos.GameActor;
 import com.callisto.d5proj.pojos.Level;
 import com.callisto.d5proj.widgets.CharSheetStatBox;
 import com.callisto.d5proj.widgets.InputDialog;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -49,14 +49,16 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_derived_stats, container, false);
 
+        actor = new GameActor();
+
         findComponents(rootView);
 
-        charStr.setAttributeValue(STR);
-        charDex.setAttributeValue(DEX);
-        charCon.setAttributeValue(CON);
-        charInt.setAttributeValue(INT);
-        charWis.setAttributeValue(WIS);
-        charCha.setAttributeValue(CHA);
+        charStr.setAttributeValue(actor.getSTR());
+        charDex.setAttributeValue(actor.getDEX());
+        charCon.setAttributeValue(actor.getCON());
+        charInt.setAttributeValue(actor.getINT());
+        charWis.setAttributeValue(actor.getWIS());
+        charCha.setAttributeValue(actor.getCHA());
 
         return rootView;
     }
@@ -93,13 +95,13 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals("")) {
-                    xp = Integer.parseInt(s.toString());
+                    actor.setXp(Integer.parseInt(s.toString()));
 
                     Iterator<Level> I = ((CharacterCreationActivity) getActivity()).getExperienceTable().iterator();
 
                     Level level = I.next();
 
-                    while (level.getExperience() < xp) {
+                    while (level.getExperience() < actor.getXp()) {
                         txtLevelNumber.setText(String.valueOf(level.getNumber()));
                         txtProfBonus.setText(String.valueOf(level.getProficiencyBonus()));
                         level = I.next();
@@ -115,27 +117,27 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
     public void setStatFromBuilder(BaseStatistic stat, int value) {
         switch (stat) {
         case STR: {
-            STR = value;
+            actor.setSTR(value);
             break;
         }
         case DEX: {
-            DEX = value;
+            actor.setDEX(value);
             break;
         }
         case CON: {
-            CON = value;
+            actor.setCON(value);
             break;
         }
         case INT: {
-            INT = value;
+            actor.setINT(value);
             break;
         }
         case WIS: {
-            WIS = value;
+            actor.setWIS(value);
             break;
         }
         case CHA: {
-            CHA = value;
+            actor.setCHA(value);
             break;
         }
         }
@@ -143,9 +145,13 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
 
     @Override
     public void onInputClickOk(String text) {
+        int currentXp = actor.getXp();
         int addedXP = Integer.parseInt(text);
 
-        txtXPNumber.setText(String.valueOf(xp = xp + addedXP));
+        currentXp = currentXp + addedXP;
+        actor.setXp(currentXp);
+
+        txtXPNumber.setText(String.valueOf(actor.getXp()));
     }
 
     @Override
@@ -162,16 +168,7 @@ public class DerivedStatsFragment extends Fragment implements OnInputClickListen
     private CharSheetStatBox charWis;
     private CharSheetStatBox charCha;
 
-    private int STR;
-    private int DEX;
-    private int INT;
-    private int CON;
-    private int WIS;
-    private int CHA;
-    private int xp;
-    private int hitPoints;
-    private int armorClass;
-    private ArrayList<Level> characterLevels;
+    private GameActor actor;
 
     private TextView txtXPNumber;
     private TextView txtLevelNumber;
