@@ -50,7 +50,7 @@ public class ExperienceLevels extends BaseTableAdapter {
         + C_ID_FEATURE + " INTEGER NOT NULL,"
         + C_LEVEL + " INTEGER,"
         + " PRIMARY KEY (" + C_ID_CLASS + ", " + C_ID_FEATURE + "),"
-        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + CharacterClasses.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
+        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + CharacterClassesAdapter.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
         + " FOREIGN KEY (" + C_ID_FEATURE + ")" + " REFERENCES " + T_FEATURES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE"
         + ");";
 }

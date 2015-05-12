@@ -50,4 +50,5 @@
     <string name="frame_text_ref">Ref</string>
     <string name="frame_text_will">Will</string>
     <string name="frame_text_init">Init</string>
+    <string name="selector_label_race">Race:</string>
 </resources>

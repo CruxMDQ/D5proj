@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.db.tables.CharacterClasses;
+import com.callisto.d5proj.db.tables.CharacterClassesAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.tools.DiceRoller;
@@ -27,16 +27,14 @@ import org.codepond.wizardroid.WizardStep;
 
 public class StatAllocationStep extends WizardStep {
 
-    private CharacterClasses dbCharacterClasses;
-
     public StatAllocationStep() { super(); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_stat_edition, container, false);
+        rootView = inflater.inflate(R.layout.fragment_wizard_stat_edition, container, false);
 
-        dbCharacterClasses = new CharacterClasses(this.getActivity());
+        classesAdapter = new CharacterClassesAdapter(this.getActivity());
 
         findComponents(rootView);
 
@@ -254,6 +252,8 @@ public class StatAllocationStep extends WizardStep {
         btnRollNewValues.setVisibility(View.GONE);
         btnResetRolls.setVisibility(View.VISIBLE);
     }
+
+    private CharacterClassesAdapter classesAdapter;
 
     private View rootView;
 

@@ -11,10 +11,14 @@ import java.util.ArrayList;
  */
 public class Race {
 
+    private int id;
     private String name;
+    private Race parent;
     private ArrayList<Pair<BaseStatistic, Integer>> statModifiers;
 
-    public Race() { }
+    public Race() {
+        statModifiers = new ArrayList<>();
+    }
 
     public Race(String name) {
         this.name = name;
@@ -31,5 +35,25 @@ public class Race {
 
     public void addStatMod(Pair<BaseStatistic, Integer> statMod) {
         statModifiers.add(statMod);
+    }
+
+    public ArrayList<Pair<BaseStatistic, Integer>> getStatModifiers() {
+        return statModifiers;
+    }
+
+    public Race getParent() {
+        return parent;
+    }
+
+    public void setParent(Race parent) {
+        this.parent = parent;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

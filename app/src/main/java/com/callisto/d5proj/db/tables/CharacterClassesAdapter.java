@@ -10,8 +10,8 @@ import java.util.ArrayList;
 /**
  * Created by emiliano.desantis on 09/02/2015.
  */
-public class CharacterClasses extends BaseTableAdapter {
-    public CharacterClasses(Context context) {
+public class CharacterClassesAdapter extends BaseTableAdapter {
+    public CharacterClassesAdapter(Context context) {
         super(context);
         this.setManagedTable(T_CHARACTER_CLASSES);
         this.setColumns(new String[]{ C_ID, C_NAME, C_DIE_SIZE, C_SKILLS} );

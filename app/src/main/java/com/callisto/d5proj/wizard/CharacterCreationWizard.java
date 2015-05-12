@@ -1,5 +1,6 @@
 package com.callisto.d5proj.wizard;
 
+import com.callisto.d5proj.wizard.steps.RaceSelectionStep;
 import com.callisto.d5proj.wizard.steps.StatAllocationStep;
 
 import org.codepond.wizardroid.WizardFlow;
@@ -20,6 +21,7 @@ public class CharacterCreationWizard extends BasicWizardLayout {
         setFinishButtonText("Finish");
 
         return new WizardFlow.Builder()
+            .addStep(RaceSelectionStep.class)
             .addStep(StatAllocationStep.class)
             .create();
     }

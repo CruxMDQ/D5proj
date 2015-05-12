@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.pojos.CharacterClass;
+import com.callisto.d5proj.pojos.Race;
 
 import java.util.List;
 
-public class ClassSelectorAdapter extends ArrayAdapter<CharacterClass> {
-    private List<CharacterClass> characterClasses;
+public class RaceSelectorAdapter extends ArrayAdapter<Race> {
+    private List<Race> races;
     private LayoutInflater inflater = null;
 
-    public ClassSelectorAdapter(Context context, List<CharacterClass> items) {
+    public RaceSelectorAdapter(Context context, List<Race> items) {
         super(context, 0, items);
 
-        this.characterClasses = items;
+        this.races = items;
 
         this.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -32,14 +32,14 @@ public class ClassSelectorAdapter extends ArrayAdapter<CharacterClass> {
 
         ViewHolder viewHolder;
 
-        final String name = characterClasses.get(position).getName();
+        final String name = races.get(position).getName();
 
         if (rowView == null){
             rowView = inflater.inflate(R.layout.row_class_selector, parent, false);
 
             viewHolder = new ViewHolder();
 
-            viewHolder.txtClassName = (TextView) rowView.findViewById(R.id.txtClassName);
+            viewHolder.txtRaceName = (TextView) rowView.findViewById(R.id.txtClassName);
 
             rowView.setTag(viewHolder);
         } else {
@@ -48,7 +48,7 @@ public class ClassSelectorAdapter extends ArrayAdapter<CharacterClass> {
             viewHolder = ((ViewHolder) rowView.getTag());
         }
 
-        viewHolder.txtClassName.setText(name);
+        viewHolder.txtRaceName.setText(name);
 
         return rowView;
     }
@@ -58,14 +58,14 @@ public class ClassSelectorAdapter extends ArrayAdapter<CharacterClass> {
 
         ViewHolder viewHolder;
 
-        final String name = characterClasses.get(position).getName();
+        final String name = races.get(position).getName();
 
         if (rowView == null){
-            rowView = inflater.inflate(R.layout.row_class_selector, parent, false);
+            rowView = inflater.inflate(R.layout.row_race_selector, parent, false);
 
             viewHolder = new ViewHolder();
 
-            viewHolder.txtClassName = (TextView) rowView.findViewById(R.id.txtClassName);
+            viewHolder.txtRaceName = (TextView) rowView.findViewById(R.id.txtRaceName);
 
             rowView.setTag(viewHolder);
         } else {
@@ -74,12 +74,12 @@ public class ClassSelectorAdapter extends ArrayAdapter<CharacterClass> {
             viewHolder = ((ViewHolder) rowView.getTag());
         }
 
-        viewHolder.txtClassName.setText(name);
+        viewHolder.txtRaceName.setText(name);
 
         return rowView;
     }
 
     class ViewHolder {
-        TextView txtClassName;
+        TextView txtRaceName;
     }
 }

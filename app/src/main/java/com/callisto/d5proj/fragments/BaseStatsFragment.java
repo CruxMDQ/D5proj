@@ -54,7 +54,7 @@ public class BaseStatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_stat_edition, container, false);
+        rootView = inflater.inflate(R.layout.fragment_wizard_stat_edition, container, false);
 
         findComponents(rootView);
 

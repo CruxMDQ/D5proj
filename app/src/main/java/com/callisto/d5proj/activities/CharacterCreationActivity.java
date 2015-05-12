@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.db.tables.CharacterClasses;
+import com.callisto.d5proj.db.tables.CharacterClassesAdapter;
 import com.callisto.d5proj.db.tables.ExperienceLevels;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.BaseStatsFragment;
@@ -48,7 +48,7 @@ public class CharacterCreationActivity extends ActionBarActivity
     /**
      * Database stuff
      */
-    private CharacterClasses dbCharacterClasses;
+    private CharacterClassesAdapter dbCharacterClasses;
     private ExperienceLevels dbCharacterLevels;
 
     /**
@@ -83,7 +83,7 @@ public class CharacterCreationActivity extends ActionBarActivity
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
         selectClassDFragment = SelectClassDFragment.newInstance(3);
 
-        dbCharacterClasses = new CharacterClasses(this);
+        dbCharacterClasses = new CharacterClassesAdapter(this);
         dbCharacterLevels = new ExperienceLevels(this);
 
 //        parseXML();

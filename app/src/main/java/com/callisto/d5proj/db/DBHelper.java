@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_SCHEME_VERSION);
 
         try {
-            DBUtils.executeSqlScript(context, getWritableDatabase(), "d5proj.sql");
+            DBUtils.executeSqlScript(context, getWritableDatabase(), "d5Proj.sql");
         } catch (IOException e) {
             e.printStackTrace();
         }
