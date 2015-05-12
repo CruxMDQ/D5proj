@@ -1,6 +1,7 @@
 package com.callisto.d5proj.db;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -100,7 +101,8 @@ public class DBUtils {
     }
 
     public static byte[] readAsset(Context context, String filename) throws IOException {
-        InputStream in = context.getResources().getAssets().open(filename);
+        AssetManager assetManager = context.getResources().getAssets();
+        InputStream in = assetManager.open(filename);
         try {
             return readAllBytes(in);
         } finally {
