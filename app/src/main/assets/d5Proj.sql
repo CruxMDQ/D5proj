@@ -281,6 +281,12 @@ CONSTRAINT fk_feat_option FOREIGN KEY (id_choice) REFERENCES Features (_id) ON U
 INSERT INTO "FeatureChoices" VALUES(3,4);
 INSERT INTO "FeatureChoices" VALUES(3,5);
 INSERT INTO "FeatureChoices" VALUES(3,6);
+INSERT INTO "FeatureChoices" VALUES(39,47);
+INSERT INTO "FeatureChoices" VALUES(39,48);
+INSERT INTO "FeatureChoices" VALUES(39,49);
+INSERT INTO "FeatureChoices" VALUES(39,50);
+INSERT INTO "FeatureChoices" VALUES(39,51);
+INSERT INTO "FeatureChoices" VALUES(39,52);
 DROP TABLE IF EXISTS "FeatureLanguages";
 CREATE TABLE FeatureLanguages
 (
@@ -325,6 +331,8 @@ INSERT INTO "FeatureProficiencies" VALUES(21,48);
 INSERT INTO "FeatureProficiencies" VALUES(22,54);
 INSERT INTO "FeatureProficiencies" VALUES(23,39);
 INSERT INTO "FeatureProficiencies" VALUES(24,62);
+INSERT INTO "FeatureProficiencies" VALUES(45,52);
+INSERT INTO "FeatureProficiencies" VALUES(46,60);
 DROP TABLE IF EXISTS "FeatureProficiencyGroups";
 CREATE TABLE FeatureProficiencyGroups
 (
@@ -392,6 +400,20 @@ INSERT INTO "Features" VALUES(35,'Language: infernal',0);
 INSERT INTO "Features" VALUES(36,'Language: primordial',0);
 INSERT INTO "Features" VALUES(37,'Language: sylvan',0);
 INSERT INTO "Features" VALUES(38,'Language: undercommon',0);
+INSERT INTO "Features" VALUES(39,'Increased ability score (half-elf)',1);
+INSERT INTO "Features" VALUES(40,'Fleet of foot',0);
+INSERT INTO "Features" VALUES(41,'Mask of the Wild',0);
+INSERT INTO "Features" VALUES(42,'Cantrip',1);
+INSERT INTO "Features" VALUES(43,'Sunlight Sensitivity',0);
+INSERT INTO "Features" VALUES(44,'Drow magic',0);
+INSERT INTO "Features" VALUES(45,'Proficiency: rapier',0);
+INSERT INTO "Features" VALUES(46,'Proficiency: hand crossbow',0);
+INSERT INTO "Features" VALUES(47,'Increased ability score (Strength)',0);
+INSERT INTO "Features" VALUES(48,'Increased ability score (Dexterity)',0);
+INSERT INTO "Features" VALUES(49,'Increased ability score (Constitution)',0);
+INSERT INTO "Features" VALUES(50,'Increased ability score (Intelligence)',0);
+INSERT INTO "Features" VALUES(51,'Increased ability score (Wisdom)',0);
+INSERT INTO "Features" VALUES(52,'Increased ability score (Charisma)',0);
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions 
 (
@@ -401,6 +423,7 @@ CONSTRAINT fk_feat_fopts FOREIGN KEY (id_feature) REFERENCES Features (_id) ON U
 );
 INSERT INTO "FeaturesWithOptions" VALUES(3,1);
 INSERT INTO "FeaturesWithOptions" VALUES(18,1);
+INSERT INTO "FeaturesWithOptions" VALUES(39,2);
 DROP TABLE IF EXISTS "HigherCastings";
 CREATE TABLE HigherCastings
 (
@@ -784,6 +807,13 @@ INSERT INTO "RacialFeatures" VALUES(24,6,21);
 INSERT INTO "RacialFeatures" VALUES(25,6,22);
 INSERT INTO "RacialFeatures" VALUES(26,6,23);
 INSERT INTO "RacialFeatures" VALUES(27,6,24);
+INSERT INTO "RacialFeatures" VALUES(28,5,42);
+INSERT INTO "RacialFeatures" VALUES(29,6,40);
+INSERT INTO "RacialFeatures" VALUES(30,7,43);
+INSERT INTO "RacialFeatures" VALUES(31,7,44);
+INSERT INTO "RacialFeatures" VALUES(32,7,22);
+INSERT INTO "RacialFeatures" VALUES(33,7,45);
+INSERT INTO "RacialFeatures" VALUES(34,7,46);
 DROP TABLE IF EXISTS "RacialStats";
 CREATE TABLE RacialStats
 (
@@ -1198,7 +1228,7 @@ AND Features._id = RacialFeatures.id_feature;
 CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
 FROM Races, RacialStats
 WHERE Races._id = RacialStats.id_race;
-CREATE VIEW "GetArmors" AS
+CREATE VIEW "GetArmors" AS 
 SELECT Items._id, Items.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Items.weight, Items.cost
 FROM Armors, Equipment, Items
 WHERE Equipment.id_item = Armors._id
@@ -1206,9 +1236,9 @@ AND Items._id = Equipment.id_item;
 CREATE VIEW GetClassSkills AS
 SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
 FROM CharacterClasses, Skills, SkillsPerClass
-WHERE Skills._id = SkillsPerClass.id_skill
+WHERE Skills._id = SkillsPerClass.id_skill 
 AND CharacterClasses._id = SkillsPerClass.id_class;
-CREATE VIEW "GetEffectAOEs" AS
+CREATE VIEW "GetEffectAOEs" AS 
 SELECT
 EffectAOEs.id_effect,
 AreasOfEffect.name,
@@ -1217,7 +1247,7 @@ EffectAOEs.targetsSelf
 FROM
 EffectAOEs
 INNER JOIN AreasOfEffect ON EffectAOEs.id_aoe_type = AreasOfEffect._id;
-CREATE VIEW "GetSpells" AS
+CREATE VIEW "GetSpells" AS 
 SELECT DISTINCT
 Spells._id,
 Spells.name AS spellName,
@@ -1242,3 +1272,144 @@ LEFT JOIN RangedWeapons
 ON RangedWeapons._id = Weapons._id
 WHERE Equipment.id_item = Weapons._id
 AND Items._id = Weapons._id;
+CREATE TRIGGER "insert_effect_aoe" INSTEAD OF INSERT ON "GetEffectAOEs"
+BEGIN
+
+INSERT OR IGNORE INTO AreasOfEffect (name)
+SELECT new.name
+WHERE NOT EXISTS
+(
+SELECT 1 FROM AreasOfEffect
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO EffectAOEs (
+id_aoe_type,
+range,
+targetsSelf)
+SELECT
+AreasOfEffect._id,
+new.range,
+new.targetsSelf
+FROM AreasOfEffect
+WHERE AreasOfEffect.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_armor
+INSTEAD OF INSERT 
+ON GetArmors
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO     Armors (_id, bonus, impairsStealth, requiredStr, maxDexBonus)
+SELECT Items._id, new.bonus, new.impairsStealth, new.requiredStr, new.maxDexBonus
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_tools
+INSTEAD OF INSERT 
+ON GetTools
+
+BEGIN
+
+INSERT OR IGNORE INTO     Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO     Tools (_id)
+SELECT Items._id
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_weapon
+INSTEAD OF INSERT 
+ON GetWeapons
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO Weapons (_id, dice, dieSize, id_damageType)
+SELECT Items._id, new.dice, new.dieSize, new.id_damageType
+FROM Items 
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO RangedWeapons (_id, shortRange, longRange)
+SELECT Items._id, new.shortRange, new.longRange
+FROM Items 
+WHERE new.shortRange NOTNULL 
+AND new.name = Items.name;
+
+END;
+CREATE TRIGGER "insert_spell" INSTEAD OF INSERT ON "GetSpells"
+BEGIN
+
+INSERT OR IGNORE INTO SpellSchools (schoolName)
+SELECT new.schoolName
+WHERE NOT EXISTS
+(
+SELECT 1 FROM SpellSchools
+WHERE schoolName = new.schoolName
+);
+
+INSERT OR IGNORE INTO Spells (
+name, 
+id_school, 
+level, 
+castingTime, 
+isInstantaneous, 
+requiresConcentration, 
+hasVerbalComponent, 
+hasSomaticComponent, 
+hasMaterialComponent,
+detail)
+SELECT 
+new.spellName, 
+SpellSchools._id, 
+new.level, 
+new.castingTime, 
+new.isInstantaneous, 
+new.requiresConcentration, 
+new.hasVerbalComponent, 
+new.hasSomaticComponent, 
+new.hasMaterialComponent,
+new.detail
+FROM SpellSchools
+WHERE SpellSchools.schoolName = new.schoolName;
+
+END;
+CREATE INDEX "IX_Relationship1"
+ON "Spells" ("id_school" ASC);
+CREATE INDEX IX_Relationship3 ON HigherCastings (id_spell_effect);
+CREATE INDEX IX_fk_effect ON SpellEffects (id_effect);
+CREATE INDEX IX_fk_spell ON SpellEffects (id_spell);
