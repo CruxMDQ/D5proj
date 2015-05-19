@@ -15,14 +15,17 @@ public class Race {
     private String name;
     private Race parent;
     private ArrayList<Pair<BaseStatistic, Integer>> statModifiers;
+    private ArrayList<Feature> racialFeatures;
 
     public Race() {
         statModifiers = new ArrayList<>();
+        racialFeatures = new ArrayList<>();
     }
 
     public Race(String name) {
         this.name = name;
         statModifiers = new ArrayList<>();
+        racialFeatures = new ArrayList<>();
     }
 
     public String getName() {
@@ -40,6 +43,10 @@ public class Race {
     public ArrayList<Pair<BaseStatistic, Integer>> getStatModifiers() {
         return statModifiers;
     }
+
+    public void addFeature(Feature feature) { racialFeatures.add(feature); }
+
+    public ArrayList<Feature> getRacialFeatures() { return racialFeatures; }
 
     public Race getParent() {
         return parent;

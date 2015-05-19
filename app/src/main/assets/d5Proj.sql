@@ -287,6 +287,16 @@ INSERT INTO "FeatureChoices" VALUES(39,49);
 INSERT INTO "FeatureChoices" VALUES(39,50);
 INSERT INTO "FeatureChoices" VALUES(39,51);
 INSERT INTO "FeatureChoices" VALUES(39,52);
+INSERT INTO "FeatureChoices" VALUES(60,61);
+INSERT INTO "FeatureChoices" VALUES(60,62);
+INSERT INTO "FeatureChoices" VALUES(60,63);
+INSERT INTO "FeatureChoices" VALUES(60,64);
+INSERT INTO "FeatureChoices" VALUES(60,65);
+INSERT INTO "FeatureChoices" VALUES(60,66);
+INSERT INTO "FeatureChoices" VALUES(60,67);
+INSERT INTO "FeatureChoices" VALUES(60,68);
+INSERT INTO "FeatureChoices" VALUES(60,69);
+INSERT INTO "FeatureChoices" VALUES(60,70);
 DROP TABLE IF EXISTS "FeatureLanguages";
 CREATE TABLE FeatureLanguages
 (
@@ -354,6 +364,21 @@ CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON UPDA
 CONSTRAINT fk_skill FOREIGN KEY (id_skill) REFERENCES Skills (_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 INSERT INTO "FeatureSkills" VALUES(17,13);
+INSERT INTO "FeatureSkills" VALUES(78,16);
+INSERT INTO "FeatureSkills" VALUES(83,1);
+INSERT INTO "FeatureSkills" VALUES(84,2);
+INSERT INTO "FeatureSkills" VALUES(85,3);
+INSERT INTO "FeatureSkills" VALUES(86,5);
+INSERT INTO "FeatureSkills" VALUES(87,4);
+INSERT INTO "FeatureSkills" VALUES(88,6);
+INSERT INTO "FeatureSkills" VALUES(89,7);
+INSERT INTO "FeatureSkills" VALUES(90,8);
+INSERT INTO "FeatureSkills" VALUES(91,9);
+INSERT INTO "FeatureSkills" VALUES(92,10);
+INSERT INTO "FeatureSkills" VALUES(93,11);
+INSERT INTO "FeatureSkills" VALUES(94,12);
+INSERT INTO "FeatureSkills" VALUES(95,14);
+INSERT INTO "FeatureSkills" VALUES(96,15);
 DROP TABLE IF EXISTS "Features";
 CREATE TABLE Features
 (
@@ -361,59 +386,105 @@ _id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
 hasOptions INTEGER NOT NULL DEFAULT 0
         CONSTRAINT chk_feat_bool CHECK (hasOptions IN (0, 1))
-);
-INSERT INTO "Features" VALUES(1,'Darkvision',0);
-INSERT INTO "Features" VALUES(2,'Dwarven Resilience',0);
-INSERT INTO "Features" VALUES(3,'Dwarven tool proficiency',1);
-INSERT INTO "Features" VALUES(4,'Proficiency: smith''s tools',0);
-INSERT INTO "Features" VALUES(5,'Proficiency: brewer''s supplies',0);
-INSERT INTO "Features" VALUES(6,'Proficiency: mason''s tools',0);
-INSERT INTO "Features" VALUES(7,'Stonecunning',0);
-INSERT INTO "Features" VALUES(8,'Language: common',0);
-INSERT INTO "Features" VALUES(9,'Language: dwarven',0);
-INSERT INTO "Features" VALUES(10,'Proficiency: battleaxe',0);
-INSERT INTO "Features" VALUES(11,'Proficiency: handaxe',0);
-INSERT INTO "Features" VALUES(12,'Proficiency: light hammer',0);
-INSERT INTO "Features" VALUES(13,'Proficiency: warhammer',0);
-INSERT INTO "Features" VALUES(14,'Dwarven toughness',0);
-INSERT INTO "Features" VALUES(15,'Proficiency: light armor',0);
-INSERT INTO "Features" VALUES(16,'Proficiency: medium armor',0);
-INSERT INTO "Features" VALUES(17,'Proficiency: skill (Perception)',0);
-INSERT INTO "Features" VALUES(18,'Fey Ancestry',0);
-INSERT INTO "Features" VALUES(19,'Trance',0);
-INSERT INTO "Features" VALUES(20,'Language: elvish',0);
-INSERT INTO "Features" VALUES(21,'Proficiency: longsword',0);
-INSERT INTO "Features" VALUES(22,'Proficiency: shortsword',0);
-INSERT INTO "Features" VALUES(23,'Proficiency: shortbow',0);
-INSERT INTO "Features" VALUES(24,'Proficiency: longbow',0);
-INSERT INTO "Features" VALUES(25,'Extra language',1);
-INSERT INTO "Features" VALUES(26,'Language: giant',0);
-INSERT INTO "Features" VALUES(27,'Language: gnomish',0);
-INSERT INTO "Features" VALUES(28,'Language: goblin',0);
-INSERT INTO "Features" VALUES(29,'Language: halfling',0);
-INSERT INTO "Features" VALUES(30,'Language: orcish',0);
-INSERT INTO "Features" VALUES(31,'Language: abyssal',0);
-INSERT INTO "Features" VALUES(32,'Language: celestial',0);
-INSERT INTO "Features" VALUES(33,'Language: draconic',0);
-INSERT INTO "Features" VALUES(34,'Language: deep speech',0);
-INSERT INTO "Features" VALUES(35,'Language: infernal',0);
-INSERT INTO "Features" VALUES(36,'Language: primordial',0);
-INSERT INTO "Features" VALUES(37,'Language: sylvan',0);
-INSERT INTO "Features" VALUES(38,'Language: undercommon',0);
-INSERT INTO "Features" VALUES(39,'Increased ability score (half-elf)',1);
-INSERT INTO "Features" VALUES(40,'Fleet of foot',0);
-INSERT INTO "Features" VALUES(41,'Mask of the Wild',0);
-INSERT INTO "Features" VALUES(42,'Cantrip',1);
-INSERT INTO "Features" VALUES(43,'Sunlight Sensitivity',0);
-INSERT INTO "Features" VALUES(44,'Drow magic',0);
-INSERT INTO "Features" VALUES(45,'Proficiency: rapier',0);
-INSERT INTO "Features" VALUES(46,'Proficiency: hand crossbow',0);
-INSERT INTO "Features" VALUES(47,'Increased ability score (Strength)',0);
-INSERT INTO "Features" VALUES(48,'Increased ability score (Dexterity)',0);
-INSERT INTO "Features" VALUES(49,'Increased ability score (Constitution)',0);
-INSERT INTO "Features" VALUES(50,'Increased ability score (Intelligence)',0);
-INSERT INTO "Features" VALUES(51,'Increased ability score (Wisdom)',0);
-INSERT INTO "Features" VALUES(52,'Increased ability score (Charisma)',0);
+, "description" TEXT);
+INSERT INTO "Features" VALUES(1,'Darkvision',0,'You have superior vision in dark and dim conditions. You can see in dim light within the specified range as if it were bright light, and in darkness as if it were dim light.');
+INSERT INTO "Features" VALUES(2,'Dwarven Resilience',0,'You have advantage on saving throws against poison, and you have resistance against poison damage.');
+INSERT INTO "Features" VALUES(3,'Dwarven tool proficiency',1,'You gain proficiency with the artisan''s tools of your choice: smith''s tools, brewer''s supplies, or mason''s tools.');
+INSERT INTO "Features" VALUES(4,'Proficiency: smith''s tools',0,'You gain proficiency with smith''s tools.');
+INSERT INTO "Features" VALUES(5,'Proficiency: brewer''s supplies',0,'You gain proficiency with brewer''s supplies.');
+INSERT INTO "Features" VALUES(6,'Proficiency: mason''s tools',0,'You gain proficiency with mason''s tools.');
+INSERT INTO "Features" VALUES(7,'Stonecunning',0,'Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.');
+INSERT INTO "Features" VALUES(8,'Language: common',0,'You can speak, read and write Common.');
+INSERT INTO "Features" VALUES(9,'Language: dwarven',0,'You can speak, read and write Dwarvish. The language is full of hard consonants and guttural sounds, and those characteristics spill over into whatever other language a dwarf might speak.');
+INSERT INTO "Features" VALUES(10,'Proficiency: battleaxe',0,'You have proficiency with the battleaxe.');
+INSERT INTO "Features" VALUES(11,'Proficiency: handaxe',0,'You have proficiency with the handaxe.');
+INSERT INTO "Features" VALUES(12,'Proficiency: light hammer',0,'You have proficiency with the light hammer.');
+INSERT INTO "Features" VALUES(13,'Proficiency: warhammer',0,'You have proficiency with the warhammer.');
+INSERT INTO "Features" VALUES(14,'Dwarven toughness',0,'Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.');
+INSERT INTO "Features" VALUES(15,'Proficiency: light armor',0,'You have proficiency with light armor.');
+INSERT INTO "Features" VALUES(16,'Proficiency: medium armor',0,'You have proficiency with medium armor.');
+INSERT INTO "Features" VALUES(17,'Proficiency: skill (Perception)',0,'You have proficiency with the Perception skill.');
+INSERT INTO "Features" VALUES(18,'Fey Ancestry',0,'You have advantage on saving throws against being charmed, and magic can''t put you to sleep.');
+INSERT INTO "Features" VALUES(19,'Trance',0,'Elves don''t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. While meditating, elves dream in a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, elves gain the same benefit that a human does from 8 hours of sleep.');
+INSERT INTO "Features" VALUES(20,'Language: elvish',0,'You can read, speak and write Elvish. It is fluid, with subtle intonations and intrincate grammar. Elven literature is rich and varied, and their songs and poems are famous among other races. Many bards learn their language so they can add Elvish ballads to their repertoires.');
+INSERT INTO "Features" VALUES(21,'Proficiency: longsword',0,'You have proficiency with the longsword.');
+INSERT INTO "Features" VALUES(22,'Proficiency: shortsword',0,'You have proficiency with the shortsword.');
+INSERT INTO "Features" VALUES(23,'Proficiency: shortbow',0,'You have proficiency with the shortbow.');
+INSERT INTO "Features" VALUES(24,'Proficiency: longbow',0,'You have proficiency with the longbow.');
+INSERT INTO "Features" VALUES(25,'Extra language',1,'You can speak, read and write one extra language of your choice.');
+INSERT INTO "Features" VALUES(26,'Language: giant',0,'You can speak, read and write Giant.');
+INSERT INTO "Features" VALUES(27,'Language: gnomish',0,'You can speak, read and write Gnomish. It uses the Dwarvish script and is renowned for its technical treatises and its catalogs of knowledge about the natural world.');
+INSERT INTO "Features" VALUES(28,'Language: goblin',0,'You can speak, read and write Goblin.');
+INSERT INTO "Features" VALUES(29,'Language: halfling',0,'You can speak, read and write Halfling. It isn''t a secret language, but halflings are loath to share it with others. They write very little, so they don''t have a rich body of literature. Their oral tradition, however, is very strong.');
+INSERT INTO "Features" VALUES(30,'Language: orcish',0,'You can speak, read and write Orc, a harsh, grating language with hard consonants. It has no script of its own but is written in the Dwarvish script.');
+INSERT INTO "Features" VALUES(31,'Language: abyssal',0,'You can speak, read and write Abyssal.');
+INSERT INTO "Features" VALUES(32,'Language: celestial',0,'You can speak, read and write Celestial.');
+INSERT INTO "Features" VALUES(33,'Language: draconic',0,'You can speak, read and write Draconic.');
+INSERT INTO "Features" VALUES(34,'Language: deep speech',0,'You can speak, read and write Deep Speech.');
+INSERT INTO "Features" VALUES(35,'Language: infernal',0,'You can speak, read and write Infernal.');
+INSERT INTO "Features" VALUES(36,'Language: primordial',0,'You can speak, read and write Primordial.');
+INSERT INTO "Features" VALUES(37,'Language: sylvan',0,'You can speak, read and write Sylvan.');
+INSERT INTO "Features" VALUES(38,'Language: undercommon',0,'You can speak, read and write Undercommon.');
+INSERT INTO "Features" VALUES(39,'Increased ability score (2 choices)',1,'Two ability scores of your choice increase by 1.');
+INSERT INTO "Features" VALUES(40,'Fleet of foot',0,'Your base walking speed increases by +5 feet.');
+INSERT INTO "Features" VALUES(41,'Mask of the Wild',0,'You can attempt to hide even when you are only lightly obscored by foliage, heavy rain, falling snow, mist, and other natural phenomena.');
+INSERT INTO "Features" VALUES(42,'Cantrip',1,'You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.');
+INSERT INTO "Features" VALUES(43,'Sunlight Sensitivity',0,'You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.');
+INSERT INTO "Features" VALUES(44,'Drow magic',0,'You know the Dancing Lights cantrip. When you reach 3rd level, you can cast the Faerie Fire spell once per day. When you reach 5th level, you can also cast the Darkness spell once per day. Charisma is your spellcasting ability for these spells.');
+INSERT INTO "Features" VALUES(45,'Proficiency: rapier',0,'You have proficiency with the rapier.');
+INSERT INTO "Features" VALUES(46,'Proficiency: hand crossbow',0,'You have proficiency with the hand crossbow.');
+INSERT INTO "Features" VALUES(47,'Increased ability score (Strength)',0,'Your Strength score increases by 1.');
+INSERT INTO "Features" VALUES(48,'Increased ability score (Dexterity)',0,'Your Dexterity score increases by 1.');
+INSERT INTO "Features" VALUES(49,'Increased ability score (Constitution)',0,'Your Constitution score increases by 1.');
+INSERT INTO "Features" VALUES(50,'Increased ability score (Intelligence)',0,'Your Intelligence score increases by 1.');
+INSERT INTO "Features" VALUES(51,'Increased ability score (Wisdom)',0,'Your Wisdom score increases by 1.');
+INSERT INTO "Features" VALUES(52,'Increased ability score (Charisma)',0,'Your Charisma score increases by 1.');
+INSERT INTO "Features" VALUES(53,'Lucky',0,NULL);
+INSERT INTO "Features" VALUES(54,'Brave',0,NULL);
+INSERT INTO "Features" VALUES(55,'Halfling Nimbleness',0,NULL);
+INSERT INTO "Features" VALUES(56,'Naturally Stealthy',0,NULL);
+INSERT INTO "Features" VALUES(57,'Stout Resilience',0,NULL);
+INSERT INTO "Features" VALUES(58,'Extra feat',1,NULL);
+INSERT INTO "Features" VALUES(59,'Extra skill proficiency',1,NULL);
+INSERT INTO "Features" VALUES(60,'Draconic Ancestry',1,NULL);
+INSERT INTO "Features" VALUES(61,'Draconic Ancestry (Black)',0,NULL);
+INSERT INTO "Features" VALUES(62,'Draconic Ancestry (Blue)',0,NULL);
+INSERT INTO "Features" VALUES(63,'Draconic Ancestry (Brass)',0,NULL);
+INSERT INTO "Features" VALUES(64,'Draconic Ancestry (Bronze)',0,NULL);
+INSERT INTO "Features" VALUES(65,'Draconic Ancestry (Copper)',0,NULL);
+INSERT INTO "Features" VALUES(66,'Draconic Ancestry (Gold)',0,NULL);
+INSERT INTO "Features" VALUES(67,'Draconic Ancestry (Green)',0,NULL);
+INSERT INTO "Features" VALUES(68,'Draconic Ancestry (Red)',0,NULL);
+INSERT INTO "Features" VALUES(69,'Draconic Ancestry (Silver)',0,NULL);
+INSERT INTO "Features" VALUES(70,'Draconic Ancestry (White)',0,NULL);
+INSERT INTO "Features" VALUES(71,'Gnome Cunning',0,NULL);
+INSERT INTO "Features" VALUES(72,'Natural Illusionist',0,NULL);
+INSERT INTO "Features" VALUES(73,'Speak with Small Beasts',0,NULL);
+INSERT INTO "Features" VALUES(74,'Artificer''s Lore',0,NULL);
+INSERT INTO "Features" VALUES(75,'Tinker',0,NULL);
+INSERT INTO "Features" VALUES(76,'Proficiency: artisan''s tools (tinker''s tools)',0,NULL);
+INSERT INTO "Features" VALUES(77,'Skill Versatility',1,NULL);
+INSERT INTO "Features" VALUES(78,'Proficiency: skill (Intimidation)',0,NULL);
+INSERT INTO "Features" VALUES(79,'Relentless Endurance',0,NULL);
+INSERT INTO "Features" VALUES(80,'Savage Attacks',0,NULL);
+INSERT INTO "Features" VALUES(81,'Resistance: fire',0,NULL);
+INSERT INTO "Features" VALUES(82,'Infernal Legacy',0,NULL);
+INSERT INTO "Features" VALUES(83,'Proficiency: skill (Athletics)',0,NULL);
+INSERT INTO "Features" VALUES(84,'Proficiency: skill (Acrobatics)',0,NULL);
+INSERT INTO "Features" VALUES(85,'Proficiency: skill (Sleight of Hand)',0,NULL);
+INSERT INTO "Features" VALUES(86,'Proficiency: skill (Arcana)',0,NULL);
+INSERT INTO "Features" VALUES(87,'Proficiency: skill (Stealth)',0,NULL);
+INSERT INTO "Features" VALUES(88,'Proficiency: skill (History)',0,NULL);
+INSERT INTO "Features" VALUES(89,'Proficiency: skill (Investigation)',0,NULL);
+INSERT INTO "Features" VALUES(90,'Proficiency: skill (Nature)',0,NULL);
+INSERT INTO "Features" VALUES(91,'Proficiency: skill (Religion)',0,NULL);
+INSERT INTO "Features" VALUES(92,'Proficiency: skill (Animal Handling)',0,NULL);
+INSERT INTO "Features" VALUES(93,'Proficiency: skill (Insight)',0,NULL);
+INSERT INTO "Features" VALUES(94,'Proficiency: skill (Medicine)',0,NULL);
+INSERT INTO "Features" VALUES(95,'Proficiency: skill (Survival)',0,NULL);
+INSERT INTO "Features" VALUES(96,'Proficiency: skill (Deception)',0,NULL);
+INSERT INTO "Features" VALUES(97,'Proficiency: skill (Performance)',0,NULL);
+INSERT INTO "Features" VALUES(98,'Proficiency: skill (Persuasion)',0,NULL);
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions 
 (
@@ -424,6 +495,8 @@ CONSTRAINT fk_feat_fopts FOREIGN KEY (id_feature) REFERENCES Features (_id) ON U
 INSERT INTO "FeaturesWithOptions" VALUES(3,1);
 INSERT INTO "FeaturesWithOptions" VALUES(18,1);
 INSERT INTO "FeaturesWithOptions" VALUES(39,2);
+INSERT INTO "FeaturesWithOptions" VALUES(60,1);
+INSERT INTO "FeaturesWithOptions" VALUES(77,2);
 DROP TABLE IF EXISTS "HigherCastings";
 CREATE TABLE HigherCastings
 (
@@ -755,12 +828,24 @@ CONSTRAINT fk_race_size FOREIGN KEY (id_size) REFERENCES Sizes (_id)
 CONSTRAINT fk_parent FOREIGN KEY (id_parent) REFERENCES Races (_id)
 );
 INSERT INTO "Races" VALUES(1,'Dwarf',25,2,NULL,1);
-INSERT INTO "Races" VALUES(2,'Hill Dwarf',25,2,1,0);
-INSERT INTO "Races" VALUES(3,'Mountain Dwarf',25,2,1,0);
+INSERT INTO "Races" VALUES(2,'Dwarf, Hill',25,2,1,0);
+INSERT INTO "Races" VALUES(3,'Dwarf, Mountain',25,2,1,0);
 INSERT INTO "Races" VALUES(4,'Elf',30,2,NULL,1);
-INSERT INTO "Races" VALUES(5,'High Elf',30,2,4,0);
-INSERT INTO "Races" VALUES(6,'Wood Elf',35,2,4,0);
-INSERT INTO "Races" VALUES(7,'Dark Elf (Drow)',30,2,4,0);
+INSERT INTO "Races" VALUES(5,'Elf, High',30,2,4,0);
+INSERT INTO "Races" VALUES(6,'Elf, Wood',35,2,4,0);
+INSERT INTO "Races" VALUES(7,'Elf, Drow',30,2,4,0);
+INSERT INTO "Races" VALUES(8,'Halfling',25,1,NULL,1);
+INSERT INTO "Races" VALUES(9,'Halfling, Lightfoot',25,1,8,0);
+INSERT INTO "Races" VALUES(10,'Halfling, Stout',25,1,8,0);
+INSERT INTO "Races" VALUES(11,'Human',30,2,NULL,1);
+INSERT INTO "Races" VALUES(12,'Human, alternate',30,2,NULL,1);
+INSERT INTO "Races" VALUES(13,'Dragonborn',30,2,NULL,1);
+INSERT INTO "Races" VALUES(14,'Gnome',25,1,NULL,1);
+INSERT INTO "Races" VALUES(15,'Gnome, Forest',25,1,14,0);
+INSERT INTO "Races" VALUES(16,'Gnome, Rock',25,1,14,0);
+INSERT INTO "Races" VALUES(17,'Half-Elf',30,2,NULL,1);
+INSERT INTO "Races" VALUES(18,'Half-Orc',30,2,NULL,1);
+INSERT INTO "Races" VALUES(19,'Tiefling',30,2,NULL,1);
 DROP TABLE IF EXISTS "RacialFeatureValues";
 CREATE TABLE RacialFeatureValues
 (
@@ -771,6 +856,7 @@ CREATE TABLE RacialFeatureValues
 INSERT INTO "RacialFeatureValues" VALUES(1,60);
 INSERT INTO "RacialFeatureValues" VALUES(18,60);
 INSERT INTO "RacialFeatureValues" VALUES(19,120);
+INSERT INTO "RacialFeatureValues" VALUES(45,60);
 DROP TABLE IF EXISTS "RacialFeatures";
 CREATE TABLE RacialFeatures
 (
@@ -814,6 +900,42 @@ INSERT INTO "RacialFeatures" VALUES(31,7,44);
 INSERT INTO "RacialFeatures" VALUES(32,7,22);
 INSERT INTO "RacialFeatures" VALUES(33,7,45);
 INSERT INTO "RacialFeatures" VALUES(34,7,46);
+INSERT INTO "RacialFeatures" VALUES(35,8,53);
+INSERT INTO "RacialFeatures" VALUES(36,8,54);
+INSERT INTO "RacialFeatures" VALUES(37,8,55);
+INSERT INTO "RacialFeatures" VALUES(38,9,56);
+INSERT INTO "RacialFeatures" VALUES(39,10,57);
+INSERT INTO "RacialFeatures" VALUES(40,8,29);
+INSERT INTO "RacialFeatures" VALUES(41,12,39);
+INSERT INTO "RacialFeatures" VALUES(42,12,58);
+INSERT INTO "RacialFeatures" VALUES(43,12,59);
+INSERT INTO "RacialFeatures" VALUES(44,13,60);
+INSERT INTO "RacialFeatures" VALUES(45,14,1);
+INSERT INTO "RacialFeatures" VALUES(46,14,27);
+INSERT INTO "RacialFeatures" VALUES(47,14,71);
+INSERT INTO "RacialFeatures" VALUES(48,15,72);
+INSERT INTO "RacialFeatures" VALUES(49,15,73);
+INSERT INTO "RacialFeatures" VALUES(50,16,74);
+INSERT INTO "RacialFeatures" VALUES(51,16,75);
+INSERT INTO "RacialFeatures" VALUES(52,16,76);
+INSERT INTO "RacialFeatures" VALUES(53,17,39);
+INSERT INTO "RacialFeatures" VALUES(54,17,1);
+INSERT INTO "RacialFeatures" VALUES(55,17,18);
+INSERT INTO "RacialFeatures" VALUES(56,17,77);
+INSERT INTO "RacialFeatures" VALUES(57,17,20);
+INSERT INTO "RacialFeatures" VALUES(58,18,1);
+INSERT INTO "RacialFeatures" VALUES(59,18,78);
+INSERT INTO "RacialFeatures" VALUES(60,18,79);
+INSERT INTO "RacialFeatures" VALUES(61,18,80);
+INSERT INTO "RacialFeatures" VALUES(62,19,81);
+INSERT INTO "RacialFeatures" VALUES(63,19,82);
+INSERT INTO "RacialFeatures" VALUES(64,4,8);
+INSERT INTO "RacialFeatures" VALUES(65,8,8);
+INSERT INTO "RacialFeatures" VALUES(66,11,8);
+INSERT INTO "RacialFeatures" VALUES(67,14,8);
+INSERT INTO "RacialFeatures" VALUES(68,17,8);
+INSERT INTO "RacialFeatures" VALUES(69,18,8);
+INSERT INTO "RacialFeatures" VALUES(70,19,8);
 DROP TABLE IF EXISTS "RacialStats";
 CREATE TABLE RacialStats
 (
@@ -831,6 +953,25 @@ INSERT INTO "RacialStats" VALUES(4,4,'DEX',2);
 INSERT INTO "RacialStats" VALUES(5,6,'WIS',1);
 INSERT INTO "RacialStats" VALUES(6,7,'CHA',1);
 INSERT INTO "RacialStats" VALUES(7,5,'INT',1);
+INSERT INTO "RacialStats" VALUES(8,8,'DEX',2);
+INSERT INTO "RacialStats" VALUES(9,9,'CHA',1);
+INSERT INTO "RacialStats" VALUES(10,10,'CON',1);
+INSERT INTO "RacialStats" VALUES(11,11,'STR',1);
+INSERT INTO "RacialStats" VALUES(12,11,'DEX',1);
+INSERT INTO "RacialStats" VALUES(13,11,'CON',1);
+INSERT INTO "RacialStats" VALUES(14,11,'INT',1);
+INSERT INTO "RacialStats" VALUES(15,11,'WIS',1);
+INSERT INTO "RacialStats" VALUES(16,11,'CHA',1);
+INSERT INTO "RacialStats" VALUES(17,13,'STR',2);
+INSERT INTO "RacialStats" VALUES(18,13,'CHA',1);
+INSERT INTO "RacialStats" VALUES(19,14,'INT',2);
+INSERT INTO "RacialStats" VALUES(20,15,'DEX',1);
+INSERT INTO "RacialStats" VALUES(21,16,'CON',1);
+INSERT INTO "RacialStats" VALUES(22,17,'CHA',2);
+INSERT INTO "RacialStats" VALUES(23,18,'STR',2);
+INSERT INTO "RacialStats" VALUES(24,18,'CON',1);
+INSERT INTO "RacialStats" VALUES(25,19,'INT',1);
+INSERT INTO "RacialStats" VALUES(26,19,'CHA',2);
 DROP TABLE IF EXISTS "RangedWeapons";
 CREATE TABLE RangedWeapons
 (
@@ -1220,6 +1361,11 @@ FROM Items, Features
 JOIN FeatureProficiencies
 WHERE Items._id = FeatureProficiencies.id_equipment
 AND Features._id = FeatureProficiencies.id_feature;
+CREATE VIEW CheckFeatureSkills AS SELECT DISTINCT Skills.name AS Skill, Features.name AS Feature
+FROM Features, Skills
+JOIN FeatureSkills
+WHERE Skills._id = FeatureSkills.id_skill
+AND Features._id = FeatureSkills.id_feature;
 CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
 FROM Races, Features
 JOIN RacialFeatures
