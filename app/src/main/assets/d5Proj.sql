@@ -388,7 +388,8 @@ hasOptions INTEGER NOT NULL DEFAULT 0
         CONSTRAINT chk_feat_bool CHECK (hasOptions IN (0, 1))
 , "description" TEXT);
 INSERT INTO "Features" VALUES(1,'Darkvision',0,'You have superior vision in dark and dim conditions. You can see in dim light within the specified range as if it were bright light, and in darkness as if it were dim light.');
-INSERT INTO "Features" VALUES(2,'Dwarven Resilience',0,'You have advantage on saving throws against poison, and you have resistance against poison damage.');
+INSERT INTO "Features" VALUES(2,'
+Resilience',0,'You have advantage on saving throws against poison, and you have resistance against poison damage.');
 INSERT INTO "Features" VALUES(3,'Dwarven tool proficiency',1,'You gain proficiency with the artisan''s tools of your choice: smith''s tools, brewer''s supplies, or mason''s tools.');
 INSERT INTO "Features" VALUES(4,'Proficiency: smith''s tools',0,'You gain proficiency with smith''s tools.');
 INSERT INTO "Features" VALUES(5,'Proficiency: brewer''s supplies',0,'You gain proficiency with brewer''s supplies.');
@@ -439,14 +440,14 @@ INSERT INTO "Features" VALUES(49,'Increased ability score (Constitution)',0,'You
 INSERT INTO "Features" VALUES(50,'Increased ability score (Intelligence)',0,'Your Intelligence score increases by 1.');
 INSERT INTO "Features" VALUES(51,'Increased ability score (Wisdom)',0,'Your Wisdom score increases by 1.');
 INSERT INTO "Features" VALUES(52,'Increased ability score (Charisma)',0,'Your Charisma score increases by 1.');
-INSERT INTO "Features" VALUES(53,'Lucky',0,NULL);
-INSERT INTO "Features" VALUES(54,'Brave',0,NULL);
-INSERT INTO "Features" VALUES(55,'Halfling Nimbleness',0,NULL);
-INSERT INTO "Features" VALUES(56,'Naturally Stealthy',0,NULL);
-INSERT INTO "Features" VALUES(57,'Stout Resilience',0,NULL);
-INSERT INTO "Features" VALUES(58,'Extra feat',1,NULL);
-INSERT INTO "Features" VALUES(59,'Extra skill proficiency',1,NULL);
-INSERT INTO "Features" VALUES(60,'Draconic Ancestry',1,NULL);
+INSERT INTO "Features" VALUES(53,'Lucky',0,'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.');
+INSERT INTO "Features" VALUES(54,'Brave',0,'You have advantage on saving throws against being frightened.');
+INSERT INTO "Features" VALUES(55,'Halfling Nimbleness',0,'You can move through the space of any creature that is of a size larger than yours.');
+INSERT INTO "Features" VALUES(56,'Naturally Stealthy',0,'You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.');
+INSERT INTO "Features" VALUES(57,'Stout Resilience',0,'You have advantage on saving throws against poison, and you have resistance against poison damage.');
+INSERT INTO "Features" VALUES(58,'Extra feat',1,'You gain one feat of your choice.');
+INSERT INTO "Features" VALUES(59,'Extra skill proficiency',1,'You gain proficiency in one skill of your choice.');
+INSERT INTO "Features" VALUES(60,'Draconic Ancestry',1,'Choose one type of dragon. Your breath weapon and damage resistance are determined by the dragon type.');
 INSERT INTO "Features" VALUES(61,'Draconic Ancestry (Black)',0,NULL);
 INSERT INTO "Features" VALUES(62,'Draconic Ancestry (Blue)',0,NULL);
 INSERT INTO "Features" VALUES(63,'Draconic Ancestry (Brass)',0,NULL);
@@ -457,16 +458,16 @@ INSERT INTO "Features" VALUES(67,'Draconic Ancestry (Green)',0,NULL);
 INSERT INTO "Features" VALUES(68,'Draconic Ancestry (Red)',0,NULL);
 INSERT INTO "Features" VALUES(69,'Draconic Ancestry (Silver)',0,NULL);
 INSERT INTO "Features" VALUES(70,'Draconic Ancestry (White)',0,NULL);
-INSERT INTO "Features" VALUES(71,'Gnome Cunning',0,NULL);
-INSERT INTO "Features" VALUES(72,'Natural Illusionist',0,NULL);
-INSERT INTO "Features" VALUES(73,'Speak with Small Beasts',0,NULL);
-INSERT INTO "Features" VALUES(74,'Artificer''s Lore',0,NULL);
-INSERT INTO "Features" VALUES(75,'Tinker',0,NULL);
-INSERT INTO "Features" VALUES(76,'Proficiency: artisan''s tools (tinker''s tools)',0,NULL);
-INSERT INTO "Features" VALUES(77,'Skill Versatility',1,NULL);
-INSERT INTO "Features" VALUES(78,'Proficiency: skill (Intimidation)',0,NULL);
-INSERT INTO "Features" VALUES(79,'Relentless Endurance',0,NULL);
-INSERT INTO "Features" VALUES(80,'Savage Attacks',0,NULL);
+INSERT INTO "Features" VALUES(71,'Gnome Cunning',0,'You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.');
+INSERT INTO "Features" VALUES(72,'Natural Illusionist',0,'You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.');
+INSERT INTO "Features" VALUES(73,'Speak with Small Beasts',0,'Through sounds and small gestures, you can communicate simple ideas with Small or smaller beasts.');
+INSERT INTO "Features" VALUES(74,'Artificer''s Lore',0,'Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.');
+INSERT INTO "Features" VALUES(75,'Tinker',0,'You can use artisan''s tools (tinker tools) and spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device.');
+INSERT INTO "Features" VALUES(76,'Proficiency: artisan''s tools (tinker''s tools)',0,'You gain proficiency with artisan''s tools (tinker''s tools).');
+INSERT INTO "Features" VALUES(77,'Skill Versatility',1,'You gain proficiency in two skills of your choice.');
+INSERT INTO "Features" VALUES(78,'Proficiency: skill (Intimidation)',0,'You gain proficiency in the Intimidation skill.');
+INSERT INTO "Features" VALUES(79,'Relentless Endurance',0,'When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can''t use this feature again until you finish a long rest.');
+INSERT INTO "Features" VALUES(80,'Savage Attacks',0,'When you score a critical hit with a melee weapon attack, you can roll one of the weapon''s damage dice one additional time and add it to the extra damage of the critical hit.');
 INSERT INTO "Features" VALUES(81,'Resistance: fire',0,NULL);
 INSERT INTO "Features" VALUES(82,'Infernal Legacy',0,NULL);
 INSERT INTO "Features" VALUES(83,'Proficiency: skill (Athletics)',0,NULL);
@@ -485,6 +486,8 @@ INSERT INTO "Features" VALUES(95,'Proficiency: skill (Survival)',0,NULL);
 INSERT INTO "Features" VALUES(96,'Proficiency: skill (Deception)',0,NULL);
 INSERT INTO "Features" VALUES(97,'Proficiency: skill (Performance)',0,NULL);
 INSERT INTO "Features" VALUES(98,'Proficiency: skill (Persuasion)',0,NULL);
+INSERT INTO "Features" VALUES(99,'Breath weapon (dragonborn)',0,'You can use your action to exhale destructive energy. Each creature in the area of the exhalation must make a saving throw (DC 8 + Constitution modifier + proficiency bonus). You can''t use your breath weapon again until you complete a short or long rest.');
+INSERT INTO "Features" VALUES(100,'Damage Resistance',1,'You have damage resistance to the chosen damage type.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions 
 (
@@ -936,6 +939,7 @@ INSERT INTO "RacialFeatures" VALUES(67,14,8);
 INSERT INTO "RacialFeatures" VALUES(68,17,8);
 INSERT INTO "RacialFeatures" VALUES(69,18,8);
 INSERT INTO "RacialFeatures" VALUES(70,19,8);
+INSERT INTO "RacialFeatures" VALUES(71,13,99);
 DROP TABLE IF EXISTS "RacialStats";
 CREATE TABLE RacialStats
 (
