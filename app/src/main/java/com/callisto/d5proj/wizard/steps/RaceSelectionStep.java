@@ -71,11 +71,15 @@ public class RaceSelectionStep extends WizardStep {
 
                 if (race.getParent() != null) {
                     populateRaceModifiers(race.getParent());
+                    populateRacialAbilities(race.getParent());
                 }
+
+                populateRacialAbilities(race);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) { }
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
     }
 
@@ -91,6 +95,22 @@ public class RaceSelectionStep extends WizardStep {
             textView.setText("+" + statMod.second.toString()
                 + " " + statMod.first.toString());
             textView.setTextColor(Color.BLACK);
+
+            containerRaceStats.addView(textView);
+        }
+    }
+
+    private void populateRacialAbilities(Race race) {
+        Iterator<Feature> I = race.getRacialFeatures().iterator();
+
+        while (I.hasNext()) {
+            Feature f = I.next();
+
+            TextView textView = new TextView(getActivity().getBaseContext());
+            textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setTextColor(Color.BLACK);
+            textView.setText(f.getName());
 
             containerRaceStats.addView(textView);
         }

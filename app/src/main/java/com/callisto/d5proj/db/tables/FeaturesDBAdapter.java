@@ -39,6 +39,8 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
             feature.setName(features.getString(features.getColumnIndexOrThrow(C_NAME)));
             feature.setHasChoices(features.getInt(features.getColumnIndexOrThrow(C_HAS_OPTIONS)) == 1);
             feature.setDescription(features.getString(features.getColumnIndexOrThrow(C_DESCRIPTION)));
+
+            result.add(feature);
         }
 
         return result;

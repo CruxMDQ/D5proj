@@ -3,7 +3,7 @@ package com.callisto.d5proj.db.tables;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.util.Pair;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.pojos.Feature;
@@ -37,7 +37,6 @@ public class RacesDBAdapter extends BaseTableAdapter {
         racialFeaturesDBAdapter = new RacialFeaturesDBAdapter(context);
         this.setManagedTable(T_RACES);
         this.setColumns(new String[]{C_ID, C_NAME, C_SPEED, C_ID_SIZE, C_ID_PARENT, C_IS_ARCHETYPE});
-        races = getAllRaces();
     }
 
     public ArrayList<Race> getAllRaces() {
@@ -88,7 +87,7 @@ public class RacesDBAdapter extends BaseTableAdapter {
             try {
                 race.setRacialFeatures(racialFeaturesDBAdapter.getRacialFeatures(raceId));
             } catch (NullPointerException e) {
-                Toast.makeText(context, "Features list not loaded!", Toast.LENGTH_SHORT);
+                Log.e(this.getClass().toString(), "Feature list not loaded!");
             }
             result.add(race);
         }
@@ -102,6 +101,7 @@ public class RacesDBAdapter extends BaseTableAdapter {
 
     public void setFeatureList(List<Feature> featureList) {
         this.featureList = featureList;
+        racialFeaturesDBAdapter.featureList = featureList;
     }
 
     public List<Feature> getFeatureList() {
