@@ -20,6 +20,7 @@ import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 
 import org.codepond.wizardroid.WizardStep;
+import org.codepond.wizardroid.persistence.ContextVariable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,9 @@ import java.util.List;
  * Created by emiliano.desantis on 11/05/2015.
  */
 public class RaceSelectionStep extends WizardStep {
+
+    @ContextVariable
+    Race race;
 
     public RaceSelectionStep() {
     }
@@ -65,15 +69,9 @@ public class RaceSelectionStep extends WizardStep {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 containerRaceStats.removeAllViewsInLayout();
 
-                Race race = (Race) spinnerSelectRace.getSelectedItem();
+                race = (Race) spinnerSelectRace.getSelectedItem();
 
                 populateRaceModifiers(race);
-
-                if (race.getParent() != null) {
-                    populateRaceModifiers(race.getParent());
-                    populateRacialAbilities(race.getParent());
-                }
-
                 populateRacialAbilities(race);
             }
 

@@ -5,6 +5,8 @@ import android.support.v4.util.Pair;
 import com.callisto.d5proj.enums.BaseStatistic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by emiliano.desantis on 08/05/2015.
@@ -41,14 +43,37 @@ public class Race {
     }
 
     public ArrayList<Pair<BaseStatistic, Integer>> getStatModifiers() {
-        return statModifiers;
+        if (parent == null) return statModifiers;
+        else {
+            ArrayList<Pair<BaseStatistic, Integer>> result = new ArrayList<>();
+
+            result.addAll(statModifiers);
+            result.addAll(parent.getStatModifiers());
+
+            return result;
+        }
     }
 
     public void setRacialFeatures(ArrayList<Feature> racialFeatures) {
         this.racialFeatures = racialFeatures;
+
+        sortFeatures(racialFeatures);
     }
 
-    public ArrayList<Feature> getRacialFeatures() { return racialFeatures; }
+    public ArrayList<Feature> getRacialFeatures() {
+        if (parent == null) {
+            return racialFeatures;
+        } else {
+            ArrayList<Feature> result = new ArrayList<>();
+
+            result.addAll(racialFeatures);
+            result.addAll(parent.getRacialFeatures());
+
+            sortFeatures(result);
+
+            return result;
+        }
+    }
 
     public Race getParent() {
         return parent;
@@ -64,5 +89,14 @@ public class Race {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    private void sortFeatures(ArrayList<Feature> racialFeatures) {
+        Collections.sort(racialFeatures, new Comparator<Feature>() {
+            @Override
+            public int compare(Feature f1, Feature f2) {
+                return f1.getName().compareToIgnoreCase(f2.getName());
+            }
+        });
     }
 }

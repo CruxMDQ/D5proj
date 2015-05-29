@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.callisto.d5proj.R;
 
 /**
- * Widget using on stat rolling fragment.
+ * Widget used on stat rolling fragment.
  * Created by emiliano.desantis on 05/02/2015.
  */
 public class EditableStatBox extends LinearLayout{
@@ -24,6 +24,8 @@ public class EditableStatBox extends LinearLayout{
 
         setAttributeName(aAttrs.getString(R.styleable.StatBox_attributeName));
         setAttributeValue(aAttrs.getInteger(R.styleable.StatBox_attributeValue, 0));
+        setMinimumValue(aAttrs.getInteger(R.styleable.StatBox_minimumValue, R.integer.MINIMUM_CHAR_STARTING_STAT));
+        setMaximumValue(aAttrs.getInteger(R.styleable.StatBox_maximumValue, R.integer.MAXIMUM_CHAR_STARTING_STAT));
 
         aAttrs.recycle();
 
@@ -97,6 +99,22 @@ public class EditableStatBox extends LinearLayout{
         this.attributeValue = attributeValue;
     }
 
+    public int getMaximumValue() {
+        return maximumValue;
+    }
+
+    public void setMaximumValue(int maximumValue) {
+        this.maximumValue = maximumValue;
+    }
+
+    public int getMinimumValue() {
+        return minimumValue;
+    }
+
+    public void setMinimumValue(int minimumValue) {
+        this.minimumValue = minimumValue;
+    }
+
     public void reset() {
         setAttributeValue(0);
         getTxtAttributeValue().setText(String.valueOf(getAttributeValue()));
@@ -111,6 +129,9 @@ public class EditableStatBox extends LinearLayout{
             padEditStats.setVisibility(View.VISIBLE);
         }
     }
+
+    int minimumValue;
+    int maximumValue;
 
     private TextView txtAttributeName;
     private TextView txtAttributeValue;

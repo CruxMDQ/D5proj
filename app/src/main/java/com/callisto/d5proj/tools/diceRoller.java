@@ -12,6 +12,14 @@ public class DiceRoller {
 
     static private Random mRand = new Random();
 
+    static public int rollDice(int dice, int size, int discard, int modifier) {
+        int total = rollDice(dice, size, discard);
+
+        total += modifier;
+
+        return total;
+    }
+
     static public int rollDice(int dice, int size, int discard) {
         int total = 0;
 

@@ -20,12 +20,17 @@ import com.callisto.d5proj.R;
 import com.callisto.d5proj.db.tables.CharacterClassesAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
+import com.callisto.d5proj.pojos.Race;
 import com.callisto.d5proj.tools.DiceRoller;
 import com.callisto.d5proj.widgets.EditableStatBox;
 
 import org.codepond.wizardroid.WizardStep;
+import org.codepond.wizardroid.persistence.ContextVariable;
 
 public class StatAllocationStep extends WizardStep {
+
+    @ContextVariable
+    Race race;
 
     public StatAllocationStep() { super(); }
 
