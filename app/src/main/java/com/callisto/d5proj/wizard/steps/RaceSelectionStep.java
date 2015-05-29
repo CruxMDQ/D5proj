@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.RaceSelectorAdapter;
+import com.callisto.d5proj.db.tables.FeaturesDBAdapter;
 import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
+import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 
 import org.codepond.wizardroid.WizardStep;
@@ -36,7 +38,15 @@ public class RaceSelectionStep extends WizardStep {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
 
+        featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
+
         racesDBAdapter = new RacesDBAdapter(this.getActivity());
+
+        features = featuresDBAdapter.getAllFeatures();
+
+        racesDBAdapter.setFeatureList(features);
+
+        races = racesDBAdapter.getAllRaces();
 
         findComponents(rootView);
 
@@ -47,8 +57,6 @@ public class RaceSelectionStep extends WizardStep {
         spinnerSelectRace = (Spinner) rootView.findViewById(R.id.spinnerSelectRace);
 
         containerRaceStats = (LinearLayout) rootView.findViewById(R.id.containerRaceStats);
-
-        races = racesDBAdapter.getAllRaces();
 
         spinnerSelectRace.setAdapter(new RaceSelectorAdapter(getActivity().getBaseContext(), races));
 
@@ -72,10 +80,10 @@ public class RaceSelectionStep extends WizardStep {
     }
 
     private void populateRaceModifiers(Race race) {
-        Iterator I = race.getStatModifiers().iterator();
+        Iterator<Pair<BaseStatistic, Integer>> I = race.getStatModifiers().iterator();
 
         while (I.hasNext()) {
-            Pair<BaseStatistic, Integer> statMod = (Pair<BaseStatistic, Integer>) I.next();
+            Pair<BaseStatistic, Integer> statMod = I.next();
 
             TextView textView = new TextView(getActivity().getBaseContext());
             textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -96,5 +104,8 @@ public class RaceSelectionStep extends WizardStep {
 
     private RacesDBAdapter racesDBAdapter;
 
+    private FeaturesDBAdapter featuresDBAdapter;
+
     List<Race> races;
+    List<Feature> features;
 }

@@ -44,7 +44,9 @@ public class Race {
         return statModifiers;
     }
 
-    public void addFeature(Feature feature) { racialFeatures.add(feature); }
+    public void setRacialFeatures(ArrayList<Feature> racialFeatures) {
+        this.racialFeatures = racialFeatures;
+    }
 
     public ArrayList<Feature> getRacialFeatures() { return racialFeatures; }
 

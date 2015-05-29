@@ -138,6 +138,16 @@ CREATE TABLE DamageTypes
 INSERT INTO "DamageTypes" VALUES(1,'Bludgeoning');
 INSERT INTO "DamageTypes" VALUES(2,'Piercing');
 INSERT INTO "DamageTypes" VALUES(3,'Slashing');
+INSERT INTO "DamageTypes" VALUES(4,'Acid');
+INSERT INTO "DamageTypes" VALUES(5,'Cold');
+INSERT INTO "DamageTypes" VALUES(6,'Fire');
+INSERT INTO "DamageTypes" VALUES(7,'Force');
+INSERT INTO "DamageTypes" VALUES(8,'Lightning');
+INSERT INTO "DamageTypes" VALUES(9,'Necrotic');
+INSERT INTO "DamageTypes" VALUES(10,'Poison');
+INSERT INTO "DamageTypes" VALUES(11,'Psychic');
+INSERT INTO "DamageTypes" VALUES(12,'Radiant');
+INSERT INTO "DamageTypes" VALUES(13,'Thunder');
 DROP TABLE IF EXISTS "EffectAOEs";
 CREATE TABLE EffectAOEs
 (
@@ -354,6 +364,28 @@ CREATE TABLE FeatureProficiencyGroups
 );
 INSERT INTO "FeatureProficiencyGroups" VALUES(15,1);
 INSERT INTO "FeatureProficiencyGroups" VALUES(16,2);
+DROP TABLE IF EXISTS "FeatureResistances";
+CREATE TABLE FeatureResistances
+(
+  id_feature INTEGER NOT NULL,
+  id_damageType INTEGER NOT NULL,
+  CONSTRAINT pk_feature_resistances PRIMARY KEY (id_feature ,id_damageType),
+  CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Feature (_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_resistance FOREIGN KEY (id_damageType) REFERENCES DamageTypes(_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO "FeatureResistances" VALUES(1,101);
+INSERT INTO "FeatureResistances" VALUES(2,102);
+INSERT INTO "FeatureResistances" VALUES(3,103);
+INSERT INTO "FeatureResistances" VALUES(4,104);
+INSERT INTO "FeatureResistances" VALUES(5,105);
+INSERT INTO "FeatureResistances" VALUES(6,106);
+INSERT INTO "FeatureResistances" VALUES(7,107);
+INSERT INTO "FeatureResistances" VALUES(8,108);
+INSERT INTO "FeatureResistances" VALUES(9,109);
+INSERT INTO "FeatureResistances" VALUES(10,110);
+INSERT INTO "FeatureResistances" VALUES(11,111);
+INSERT INTO "FeatureResistances" VALUES(12,112);
+INSERT INTO "FeatureResistances" VALUES(13,113);
 DROP TABLE IF EXISTS "FeatureSkills";
 CREATE TABLE FeatureSkills
 (
@@ -488,6 +520,19 @@ INSERT INTO "Features" VALUES(97,'Proficiency: skill (Performance)',0,NULL);
 INSERT INTO "Features" VALUES(98,'Proficiency: skill (Persuasion)',0,NULL);
 INSERT INTO "Features" VALUES(99,'Breath weapon (dragonborn)',0,'You can use your action to exhale destructive energy. Each creature in the area of the exhalation must make a saving throw (DC 8 + Constitution modifier + proficiency bonus). You can''t use your breath weapon again until you complete a short or long rest.');
 INSERT INTO "Features" VALUES(100,'Damage Resistance',1,'You have damage resistance to the chosen damage type.');
+INSERT INTO "Features" VALUES(101,'Damage Resistance: Bludgeoning',0,'You are resistant to Bludgeoning damage.');
+INSERT INTO "Features" VALUES(102,'Damage Resistance: Piercing',0,'You are resistant to Piercing damage.');
+INSERT INTO "Features" VALUES(103,'Damage Resistance: Slashing',0,'You are resistant to Slashing damage.');
+INSERT INTO "Features" VALUES(104,'Damage Resistance: Acid',0,'You are resistant to Acid damage.');
+INSERT INTO "Features" VALUES(105,'Damage Resistance: Cold',0,'You are resistant to Cold damage.');
+INSERT INTO "Features" VALUES(106,'Damage Resistance: Fire',0,'You are resistant to Fire damage.');
+INSERT INTO "Features" VALUES(107,'Damage Resistance: Force',0,'You are resistant to Force damage.');
+INSERT INTO "Features" VALUES(108,'Damage Resistance: Lightning',0,'You are resistant to Lightning damage.');
+INSERT INTO "Features" VALUES(109,'Damage Resistance: Necrotic',0,'You are resistant to Necrotic damage.');
+INSERT INTO "Features" VALUES(110,'Damage Resistance: Poison',0,'You are resistant to Poison damage.');
+INSERT INTO "Features" VALUES(111,'Damage Resistance: Psychic',0,'You are resistant to Psychic damage.');
+INSERT INTO "Features" VALUES(112,'Damage Resistance: Radiant',0,'You are resistant to Radiant damage.');
+INSERT INTO "Features" VALUES(113,'Damage Resistance: Thunder',0,'You are resistant to Thunder damage.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions 
 (

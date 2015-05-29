@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Feature {
 
+    private int id;
     private String name;
     private String description;
     private boolean hasChoices;
@@ -50,5 +51,13 @@ public class Feature {
         } else {
             return null;
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

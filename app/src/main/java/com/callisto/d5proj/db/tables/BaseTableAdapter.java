@@ -71,10 +71,8 @@ public abstract class BaseTableAdapter {
             open();
         }
 
-        Cursor c = db.query(true, this.getManagedTable(), columns, null, null,
+        return db.query(true, this.getManagedTable(), columns, null, null,
             null, null, null, null);
-
-        return c;
     }
 
     /**
@@ -83,10 +81,9 @@ public abstract class BaseTableAdapter {
      * @throws SQLException
      */
     public Cursor getCursor(String filter) throws SQLException {
-        Cursor c = db.query(true, this.getManagedTable(), columns, filter,
-            null, null, null, null, null);
 
-        return c;
+        return db.query(true, this.getManagedTable(), columns, filter,
+            null, null, null, null, null);
     }
 
     public long getId(String filter) {

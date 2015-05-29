@@ -6,7 +6,7 @@ import java.util.List;
  * Created by emiliano.desantis on 02/09/2014.
  */
 public class CreatureType {
-    protected static enum Rating {
+    protected enum Rating {
         BAD, AVERAGE, GOOD
     }
 
