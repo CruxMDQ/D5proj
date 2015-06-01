@@ -13,7 +13,7 @@ import com.callisto.d5proj.R;
  */
 public abstract class TitledValueWidget extends LinearLayout {
     private TextView txtAttributeName;
-    private TextView txtAttributeValue;
+    private TextView txtAttributeRoll;
     private String attributeName;
     private int attributeValue;
 
@@ -24,14 +24,14 @@ public abstract class TitledValueWidget extends LinearLayout {
             .obtainStyledAttributes(attrs, R.styleable.StatBox, 0, 0);
 
         setAttributeName(aAttrs.getString(R.styleable.StatBox_attributeName));
-        setAttributeValue(aAttrs.getInteger(R.styleable.StatBox_attributeValue, 0));
+        setAttributeValue(aAttrs.getInteger(R.styleable.StatBox_attributeRoll, 0));
 
         aAttrs.recycle();
 
         inflateLayout();
 
         getTxtAttributeName().setText(getAttributeName());
-        getTxtAttributeValue().setText(String.valueOf(getAttributeValue()));
+        getTxtAttributeRoll().setText(String.valueOf(getAttributeValue()));
     }
 
     public TextView getTxtAttributeName() {
@@ -42,12 +42,12 @@ public abstract class TitledValueWidget extends LinearLayout {
         this.txtAttributeName = txtAttributeName;
     }
 
-    public TextView getTxtAttributeValue() {
-        return txtAttributeValue;
+    public TextView getTxtAttributeRoll() {
+        return txtAttributeRoll;
     }
 
-    public void setTxtAttributeValue(TextView txtAttributeValue) {
-        this.txtAttributeValue = txtAttributeValue;
+    public void setTxtAttributeRoll(TextView txtAttributeRoll) {
+        this.txtAttributeRoll = txtAttributeRoll;
     }
 
     public String getAttributeName() {
@@ -64,8 +64,8 @@ public abstract class TitledValueWidget extends LinearLayout {
 
     public void setAttributeValue(int attributeValue) {
         this.attributeValue = attributeValue;
-        if (getTxtAttributeValue() != null) {
-            getTxtAttributeValue().setText(String.valueOf(attributeValue));
+        if (getTxtAttributeRoll() != null) {
+            getTxtAttributeRoll().setText(String.valueOf(attributeValue));
         }
     }
 
@@ -73,7 +73,7 @@ public abstract class TitledValueWidget extends LinearLayout {
         inflate(this.getContext(), getLayout(), this);
 
         setTxtAttributeName((TextView) findViewById(R.id.txtAttributeName));
-        setTxtAttributeValue((TextView) findViewById(R.id.txtAttributeValue));
+        setTxtAttributeRoll((TextView) findViewById(R.id.txtAttributeRoll));
     }
 
     protected abstract int getLayout();

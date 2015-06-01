@@ -4,6 +4,7 @@ import com.callisto.d5proj.wizard.steps.RaceSelectionStep;
 import com.callisto.d5proj.wizard.steps.StatAllocationStep;
 
 import org.codepond.wizardroid.WizardFlow;
+import org.codepond.wizardroid.WizardStep;
 import org.codepond.wizardroid.layouts.BasicWizardLayout;
 
 /**
@@ -24,5 +25,15 @@ public class CharacterCreationWizard extends BasicWizardLayout {
             .addStep(RaceSelectionStep.class)
             .addStep(StatAllocationStep.class)
             .create();
+    }
+
+    @Override
+    public void onStepChanged() {
+        super.onStepChanged();
+        WizardStep step = wizard.getCurrentStep();
+
+        if (step instanceof StatAllocationStep) {
+            ((StatAllocationStep) step).getRaceFromPrefs();
+        }
     }
 }

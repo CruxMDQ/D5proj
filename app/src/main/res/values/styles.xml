@@ -18,6 +18,18 @@
         <item name="android:shadowRadius">2</item>
     </style>
 
+    <style name="statNumberBonus">
+        <item name="android:textColor">@color/attribute_bonus</item>
+        <item name="android:textSize">@dimen/font_size_XXL</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">@color/shadow_for_text_white</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
     <style name="statNumberFixed" parent="statNumberEditable">
         <item name="android:textSize">@dimen/font_size_XL</item>
     </style>

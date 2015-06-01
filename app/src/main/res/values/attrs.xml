@@ -2,7 +2,8 @@
 <resources>
     <declare-styleable name="StatBox">
         <attr name="attributeName" format="string" />
-        <attr name="attributeValue" format="integer" />
+        <attr name="attributeRoll" format="integer" />
+        <attr name="attributeBonus" format="integer" />
         <attr name="minimumValue" format="integer" />
         <attr name="maximumValue" format="integer" />
     </declare-styleable>

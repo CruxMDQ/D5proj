@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.DragEvent;
@@ -23,13 +24,12 @@ import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.pojos.Race;
 import com.callisto.d5proj.tools.DiceRoller;
 import com.callisto.d5proj.widgets.EditableStatBox;
+import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
-import org.codepond.wizardroid.persistence.ContextVariable;
 
 public class StatAllocationStep extends WizardStep {
 
-    @ContextVariable
     Race race;
 
     public StatAllocationStep() { super(); }
@@ -52,6 +52,40 @@ public class StatAllocationStep extends WizardStep {
         return rootView;
     }
 
+    private void setRaceModifiers() {
+        editableStatBoxStr.setAttributeBonus(0);
+        editableStatBoxDex.setAttributeBonus(0);
+        editableStatBoxCon.setAttributeBonus(0);
+        editableStatBoxInt.setAttributeBonus(0);
+        editableStatBoxWis.setAttributeBonus(0);
+        editableStatBoxCha.setAttributeBonus(0);
+
+        if (race != null) {
+            for (Pair<BaseStatistic, Integer> statMod : race.getStatModifiers()) {
+                switch(statMod.first) {
+                case STR:
+                    editableStatBoxStr.setAttributeBonus(statMod.second);
+                    break;
+                case DEX:
+                    editableStatBoxDex.setAttributeBonus(statMod.second);
+                    break;
+                case CON:
+                    editableStatBoxCon.setAttributeBonus(statMod.second);
+                    break;
+                case INT:
+                    editableStatBoxInt.setAttributeBonus(statMod.second);
+                    break;
+                case WIS:
+                    editableStatBoxWis.setAttributeBonus(statMod.second);
+                    break;
+                case CHA:
+                    editableStatBoxCha.setAttributeBonus(statMod.second);
+                    break;
+                }
+            }
+        }
+    }
+
     private SharedPreferences getCharSharedPrefs() {
         Context context = getActivity();
         return context.getSharedPreferences(
@@ -59,14 +93,6 @@ public class StatAllocationStep extends WizardStep {
     }
 
     private void findComponents(View rootView) {
-        btnResetRolls = (Button) rootView.findViewById(R.id.btnResetRolls);
-        btnResetRolls.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reset();
-            }
-        });
-
         btnRollNewValues = (Button) rootView.findViewById(R.id.btnRollNewValues);
         btnRollNewValues.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,13 +128,21 @@ public class StatAllocationStep extends WizardStep {
 
         editableStatBoxCha = (EditableStatBox) rootView.findViewById(R.id.statBoxCha);
         prepareStatBox(editableStatBoxCha, BaseStatistic.CHA);
+
+        btnResetRolls = (Button) rootView.findViewById(R.id.btnResetRolls);
+        btnResetRolls.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset();
+            }
+        });
     }
 
     private void prepareStatBox(final EditableStatBox editableStatBox, final BaseStatistic baseStatistic) {
-        editableStatBox.getTxtAttributeValue().setOnDragListener(new ChoiceDragListener());
+        editableStatBox.getTxtAttributeRoll().setOnDragListener(new ChoiceDragListener());
 
         // Source: http://stackoverflow.com/questions/20824634/
-        editableStatBox.getTxtAttributeValue().addTextChangedListener(new TextWatcher() {
+        editableStatBox.getTxtAttributeRoll().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -118,8 +152,8 @@ public class StatAllocationStep extends WizardStep {
             @Override
             public void afterTextChanged(Editable s) {
                 int attributeValue = Integer.parseInt(s.toString());
-                editableStatBox.setAttributeValue(attributeValue);
-                onStatChangeListener.onStatChange(baseStatistic, attributeValue);
+                editableStatBox.setAttribute(attributeValue);
+//                onStatChangeListener.onStatChange(baseStatistic, attributeValue);
             }
         });
         editableStatBox.getBtnDecreaseValue().setOnClickListener(new View.OnClickListener() {
@@ -203,18 +237,18 @@ public class StatAllocationStep extends WizardStep {
     }
 
     void decreaseStat(EditableStatBox editableStatBox) {
-        if (editableStatBox.getAttributeValue() > 3) {
-            editableStatBox.setAttributeValue((editableStatBox.getAttributeValue() - 1));
+        if (editableStatBox.getAttributeRoll() > 3) {
+            editableStatBox.setAttribute((editableStatBox.getAttributeRoll() - 1));
             setPointPool(getPointPool() + 1);
-            editableStatBox.getTxtAttributeValue().setText(String.valueOf(editableStatBox.getAttributeValue()));
+            editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
         }
     }
 
     void increaseStat(EditableStatBox editableStatBox) {
-        if (getPointPool() > 0 && editableStatBox.getAttributeValue() < 18) {
-            editableStatBox.setAttributeValue(editableStatBox.getAttributeValue() + 1);
+        if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < 18) {
+            editableStatBox.setAttribute(editableStatBox.getAttributeRoll() + 1);
             setPointPool(getPointPool() - 1);
-            editableStatBox.getTxtAttributeValue().setText(String.valueOf(editableStatBox.getAttributeValue()));
+            editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
         }
     }
 
@@ -258,6 +292,13 @@ public class StatAllocationStep extends WizardStep {
         btnResetRolls.setVisibility(View.VISIBLE);
     }
 
+    public void getRaceFromPrefs() {
+        Gson gson = new Gson();
+        String json = getCharSharedPrefs().getString(getResources().getString(R.string.C_CLASS_RACE), "");
+        race = gson.fromJson(json, Race.class);
+        setRaceModifiers();
+    }
+
     private CharacterClassesAdapter classesAdapter;
 
     private View rootView;
@@ -286,6 +327,7 @@ public class StatAllocationStep extends WizardStep {
     private Button btnRollNewValues;
 
     OnStatChangeListener onStatChangeListener;
+
     //    private LinearLayout panelRolls;
 
     /**

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="shadow_for_text_white">#B3cccccc</color>
+    <color name="attribute_bonus">#ff0f9d58</color><!-- green 500 -->
 </resources>

@@ -23,23 +23,28 @@ public class EditableStatBox extends LinearLayout{
             .obtainStyledAttributes(attrs, R.styleable.StatBox, 0, 0);
 
         setAttributeName(aAttrs.getString(R.styleable.StatBox_attributeName));
-        setAttributeValue(aAttrs.getInteger(R.styleable.StatBox_attributeValue, 0));
-        setMinimumValue(aAttrs.getInteger(R.styleable.StatBox_minimumValue, R.integer.MINIMUM_CHAR_STARTING_STAT));
-        setMaximumValue(aAttrs.getInteger(R.styleable.StatBox_maximumValue, R.integer.MAXIMUM_CHAR_STARTING_STAT));
+        setAttributeRoll(aAttrs.getInteger(R.styleable.StatBox_attributeRoll, 0));
+        setAttributeBonus(aAttrs.getInteger(R.styleable.StatBox_attributeBonus, 0));
+        setMinimumValue(aAttrs
+            .getInteger(R.styleable.StatBox_minimumValue, R.integer.MINIMUM_CHAR_STARTING_STAT));
+        setMaximumValue(aAttrs
+            .getInteger(R.styleable.StatBox_maximumValue, R.integer.MAXIMUM_CHAR_STARTING_STAT));
 
         aAttrs.recycle();
 
         inflateLayout();
 
         getTxtAttributeName().setText(getAttributeName());
-        getTxtAttributeValue().setText(String.valueOf(getAttributeValue()));
+        getTxtAttributeRoll().setText(String.valueOf(getAttributeRoll()));
     }
 
     private void inflateLayout() {
         inflate(this.getContext(), getLayout(), this);
 
         setTxtAttributeName((TextView) findViewById(R.id.txtAttributeName));
-        setTxtAttributeValue((TextView) findViewById(R.id.txtAttributeValue));
+        setTxtAttributeRoll((TextView) findViewById(R.id.txtAttributeRoll));
+        setTxtAttributeBonus((TextView) findViewById(R.id.txtAttributeBonus));
+        setTxtAttributeTotal((TextView) findViewById(R.id.txtAttributeTotal));
 
         setBtnIncreaseValue((Button) findViewById(R.id.btnIncreaseValue));
         setBtnDecreaseValue((Button) findViewById(R.id.btnDecreaseValue));
@@ -59,12 +64,28 @@ public class EditableStatBox extends LinearLayout{
         this.txtAttributeName = txtAttributeName;
     }
 
-    public TextView getTxtAttributeValue() {
-        return txtAttributeValue;
+    public TextView getTxtAttributeRoll() {
+        return txtAttributeRoll;
     }
 
-    public void setTxtAttributeValue(TextView txtAttributeValue) {
-        this.txtAttributeValue = txtAttributeValue;
+    public void setTxtAttributeRoll(TextView txtAttributeValue) {
+        this.txtAttributeRoll = txtAttributeValue;
+    }
+
+    public TextView getTxtAttributeBonus() {
+        return txtAttributeBonus;
+    }
+
+    public void setTxtAttributeBonus(TextView txtAttributeBonus) {
+        this.txtAttributeBonus = txtAttributeBonus;
+    }
+
+    public TextView getTxtAttributeTotal() {
+        return txtAttributeTotal;
+    }
+
+    public void setTxtAttributeTotal(TextView txtAttributeTotal) {
+        this.txtAttributeTotal = txtAttributeTotal;
     }
 
     public Button getBtnIncreaseValue() {
@@ -91,12 +112,36 @@ public class EditableStatBox extends LinearLayout{
         this.attributeName = attributeName;
     }
 
-    public int getAttributeValue() {
-        return attributeValue;
+    public int getAttributeRoll() {
+        return attributeRoll;
     }
 
-    public void setAttributeValue(int attributeValue) {
-        this.attributeValue = attributeValue;
+    public void setAttributeRoll(int attributeRoll) {
+        this.attributeRoll = attributeRoll;
+    }
+
+    public void setAttribute(int attributeRoll) {
+        setAttributeRoll(attributeRoll);
+        setAttributeTotal(attributeRoll + attributeBonus);
+        if (attributeRoll == 0) {
+            txtAttributeTotal.setVisibility(INVISIBLE);
+        }
+    }
+
+    public int getAttributeTotal() {
+        return attributeTotal;
+    }
+
+    public void setAttributeTotal(int attributeTotal) {
+        this.attributeTotal = attributeTotal;
+        if (attributeTotal > maximumValue) {
+            txtAttributeTotal.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+
+        } else {
+            txtAttributeTotal.setTextColor(getResources().getColor(android.R.color.black));
+        }
+        getTxtAttributeTotal().setText("" + attributeTotal);
+        txtAttributeTotal.setVisibility(VISIBLE);
     }
 
     public int getMaximumValue() {
@@ -115,11 +160,27 @@ public class EditableStatBox extends LinearLayout{
         this.minimumValue = minimumValue;
     }
 
+    public int getAttributeBonus() {
+        return attributeBonus;
+    }
+
+    public void setAttributeBonus(int attributeBonus) {
+        this.attributeBonus = attributeBonus;
+        if (txtAttributeBonus != null) {
+            if (attributeBonus == 0) {
+                txtAttributeBonus.setVisibility(INVISIBLE);
+            } else {
+                txtAttributeBonus.setVisibility(VISIBLE);
+            }
+            txtAttributeBonus.setText("+" + attributeBonus);
+        }
+    }
+
     public void reset() {
-        setAttributeValue(0);
-        getTxtAttributeValue().setText(String.valueOf(getAttributeValue()));
-        getTxtAttributeValue().setTag(null);
-        getTxtAttributeValue().setTypeface(Typeface.DEFAULT);
+        setAttributeRoll(0);
+        getTxtAttributeRoll().setText(String.valueOf(getAttributeRoll()));
+        getTxtAttributeRoll().setTag(null);
+        getTxtAttributeRoll().setTypeface(Typeface.DEFAULT);
     }
 
     public void toggleButtons() {
@@ -134,13 +195,17 @@ public class EditableStatBox extends LinearLayout{
     int maximumValue;
 
     private TextView txtAttributeName;
-    private TextView txtAttributeValue;
+    private TextView txtAttributeRoll;
+    private TextView txtAttributeBonus;
+    private TextView txtAttributeTotal;
 
     private Button btnIncreaseValue;
     private Button btnDecreaseValue;
 
     private String attributeName;
-    private int attributeValue;
+    private int attributeRoll;
+    private int attributeBonus;
+    private int attributeTotal;
 
     private LinearLayout padEditStats;
 

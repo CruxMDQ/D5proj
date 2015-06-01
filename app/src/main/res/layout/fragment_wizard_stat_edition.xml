@@ -53,42 +53,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Strength"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxDex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Dexterity"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxCon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Constitution"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxInt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Intelligence"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxWis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Wisdom"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxCha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 custom:attributeName="Charisma"
-                custom:attributeValue="0"/>
+                custom:attributeRoll="0"
+                custom:minimumValue="3"
+                custom:maximumValue="18"/>
         </LinearLayout>
 
         <LinearLayout

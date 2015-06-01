@@ -1,5 +1,7 @@
 package com.callisto.d5proj.wizard.steps;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
@@ -18,9 +20,9 @@ import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
+import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
-import org.codepond.wizardroid.persistence.ContextVariable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +33,6 @@ import java.util.List;
  */
 public class RaceSelectionStep extends WizardStep {
 
-    @ContextVariable
     Race race;
 
     public RaceSelectionStep() {
@@ -40,11 +41,11 @@ public class RaceSelectionStep extends WizardStep {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
 
-        featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
+        FeaturesDBAdapter featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
 
-        racesDBAdapter = new RacesDBAdapter(this.getActivity());
+        RacesDBAdapter racesDBAdapter = new RacesDBAdapter(this.getActivity());
 
         features = featuresDBAdapter.getAllFeatures();
 
@@ -71,6 +72,8 @@ public class RaceSelectionStep extends WizardStep {
 
                 race = (Race) spinnerSelectRace.getSelectedItem();
 
+                storeInPrefs(race);
+
                 populateRaceModifiers(race);
                 populateRacialAbilities(race);
             }
@@ -79,6 +82,14 @@ public class RaceSelectionStep extends WizardStep {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+    }
+
+    private void storeInPrefs(Race r) {
+        SharedPreferences.Editor editor = getCharSharedPrefs().edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(r);
+        editor.putString(getResources().getString(R.string.C_CLASS_RACE), json);
+        editor.apply();
     }
 
     private void populateRaceModifiers(Race race) {
@@ -114,15 +125,15 @@ public class RaceSelectionStep extends WizardStep {
         }
     }
 
-    private View rootView;
+    private SharedPreferences getCharSharedPrefs() {
+        Context context = getActivity();
+        return context.getSharedPreferences(
+            getString(R.string.character_stats), Context.MODE_PRIVATE);
+    }
 
     private Spinner spinnerSelectRace;
 
     private LinearLayout containerRaceStats;
-
-    private RacesDBAdapter racesDBAdapter;
-
-    private FeaturesDBAdapter featuresDBAdapter;
 
     List<Race> races;
     List<Feature> features;

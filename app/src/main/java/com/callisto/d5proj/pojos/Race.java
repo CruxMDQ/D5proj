@@ -4,6 +4,7 @@ import android.support.v4.util.Pair;
 
 import com.callisto.d5proj.enums.BaseStatistic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import java.util.Comparator;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
-public class Race {
+public class Race implements Serializable {
 
     private int id;
     private String name;

@@ -120,10 +120,10 @@ public class BaseStatsFragment extends Fragment {
     }
 
     private void prepareStatBox(final EditableStatBox editableStatBox, final BaseStatistic baseStatistic) {
-        editableStatBox.getTxtAttributeValue().setOnDragListener(new ChoiceDragListener());
+        editableStatBox.getTxtAttributeRoll().setOnDragListener(new ChoiceDragListener());
 
         // Source: http://stackoverflow.com/questions/20824634/
-        editableStatBox.getTxtAttributeValue().addTextChangedListener(new TextWatcher() {
+        editableStatBox.getTxtAttributeRoll().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -135,7 +135,7 @@ public class BaseStatsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 int attributeValue = Integer.parseInt(s.toString());
-                editableStatBox.setAttributeValue(attributeValue);
+                editableStatBox.setAttributeRoll(attributeValue);
                 onStatChangeListener.onStatChange(baseStatistic, attributeValue);
             }
         });
@@ -234,18 +234,18 @@ public class BaseStatsFragment extends Fragment {
     }
 
     void decreaseStat(EditableStatBox editableStatBox) {
-        if (editableStatBox.getAttributeValue() > 3) {
-            editableStatBox.setAttributeValue((editableStatBox.getAttributeValue() - 1));
+        if (editableStatBox.getAttributeRoll() > 3) {
+            editableStatBox.setAttributeRoll((editableStatBox.getAttributeRoll() - 1));
             setPointPool(getPointPool() + 1);
-            editableStatBox.getTxtAttributeValue().setText(String.valueOf(editableStatBox.getAttributeValue()));
+            editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
         }
     }
 
     void increaseStat(EditableStatBox editableStatBox) {
-        if (getPointPool() > 0 && editableStatBox.getAttributeValue() < 18) {
-            editableStatBox.setAttributeValue(editableStatBox.getAttributeValue() + 1);
+        if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < 18) {
+            editableStatBox.setAttributeRoll(editableStatBox.getAttributeRoll() + 1);
             setPointPool(getPointPool() - 1);
-            editableStatBox.getTxtAttributeValue().setText(String.valueOf(editableStatBox.getAttributeValue()));
+            editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
         }
     }
 
