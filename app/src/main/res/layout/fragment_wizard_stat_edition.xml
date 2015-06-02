@@ -55,7 +55,7 @@
                 custom:attributeName="Strength"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxDex"
@@ -64,7 +64,7 @@
                 custom:attributeName="Dexterity"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxCon"
@@ -73,7 +73,7 @@
                 custom:attributeName="Constitution"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxInt"
@@ -82,7 +82,7 @@
                 custom:attributeName="Intelligence"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxWis"
@@ -91,7 +91,7 @@
                 custom:attributeName="Wisdom"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
 
             <com.callisto.d5proj.widgets.EditableStatBox
                 android:id="@+id/statBoxCha"
@@ -100,7 +100,7 @@
                 custom:attributeName="Charisma"
                 custom:attributeRoll="0"
                 custom:minimumValue="3"
-                custom:maximumValue="18"/>
+                custom:maximumValue="20"/>
         </LinearLayout>
 
         <LinearLayout

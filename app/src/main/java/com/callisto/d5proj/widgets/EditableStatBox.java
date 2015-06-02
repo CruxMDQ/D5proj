@@ -72,6 +72,7 @@ public class EditableStatBox extends LinearLayout{
         this.txtAttributeRoll = txtAttributeValue;
     }
 
+    @SuppressWarnings("unused")
     public TextView getTxtAttributeBonus() {
         return txtAttributeBonus;
     }
@@ -128,6 +129,7 @@ public class EditableStatBox extends LinearLayout{
         }
     }
 
+    @SuppressWarnings("unused")
     public int getAttributeTotal() {
         return attributeTotal;
     }
@@ -144,6 +146,7 @@ public class EditableStatBox extends LinearLayout{
         txtAttributeTotal.setVisibility(VISIBLE);
     }
 
+    @SuppressWarnings("unused")
     public int getMaximumValue() {
         return maximumValue;
     }
@@ -152,6 +155,7 @@ public class EditableStatBox extends LinearLayout{
         this.maximumValue = maximumValue;
     }
 
+    @SuppressWarnings("unused")
     public int getMinimumValue() {
         return minimumValue;
     }
@@ -160,6 +164,7 @@ public class EditableStatBox extends LinearLayout{
         this.minimumValue = minimumValue;
     }
 
+    @SuppressWarnings("unused")
     public int getAttributeBonus() {
         return attributeBonus;
     }

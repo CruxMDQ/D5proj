@@ -1,5 +1,7 @@
 package com.callisto.d5proj.wizard;
 
+import android.view.View;
+
 import com.callisto.d5proj.wizard.steps.RaceSelectionStep;
 import com.callisto.d5proj.wizard.steps.StatAllocationStep;
 
@@ -35,5 +37,15 @@ public class CharacterCreationWizard extends BasicWizardLayout {
         if (step instanceof StatAllocationStep) {
             ((StatAllocationStep) step).getRaceFromPrefs();
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        WizardStep step = wizard.getCurrentStep();
+
+        if (step instanceof StatAllocationStep) {
+            ((StatAllocationStep) step).reset();
+        }
+        super.onClick(view);
     }
 }

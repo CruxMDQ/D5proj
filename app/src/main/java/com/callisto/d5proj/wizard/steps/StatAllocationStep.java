@@ -18,9 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.db.tables.CharacterClassesAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
-import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.pojos.Race;
 import com.callisto.d5proj.tools.DiceRoller;
 import com.callisto.d5proj.widgets.EditableStatBox;
@@ -38,8 +36,6 @@ public class StatAllocationStep extends WizardStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_wizard_stat_edition, container, false);
-
-        classesAdapter = new CharacterClassesAdapter(this.getActivity());
 
         findComponents(rootView);
 
@@ -112,22 +108,22 @@ public class StatAllocationStep extends WizardStep {
         txtTotalRolls = (TextView) rootView.findViewById(R.id.txtTotalRolls);
 
         editableStatBoxStr = (EditableStatBox) rootView.findViewById(R.id.statBoxStr);
-        prepareStatBox(editableStatBoxStr, BaseStatistic.STR);
+        prepareStatBox(editableStatBoxStr);
 
         editableStatBoxDex = (EditableStatBox) rootView.findViewById(R.id.statBoxDex);
-        prepareStatBox(editableStatBoxDex, BaseStatistic.DEX);
+        prepareStatBox(editableStatBoxDex);
 
         editableStatBoxCon = (EditableStatBox) rootView.findViewById(R.id.statBoxCon);
-        prepareStatBox(editableStatBoxCon, BaseStatistic.CON);
+        prepareStatBox(editableStatBoxCon);
 
         editableStatBoxInt = (EditableStatBox) rootView.findViewById(R.id.statBoxInt);
-        prepareStatBox(editableStatBoxInt, BaseStatistic.INT);
+        prepareStatBox(editableStatBoxInt);
 
         editableStatBoxWis = (EditableStatBox) rootView.findViewById(R.id.statBoxWis);
-        prepareStatBox(editableStatBoxWis, BaseStatistic.WIS);
+        prepareStatBox(editableStatBoxWis);
 
         editableStatBoxCha = (EditableStatBox) rootView.findViewById(R.id.statBoxCha);
-        prepareStatBox(editableStatBoxCha, BaseStatistic.CHA);
+        prepareStatBox(editableStatBoxCha);
 
         btnResetRolls = (Button) rootView.findViewById(R.id.btnResetRolls);
         btnResetRolls.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +134,8 @@ public class StatAllocationStep extends WizardStep {
         });
     }
 
-    private void prepareStatBox(final EditableStatBox editableStatBox, final BaseStatistic baseStatistic) {
+    // TODO (low): find a way to refactor this into the EditableStatBox class proper
+    private void prepareStatBox(final EditableStatBox editableStatBox) {
         editableStatBox.getTxtAttributeRoll().setOnDragListener(new ChoiceDragListener());
 
         // Source: http://stackoverflow.com/questions/20824634/
@@ -262,7 +259,7 @@ public class StatAllocationStep extends WizardStep {
     }
 
     // Source: http://stackoverflow.com/questions/17344259/
-    void reset() {
+    public void reset() {
         txtRandomAttribute1.setVisibility(View.VISIBLE);
         txtRandomAttribute2.setVisibility(View.VISIBLE);
         txtRandomAttribute3.setVisibility(View.VISIBLE);
@@ -299,8 +296,6 @@ public class StatAllocationStep extends WizardStep {
         setRaceModifiers();
     }
 
-    private CharacterClassesAdapter classesAdapter;
-
     private View rootView;
 
     private int pointPool;
@@ -325,8 +320,6 @@ public class StatAllocationStep extends WizardStep {
 
     private Button btnResetRolls;
     private Button btnRollNewValues;
-
-    OnStatChangeListener onStatChangeListener;
 
     //    private LinearLayout panelRolls;
 
