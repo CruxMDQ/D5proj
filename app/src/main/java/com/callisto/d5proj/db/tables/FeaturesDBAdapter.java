@@ -6,7 +6,6 @@ import android.database.Cursor;
 import com.callisto.d5proj.pojos.Feature;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Internal table adapter for retrieval of features.
@@ -19,31 +18,95 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
     static public final String C_HAS_OPTIONS = "hasOptions";
     static public final String C_DESCRIPTION = "description";
 
-    private List<Feature> features;
+    private FeaturesWithOptionsDBAdapter featuresWithOptionsDBAdapter;
+    private FeatureChoicesDBAdapter featureChoicesDBAdapter;
+
+    private ArrayList<Feature> features;
 
     public FeaturesDBAdapter(Context context) {
         super(context);
         this.setManagedTable(T_FEATURES);
         this.setColumns(new String[]{C_ID, C_NAME, C_HAS_OPTIONS, C_DESCRIPTION});
+
+        featureChoicesDBAdapter = new FeatureChoicesDBAdapter(context);
+        featuresWithOptionsDBAdapter = new FeaturesWithOptionsDBAdapter(context);
+
+        load();
+    }
+
+    private void load() {
+        this.features = new ArrayList<>();
+
+        Cursor cursor = this.getCursor();
+
+        while (cursor.moveToNext()) {
+            Feature feature = new Feature();
+
+            setFeatureValues(feature, cursor);
+
+            features.add(feature);
+        }
+
+        for (Feature feature : features) {
+            if (feature.getChoices() > 0) {
+                Cursor featuresWithOptionsCursor = featuresWithOptionsDBAdapter.getCursor();
+
+                featuresWithOptionsCursor.moveToFirst();
+
+                feature.setChoices(featuresWithOptionsCursor.getInt(featuresWithOptionsCursor.getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_CHOICES)));
+
+                Cursor featureChoicesCursor = featureChoicesDBAdapter.getCursor();
+
+                while (featureChoicesCursor.moveToNext()) {
+                    int featureId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_FEATURE));
+                    int choiceId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_CHOICE));
+                    if (featureId == feature.getId()) {
+                        for (Feature potentialChoice : features) {
+                            if (potentialChoice.getId() == choiceId) {
+                                feature.addFeatureChoice(potentialChoice);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void setFeatureValues(Feature feature, Cursor cursor) {
+        feature.setId(cursor.getInt(cursor.getColumnIndexOrThrow(C_ID)));
+        feature.setName(cursor.getString(cursor.getColumnIndexOrThrow(C_NAME)));
+        feature.setChoices(cursor.getInt(cursor.getColumnIndexOrThrow(C_HAS_OPTIONS)));
+        feature.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(C_DESCRIPTION)));
     }
 
     public ArrayList<Feature> getAllFeatures() {
-        ArrayList<Feature> result = new ArrayList<>();
-
-        Cursor features = this.getCursor();
-
-        while (features.moveToNext()) {
-            Feature feature = new Feature();
-
-            feature.setId(features.getInt(features.getColumnIndexOrThrow(C_ID)));
-            feature.setName(features.getString(features.getColumnIndexOrThrow(C_NAME)));
-            feature.setHasChoices(features.getInt(features.getColumnIndexOrThrow(C_HAS_OPTIONS)) == 1);
-            feature.setDescription(features.getString(features.getColumnIndexOrThrow(C_DESCRIPTION)));
-
-            result.add(feature);
-        }
-
-        return result;
+        return features;
     }
 
+    class FeaturesWithOptionsDBAdapter extends BaseTableAdapter {
+
+        static public final String T_FEATURES_WITH_OPTIONS = "FeaturesWithOptions";
+        static public final String C_ID_FEATURE = "id_feature";
+        static public final String C_CHOICES = "choices";
+        static public final String C_ROW_ID = "rowid";
+
+        public FeaturesWithOptionsDBAdapter(Context context) {
+            super(context);
+            this.setManagedTable(T_FEATURES_WITH_OPTIONS);
+            this.setColumns(new String[] { C_ID_FEATURE, C_CHOICES });
+        }
+    }
+
+    class FeatureChoicesDBAdapter extends BaseTableAdapter {
+
+        static public final String T_FEATURES_CHOICES = "FeatureChoices";
+        static public final String C_ID_FEATURE = "id_feature";
+        static public final String C_ID_CHOICE = "id_choice";
+
+        public FeatureChoicesDBAdapter(Context context) {
+            super(context);
+            this.setManagedTable(T_FEATURES_CHOICES);
+            this.setColumns(new String[] { C_ID_FEATURE, C_ID_CHOICE});
+        }
+    }
 }

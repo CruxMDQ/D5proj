@@ -5,12 +5,13 @@ import java.util.ArrayList;
 /**
  * Created by emiliano.desantis on 19/05/2015.
  */
+@SuppressWarnings("unused")
 public class Feature {
 
     private int id;
     private String name;
     private String description;
-    private boolean hasChoices;
+    private int choices;
     private ArrayList<Feature> featureChoices;
 
     public String getDescription() {
@@ -29,12 +30,12 @@ public class Feature {
         this.name = name;
     }
 
-    public boolean hasChoices() {
-        return hasChoices;
+    public int getChoices() {
+        return choices;
     }
 
-    public void setHasChoices(boolean hasChoices) {
-        this.hasChoices = hasChoices;
+    public void setChoices(int choices) {
+        this.choices = choices;
     }
 
     public void addFeatureChoice(Feature feature) {
