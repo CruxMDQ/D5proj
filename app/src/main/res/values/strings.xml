@@ -52,4 +52,7 @@
     <string name="frame_text_init">Init</string>
     <string name="selector_label_race">Race:</string>
     <string name="C_CLASS_RACE">Race</string>
+    <string name="label_race_ability_mods">Racial ability modifiers:</string>
+    <string name="label_race_features">Racial features:</string>
+    <string name="stat_mods_none">None</string>
 </resources>

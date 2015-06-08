@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.RaceSelectorAdapter;
+import com.callisto.d5proj.adapters.RaceStepRecyclerViewAdapter;
 import com.callisto.d5proj.db.tables.FeaturesDBAdapter;
 import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
@@ -24,7 +27,6 @@ import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,8 +35,6 @@ import java.util.List;
  */
 public class RaceSelectionStep extends WizardStep {
 
-    Race race;
-
     public RaceSelectionStep() {
     }
 
@@ -42,6 +42,9 @@ public class RaceSelectionStep extends WizardStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rvFeatures);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         FeaturesDBAdapter featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
 
@@ -93,16 +96,24 @@ public class RaceSelectionStep extends WizardStep {
     }
 
     private void populateRaceModifiers(Race race) {
-        Iterator<Pair<BaseStatistic, Integer>> I = race.getStatModifiers().iterator();
-
-        while (I.hasNext()) {
-            Pair<BaseStatistic, Integer> statMod = I.next();
-
+        for (Pair<BaseStatistic, Integer> statMod : race.getStatModifiers()) {
             TextView textView = new TextView(getActivity().getBaseContext());
-            textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView
+                .setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
             textView.setText("+" + statMod.second.toString()
                 + " " + statMod.first.toString());
+            textView.setTextColor(Color.BLACK);
+
+            containerRaceStats.addView(textView);
+        }
+
+        if (race.getStatModifiers().size() == 0) {
+            TextView textView = new TextView(getActivity().getBaseContext());
+            textView
+                .setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setText(getString(R.string.stat_mods_none));
             textView.setTextColor(Color.BLACK);
 
             containerRaceStats.addView(textView);
@@ -110,19 +121,7 @@ public class RaceSelectionStep extends WizardStep {
     }
 
     private void populateRacialAbilities(Race race) {
-        Iterator<Feature> I = race.getRacialFeatures().iterator();
-
-        while (I.hasNext()) {
-            Feature f = I.next();
-
-            TextView textView = new TextView(getActivity().getBaseContext());
-            textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setTextColor(Color.BLACK);
-            textView.setText(f.getName());
-
-            containerRaceStats.addView(textView);
-        }
+        mRecyclerView.setAdapter(new RaceStepRecyclerViewAdapter(getActivity(), race));
     }
 
     private SharedPreferences getCharSharedPrefs() {
@@ -137,4 +136,8 @@ public class RaceSelectionStep extends WizardStep {
 
     List<Race> races;
     List<Feature> features;
+
+    Race race;
+
+    private RecyclerView mRecyclerView;
 }

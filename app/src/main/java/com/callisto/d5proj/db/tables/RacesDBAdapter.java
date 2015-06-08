@@ -153,12 +153,10 @@ public class RacesDBAdapter extends BaseTableAdapter {
                         .getInt(racialFeatures.getColumnIndexOrThrow(C_ID_RACE));
 
                     if (idRace == lookUp) {
-                        Iterator<Feature> I = featureList.iterator();
 
-                        while (I.hasNext()) {
-                            Feature f = I.next();
-
-                            if (f.getId() == racialFeatures.getInt(racialFeatures.getColumnIndexOrThrow(C_ID_FEATURE))) {
+                        for (Feature f : featureList) {
+                            if (f.getId() == racialFeatures
+                                .getInt(racialFeatures.getColumnIndexOrThrow(C_ID_FEATURE))) {
                                 result.add(f);
                             }
                         }

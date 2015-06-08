@@ -41,9 +41,9 @@ android {
 // Source: http://stackoverflow.com/questions/24506648/
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:appcompat-v7:21.0.3'
     //    compile 'com.google.code.gson:gson:2.3.1'
     compile project('wizardroid-1.3.0')
     compile files('libs/gson-2.3.1.jar')
-    compile files('src/main/res/libs/gson-2.3.1.jar')
 }

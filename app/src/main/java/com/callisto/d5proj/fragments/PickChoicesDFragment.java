@@ -16,25 +16,25 @@ import com.callisto.d5proj.adapters.ClassSelectorAdapter;
 /**
  * Created by emiliano.desantis on 10/02/2015.
  */
-public class SelectClassDFragment extends android.support.v4.app.DialogFragment {
+public class PickChoicesDFragment extends android.support.v4.app.DialogFragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static SelectClassDFragment newInstance(int sectionNumber) {
-        SelectClassDFragment fragment = new SelectClassDFragment();
+    public static PickChoicesDFragment newInstance(int sectionNumber) {
+        PickChoicesDFragment fragment = new PickChoicesDFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SelectClassDFragment() {
+    public PickChoicesDFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_select_class, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_pick_feature_choices, container, false);
 
         findComponents(rootView);
 

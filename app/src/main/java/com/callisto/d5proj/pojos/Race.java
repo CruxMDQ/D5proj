@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 
 /**
  * Created by emiliano.desantis on 08/05/2015.
@@ -58,7 +59,7 @@ public class Race implements Serializable {
     public void setRacialFeatures(ArrayList<Feature> racialFeatures) {
         this.racialFeatures = racialFeatures;
 
-        sortFeatures(racialFeatures);
+        sortFeatures(this.racialFeatures);
     }
 
     public ArrayList<Feature> getRacialFeatures() {
@@ -67,8 +68,16 @@ public class Race implements Serializable {
         } else {
             ArrayList<Feature> result = new ArrayList<>();
 
+            HashSet<Feature> set = new HashSet<>();
+
             result.addAll(racialFeatures);
             result.addAll(parent.getRacialFeatures());
+
+            set.addAll(result);
+
+            result.clear();
+
+            result.addAll(set);
 
             sortFeatures(result);
 
@@ -99,5 +108,41 @@ public class Race implements Serializable {
                 return f1.getName().compareToIgnoreCase(f2.getName());
             }
         });
+    }
+
+    public ArrayList<String> getAbilityScoreModifiers() {
+        ArrayList<String> result = new ArrayList<>();
+
+        for (Pair<BaseStatistic, Integer> statMod : getStatModifiers()) {
+            String stat = "+" + statMod.second.toString()
+                + " " + statMod.first.toString();
+
+            result.add(stat);
+        }
+
+        return result;
+    }
+
+    public ArrayList<String> getFeatureBreakdown() {
+        ArrayList<String> result = new ArrayList<>();
+
+//        Iterator<Pair<BaseStatistic, Integer>> I = getStatModifiers().iterator();
+//
+//        while (I.hasNext()) {
+//            Pair<BaseStatistic, Integer> statMod = I.next();
+//
+//            String stat = "+" + statMod.second.toString()
+//                + " " + statMod.first.toString();
+//
+//            result.add(stat);
+//        }
+
+        for (Feature f : getRacialFeatures()) {
+            if (!result.contains(f.getName())) {
+                result.add(f.getName());
+            }
+        }
+
+        return result;
     }
 }

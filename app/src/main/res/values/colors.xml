@@ -2,4 +2,5 @@
 <resources>
     <color name="shadow_for_text_white">#B3cccccc</color>
     <color name="attribute_bonus">#ff0f9d58</color><!-- green 500 -->
+    <color name="bkgr_feature_choices_pending">#99DB9696</color>
 </resources>
