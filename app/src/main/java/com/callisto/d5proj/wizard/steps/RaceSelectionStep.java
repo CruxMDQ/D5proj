@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.RaceSelectorAdapter;
-import com.callisto.d5proj.adapters.RaceStepRecyclerViewAdapter;
+import com.callisto.d5proj.adapters.RaceStepRVAdapter;
 import com.callisto.d5proj.db.tables.FeaturesDBAdapter;
 import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
@@ -121,7 +121,7 @@ public class RaceSelectionStep extends WizardStep {
     }
 
     private void populateRacialAbilities(Race race) {
-        mRecyclerView.setAdapter(new RaceStepRecyclerViewAdapter(getActivity(), race));
+        mRecyclerView.setAdapter(new RaceStepRVAdapter(getActivity(), race));
     }
 
     private SharedPreferences getCharSharedPrefs() {

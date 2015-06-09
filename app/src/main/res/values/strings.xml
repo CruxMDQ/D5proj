@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    // Constants
+    <string name="C_CLASS_RACE">Race</string>
+
     <string name="app_name">D5proj</string>
     <string name="base_stats">Base stats</string>
     <string name="derived_stats">Derived stats</string>
@@ -51,8 +54,11 @@
     <string name="frame_text_will">Will</string>
     <string name="frame_text_init">Init</string>
     <string name="selector_label_race">Race:</string>
-    <string name="C_CLASS_RACE">Race</string>
     <string name="label_race_ability_mods">Racial ability modifiers:</string>
     <string name="label_race_features">Racial features:</string>
     <string name="stat_mods_none">None</string>
+    <string name="OK">OK</string>
+    <string name="feature_options_pick_one">Choose 1 option</string>
+    <string name="feature_options_pick_several">Choose %s options</string>
+    <string name="error_options_array_null">Options array not initialized!</string>
 </resources>

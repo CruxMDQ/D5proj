@@ -2,31 +2,22 @@ package com.callisto.d5proj.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.activities.CharacterCreationActivity;
-import com.callisto.d5proj.adapters.ClassSelectorAdapter;
+import com.callisto.d5proj.adapters.FeatureChoicesRVAdapter;
+import com.callisto.d5proj.pojos.Feature;
+
+import java.util.ArrayList;
 
 /**
  * Created by emiliano.desantis on 10/02/2015.
  */
 public class PickChoicesDFragment extends android.support.v4.app.DialogFragment {
-
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    public static PickChoicesDFragment newInstance(int sectionNumber) {
-        PickChoicesDFragment fragment = new PickChoicesDFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public PickChoicesDFragment() {
     }
@@ -48,47 +39,52 @@ public class PickChoicesDFragment extends android.support.v4.app.DialogFragment 
     }
 
     public void showClassSelectorDialog() {
+        if (options == null) throw new NullPointerException(getString(R.string.error_options_array_null));
+
         LayoutInflater li = LayoutInflater.from(getActivity());
 
-        View promptsView = li.inflate(R.layout.dialog_select_class, null);
+        View promptsView = li.inflate(R.layout.dialog_choose_feature_option, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         alertDialogBuilder.setView(promptsView);
 
-        // set dialog message
+        if (options.size() == 1) {
+            alertDialogBuilder.setTitle(getString(R.string.feature_options_pick_one));
+        } else {
+            alertDialogBuilder.setTitle(
+                String.format(getString(R.string.feature_options_pick_several), options.size()));
+        }
 
-        alertDialogBuilder.setTitle(getString(R.string.select_char_class));
         alertDialogBuilder.setIcon(R.drawable.ic_launcher);
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
-        final Spinner mSpinner = (Spinner) promptsView
-            .findViewById(R.id.spinnerSelectClass);
-
-        mSpinner.setAdapter(new ClassSelectorAdapter(getActivity(),
-            ((CharacterCreationActivity) getActivity()).getCharacterClasses()));
+        rvFeatureChoices = (RecyclerView) promptsView.findViewById(R.id.rvFeatureChoices);
 
         final Button mButton = (Button) promptsView
-            .findViewById(R.id.buttonOK);
+            .findViewById(R.id.btnOK);
 
-        // reference UI elements from my_dialog_layout in similar fashion
-
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        populateFeatureChoices();
 
         // show it
         alertDialog.show();
         alertDialog.setCanceledOnTouchOutside(false);
     }
 
+    private void populateFeatureChoices() {
+         rvFeatureChoices.setAdapter(new FeatureChoicesRVAdapter(getActivity(), options));
+    }
+
+    public ArrayList<Feature> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<Feature> options) {
+        this.options = options;
+    }
+
+    private RecyclerView rvFeatureChoices;
+
+    private ArrayList<Feature> options;
 }

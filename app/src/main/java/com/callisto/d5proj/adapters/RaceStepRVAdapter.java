@@ -1,6 +1,6 @@
 package com.callisto.d5proj.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,25 +15,30 @@ import com.callisto.d5proj.pojos.Race;
 /**
  * Created by emiliano.desantis on 08/06/2015.
  */
-public class RaceStepRecyclerViewAdapter extends RecyclerView.Adapter<RaceStepRecyclerViewAdapter.StringRowHolder> {
+public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.StringRowHolder> {
 
     private Race race;
-    private Context mContext;
+    private Activity mActivity;
 
-    public RaceStepRecyclerViewAdapter(Context context, Race race) {
+    public RaceStepRVAdapter(Activity activity, Race race) {
         this.race = race;
-        this.mContext = context;
+        this.mActivity = activity;
     }
 
     @Override
-    public StringRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public StringRowHolder onCreateViewHolder(final ViewGroup viewGroup, final int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_race_feature, null);
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: call dialog fragment for picking choices here
-            }
-        });
+//        v.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager fragmentManager = ((FragmentActivity) mActivity).getSupportFragmentManager();
+//                PickChoicesDFragment fragment = new PickChoicesDFragment();
+//                fragment.setOptions(race.getRacialFeatures().get(i).getFeatureChoices());
+//                fragmentManager.beginTransaction()
+//                    .replace(R.id.container, new PickChoicesDFragment())
+//                    .commit();
+//            }
+//        });
         return new StringRowHolder(v);
     }
 
@@ -44,7 +49,7 @@ public class RaceStepRecyclerViewAdapter extends RecyclerView.Adapter<RaceStepRe
         Feature f = race.getRacialFeatures().get(i);
 
         if (f.getChoices() > 0) {
-            stringRowHolder.txtFeatureName.setBackgroundColor(mContext.getResources().getColor(R.color.bkgr_feature_choices_pending));
+            stringRowHolder.txtFeatureName.setBackgroundColor(mActivity.getResources().getColor(R.color.bkgr_feature_choices_pending));
         }
 
         stringRowHolder.txtFeatureName.setText(Html.fromHtml(race.getRacialFeatures().get(i).getName()));
@@ -55,6 +60,7 @@ public class RaceStepRecyclerViewAdapter extends RecyclerView.Adapter<RaceStepRe
     public int getItemCount() {
         return (null != race.getRacialFeatures() ? race.getRacialFeatures().size() : 0);
     }
+
     public class StringRowHolder extends RecyclerView.ViewHolder {
         protected TextView txtFeatureName;
 
