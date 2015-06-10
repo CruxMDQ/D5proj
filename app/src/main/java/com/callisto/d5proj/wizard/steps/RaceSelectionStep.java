@@ -21,19 +21,23 @@ import com.callisto.d5proj.adapters.RaceStepRVAdapter;
 import com.callisto.d5proj.db.tables.FeaturesDBAdapter;
 import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
+import com.callisto.d5proj.fragments.PickChoicesDFragment;
+import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Race selection fragment for wizard.
  * Created by emiliano.desantis on 11/05/2015.
  */
-public class RaceSelectionStep extends WizardStep {
+public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsListener, AfterChoosingOptionsListener {
 
     public RaceSelectionStep() {
     }
@@ -43,8 +47,11 @@ public class RaceSelectionStep extends WizardStep {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rvFeatures);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        this.container = container;
+        this.inflater = inflater;
+
+        rvFeatures = (RecyclerView) rootView.findViewById(R.id.rvFeatures);
+        rvFeatures.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         FeaturesDBAdapter featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
 
@@ -59,6 +66,13 @@ public class RaceSelectionStep extends WizardStep {
         findComponents(rootView);
 
         return rootView;
+    }
+
+    @Override
+    public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
+        // TODO Figure why recyclerView is not refreshing after this is done
+        features.remove(feature);
+        features.addAll(choices);
     }
 
     private void findComponents(View rootView) {
@@ -121,7 +135,7 @@ public class RaceSelectionStep extends WizardStep {
     }
 
     private void populateRacialAbilities(Race race) {
-        mRecyclerView.setAdapter(new RaceStepRVAdapter(getActivity(), race));
+        rvFeatures.setAdapter(new RaceStepRVAdapter(getActivity(), race, this));
     }
 
     private SharedPreferences getCharSharedPrefs() {
@@ -130,14 +144,25 @@ public class RaceSelectionStep extends WizardStep {
             getString(R.string.character_stats), Context.MODE_PRIVATE);
     }
 
+    @Override
+    public void onInputClick(Feature feature) {
+        PickChoicesDFragment pickChoices = PickChoicesDFragment.newInstance(feature, this);
+        pickChoices.setModal(true);
+        pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
+        //showChooseOptionsDialog(feature);
+    }
+
     private Spinner spinnerSelectRace;
 
     private LinearLayout containerRaceStats;
 
-    List<Race> races;
-    List<Feature> features;
+    private List<Race> races;
+    private List<Feature> features;
 
-    Race race;
+    private Race race;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView rvFeatures;
+
+    private ViewGroup container;
+    private LayoutInflater inflater;
 }

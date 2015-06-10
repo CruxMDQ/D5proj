@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
+import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 
@@ -17,39 +18,30 @@ import com.callisto.d5proj.pojos.Race;
  */
 public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.StringRowHolder> {
 
-    private Race race;
-    private Activity mActivity;
-
-    public RaceStepRVAdapter(Activity activity, Race race) {
+    public RaceStepRVAdapter(Activity activity, Race race, OnChoosingOptionsListener listener) {
         this.race = race;
         this.mActivity = activity;
+        this.listener = listener;
     }
 
     @Override
     public StringRowHolder onCreateViewHolder(final ViewGroup viewGroup, final int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_race_feature, null);
-//        v.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentManager fragmentManager = ((FragmentActivity) mActivity).getSupportFragmentManager();
-//                PickChoicesDFragment fragment = new PickChoicesDFragment();
-//                fragment.setOptions(race.getRacialFeatures().get(i).getFeatureChoices());
-//                fragmentManager.beginTransaction()
-//                    .replace(R.id.container, new PickChoicesDFragment())
-//                    .commit();
-//            }
-//        });
         return new StringRowHolder(v);
     }
 
     @Override
     public void onBindViewHolder(StringRowHolder stringRowHolder, int i) {
-//        String title = race.getRacialFeatures().get(i).getName();
+        final Feature featureWithChoices = race.getRacialFeatures().get(i);
 
-        Feature f = race.getRacialFeatures().get(i);
-
-        if (f.getChoices() > 0) {
+        if (featureWithChoices.getChoices() > 0) {
             stringRowHolder.txtFeatureName.setBackgroundColor(mActivity.getResources().getColor(R.color.bkgr_feature_choices_pending));
+            stringRowHolder.txtFeatureName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onInputClick(featureWithChoices);
+                }
+            });
         }
 
         stringRowHolder.txtFeatureName.setText(Html.fromHtml(race.getRacialFeatures().get(i).getName()));
@@ -69,4 +61,9 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
             this.txtFeatureName = (TextView) view.findViewById(R.id.txtFeatureName);
         }
     }
+
+    private Race race;
+    private Activity mActivity;
+    private OnChoosingOptionsListener listener;
+
 }

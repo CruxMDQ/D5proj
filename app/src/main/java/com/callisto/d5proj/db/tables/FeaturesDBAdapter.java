@@ -51,15 +51,25 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
             if (feature.getChoices() > 0) {
                 Cursor featuresWithOptionsCursor = featuresWithOptionsDBAdapter.getCursor();
 
-                featuresWithOptionsCursor.moveToFirst();
+                while (featuresWithOptionsCursor.moveToNext()) {
+                    int featureCode = featuresWithOptionsCursor.getInt(featuresWithOptionsCursor
+                        .getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_ID_FEATURE));
 
-                feature.setChoices(featuresWithOptionsCursor.getInt(featuresWithOptionsCursor.getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_CHOICES)));
+                    int choices = featuresWithOptionsCursor.getInt(featuresWithOptionsCursor
+                        .getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_CHOICES));
+
+                    if (feature.getId() == featureCode) {
+                        feature.setChoices(choices);
+                        break;
+                    }
+                }
 
                 Cursor featureChoicesCursor = featureChoicesDBAdapter.getCursor();
 
                 while (featureChoicesCursor.moveToNext()) {
                     int featureId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_FEATURE));
-                    int choiceId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_CHOICE));
+                    int choiceId = featureChoicesCursor.getInt(featureChoicesCursor
+                        .getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_CHOICE));
                     if (featureId == feature.getId()) {
                         for (Feature potentialChoice : features) {
                             if (potentialChoice.getId() == choiceId) {
