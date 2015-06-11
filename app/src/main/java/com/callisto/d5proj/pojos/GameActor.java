@@ -1,7 +1,6 @@
 package com.callisto.d5proj.pojos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by emiliano.desantis on 07/05/2015.
@@ -16,6 +15,8 @@ public class GameActor {
     private int xp;
     private int hitPoints;
     private int armorClass;
+    private Race race;
+    private ArrayList<Feature> features;
     private ArrayList<ClassLevel> classLevels;
 
     public GameActor() { }
@@ -77,10 +78,9 @@ public class GameActor {
     }
 
     public void setHitPoints() {
-        Iterator I = classLevels.iterator();
 
-        while (I.hasNext()) {
-            hitPoints += ((ClassLevel) I.next()).getHpRoll();
+        for (ClassLevel classLevel : classLevels) {
+            hitPoints += classLevel.getHpRoll();
         }
     }
 
@@ -118,5 +118,25 @@ public class GameActor {
 
     public void setXp(int xp) {
         this.xp = xp;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public void setRace(Race race) {
+        this.race = race;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public ArrayList<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(ArrayList<Feature> features) {
+        this.features = features;
     }
 }

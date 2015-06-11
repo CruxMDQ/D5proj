@@ -89,6 +89,11 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
         feature.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(C_DESCRIPTION)));
     }
 
+    public ArrayList<Feature> resetFeatures() {
+        load();
+        return features;
+    }
+
     public ArrayList<Feature> getAllFeatures() {
         return features;
     }

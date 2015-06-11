@@ -25,13 +25,13 @@ import com.callisto.d5proj.fragments.PickChoicesDFragment;
 import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
 import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
+import com.callisto.d5proj.pojos.GameActor;
 import com.callisto.d5proj.pojos.Race;
 import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Race selection fragment for wizard.
@@ -47,9 +47,6 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wizard_select_race, container, false);
 
-        this.container = container;
-        this.inflater = inflater;
-
         rvFeatures = (RecyclerView) rootView.findViewById(R.id.rvFeatures);
         rvFeatures.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
@@ -57,7 +54,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
         RacesDBAdapter racesDBAdapter = new RacesDBAdapter(this.getActivity());
 
-        features = featuresDBAdapter.getAllFeatures();
+        ArrayList<Feature> features = featuresDBAdapter.getAllFeatures();
 
         racesDBAdapter.setFeatureList(features);
 
@@ -70,9 +67,10 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
     @Override
     public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
-        // TODO Figure why recyclerView is not refreshing after this is done
-        features.remove(feature);
-        features.addAll(choices);
+        // TODO: Implement 'Character' class and copy features from selected race. How to store it? A SharedPreference? Use DB?
+        character.getRace().getRacialFeatures().remove(feature);
+        character.getRace().getRacialFeatures().addAll(choices);
+        rvFeatures.getAdapter().notifyDataSetChanged();
     }
 
     private void findComponents(View rootView) {
@@ -89,10 +87,12 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
                 race = (Race) spinnerSelectRace.getSelectedItem();
 
+                character.setRace(race);
+
                 storeInPrefs(race);
 
                 populateRaceModifiers(race);
-                populateRacialAbilities(race);
+                populateRacialAbilities(character.getRace());
             }
 
             @Override
@@ -101,10 +101,10 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         });
     }
 
-    private void storeInPrefs(Race r) {
+    private void storeInPrefs(Race race) {
         SharedPreferences.Editor editor = getCharSharedPrefs().edit();
         Gson gson = new Gson();
-        String json = gson.toJson(r);
+        String json = gson.toJson(race);
         editor.putString(getResources().getString(R.string.C_CLASS_RACE), json);
         editor.apply();
     }
@@ -149,20 +149,17 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         PickChoicesDFragment pickChoices = PickChoicesDFragment.newInstance(feature, this);
         pickChoices.setModal(true);
         pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
-        //showChooseOptionsDialog(feature);
     }
 
     private Spinner spinnerSelectRace;
 
     private LinearLayout containerRaceStats;
 
-    private List<Race> races;
-    private List<Feature> features;
+    private ArrayList<Race> races;
 
     private Race race;
 
     private RecyclerView rvFeatures;
 
-    private ViewGroup container;
-    private LayoutInflater inflater;
+    private GameActor character = new GameActor();
 }
