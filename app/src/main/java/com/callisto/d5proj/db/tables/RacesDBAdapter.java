@@ -27,6 +27,7 @@ public class RacesDBAdapter extends BaseTableAdapter {
 
     private RacialStatsDBAdapter racialStatsDBAdapter;
     private RacialFeaturesDBAdapter racialFeaturesDBAdapter;
+    private FeaturesDBAdapter featuresDBAdapter;
 
     private List<Race> races;
     private List<Feature> featureList;
@@ -35,11 +36,14 @@ public class RacesDBAdapter extends BaseTableAdapter {
         super(context);
         racialStatsDBAdapter = new RacialStatsDBAdapter(context);
         racialFeaturesDBAdapter = new RacialFeaturesDBAdapter(context);
+        featuresDBAdapter = new FeaturesDBAdapter(context);
         this.setManagedTable(T_RACES);
         this.setColumns(new String[]{C_ID, C_NAME, C_SPEED, C_ID_SIZE, C_ID_PARENT, C_IS_ARCHETYPE});
     }
 
     public ArrayList<Race> getAllRaces() {
+        setFeatureList(featuresDBAdapter.getAllFeatures());
+
         ArrayList<Race> result = new ArrayList<>();
 
         Cursor races = this.getCursor();

@@ -61,4 +61,5 @@
     <string name="feature_options_pick_one">Choose 1 option</string>
     <string name="feature_options_pick_several">Choose %s options</string>
     <string name="error_options_array_null">Options array not initialized!</string>
+    <string name="C_CLASS_GAME_ACTOR">Character</string>
 </resources>

@@ -39,8 +39,7 @@ import java.util.ArrayList;
  */
 public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsListener, AfterChoosingOptionsListener {
 
-    public RaceSelectionStep() {
-    }
+    public RaceSelectionStep() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,19 +49,27 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         rvFeatures = (RecyclerView) rootView.findViewById(R.id.rvFeatures);
         rvFeatures.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
-        FeaturesDBAdapter featuresDBAdapter = new FeaturesDBAdapter(this.getActivity());
-
-        RacesDBAdapter racesDBAdapter = new RacesDBAdapter(this.getActivity());
-
-        ArrayList<Feature> features = featuresDBAdapter.getAllFeatures();
-
-        racesDBAdapter.setFeatureList(features);
-
-        races = racesDBAdapter.getAllRaces();
+        resetRaces();
 
         findComponents(rootView);
 
         return rootView;
+    }
+
+    private void resetRaces() {
+        RacesDBAdapter racesDBAdapter = new RacesDBAdapter(this.getActivity());
+
+        races = racesDBAdapter.getAllRaces();
+
+        if (spinnerSelectRace != null) {
+            spinnerSelectRace.setAdapter(new RaceSelectorAdapter(getActivity().getBaseContext(), races));
+        }
+
+        if (rvFeatures != null) {
+            if (rvFeatures.getAdapter() != null) {
+                rvFeatures.getAdapter().notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -71,6 +78,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         character.getRace().getRacialFeatures().remove(feature);
         character.getRace().getRacialFeatures().addAll(choices);
         rvFeatures.getAdapter().notifyDataSetChanged();
+        pickedFeatures = true;
     }
 
     private void findComponents(View rootView) {
@@ -83,6 +91,12 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         spinnerSelectRace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (pickedFeatures) {
+                    resetRaces();
+                    spinnerSelectRace.setSelection(position);
+                    pickedFeatures = false;
+                }
+
                 containerRaceStats.removeAllViewsInLayout();
 
                 race = (Race) spinnerSelectRace.getSelectedItem();
@@ -99,6 +113,14 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+    }
+
+    public void storeActorInPrefs() {
+        SharedPreferences.Editor editor = getCharSharedPrefs().edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(character);
+        editor.putString(getResources().getString(R.string.C_CLASS_GAME_ACTOR), json);
+        editor.apply();
     }
 
     private void storeInPrefs(Race race) {
@@ -150,6 +172,8 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         pickChoices.setModal(true);
         pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
     }
+
+    private boolean pickedFeatures = false;
 
     private Spinner spinnerSelectRace;
 
