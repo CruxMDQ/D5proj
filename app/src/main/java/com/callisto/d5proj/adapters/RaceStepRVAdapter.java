@@ -13,15 +13,23 @@ import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 
+import java.util.ArrayList;
+
 /**
  * Created by emiliano.desantis on 08/06/2015.
  */
 public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.StringRowHolder> {
 
     public RaceStepRVAdapter(Activity activity, Race race, OnChoosingOptionsListener listener) {
-        this.race = race;
         this.mActivity = activity;
         this.listener = listener;
+        this.features = race.getRacialFeatures();
+    }
+
+    public RaceStepRVAdapter(Activity activity, ArrayList<Feature> features, OnChoosingOptionsListener listener) {
+        this.mActivity = activity;
+        this.listener = listener;
+        this.features = features;
     }
 
     @Override
@@ -32,7 +40,7 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
 
     @Override
     public void onBindViewHolder(StringRowHolder stringRowHolder, int i) {
-        final Feature featureWithChoices = race.getRacialFeatures().get(i);
+        final Feature featureWithChoices = features.get(i);
 
         if (featureWithChoices.getChoices() > 0) {
             stringRowHolder.txtFeatureName.setBackgroundColor(mActivity.getResources().getColor(R.color.bkgr_feature_choices_pending));
@@ -44,13 +52,13 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
             });
         }
 
-        stringRowHolder.txtFeatureName.setText(Html.fromHtml(race.getRacialFeatures().get(i).getName()));
+        stringRowHolder.txtFeatureName.setText(Html.fromHtml(features.get(i).getName()));
 
     }
 
     @Override
     public int getItemCount() {
-        return (null != race.getRacialFeatures() ? race.getRacialFeatures().size() : 0);
+        return (null != features ? features.size() : 0);
     }
 
     public class StringRowHolder extends RecyclerView.ViewHolder {
@@ -62,8 +70,8 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
         }
     }
 
-    private Race race;
     private Activity mActivity;
+    private ArrayList<Feature> features;
     private OnChoosingOptionsListener listener;
 
 }

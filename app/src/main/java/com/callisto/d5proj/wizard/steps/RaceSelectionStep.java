@@ -75,8 +75,8 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     @Override
     public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
         // TODO: Implement 'Character' class and copy features from selected race. How to store it? A SharedPreference? Use DB?
-        character.getRace().getRacialFeatures().remove(feature);
-        character.getRace().getRacialFeatures().addAll(choices);
+        character.getFeatures().remove(feature);
+        character.getFeatures().addAll(choices);
         rvFeatures.getAdapter().notifyDataSetChanged();
         pickedFeatures = true;
     }
@@ -102,11 +102,12 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
                 race = (Race) spinnerSelectRace.getSelectedItem();
 
                 character.setRace(race);
+                character.setFeatures(race.getRacialFeatures());
 
                 storeInPrefs(race);
 
                 populateRaceModifiers(race);
-                populateRacialAbilities(character.getRace());
+                populateRacialAbilities(character.getFeatures());
             }
 
             @Override
@@ -158,6 +159,10 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
     private void populateRacialAbilities(Race race) {
         rvFeatures.setAdapter(new RaceStepRVAdapter(getActivity(), race, this));
+    }
+
+    private void populateRacialAbilities(ArrayList<Feature> features) {
+        rvFeatures.setAdapter(new RaceStepRVAdapter(getActivity(), features, this));
     }
 
     private SharedPreferences getCharSharedPrefs() {
