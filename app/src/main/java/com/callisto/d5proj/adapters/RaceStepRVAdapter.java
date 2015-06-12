@@ -44,12 +44,17 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
 
         if (featureWithChoices.getChoices() > 0) {
             stringRowHolder.txtFeatureName.setBackgroundColor(mActivity.getResources().getColor(R.color.bkgr_feature_choices_pending));
+            stringRowHolder.txtFeatureName.setClickable(true);
             stringRowHolder.txtFeatureName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onInputClick(featureWithChoices);
                 }
             });
+        } else {
+            stringRowHolder.txtFeatureName.setBackgroundColor(mActivity.getResources().getColor(android.R.color.white));
+            stringRowHolder.txtFeatureName.setClickable(false);
+            stringRowHolder.txtFeatureName.setOnClickListener(null);
         }
 
         stringRowHolder.txtFeatureName.setText(Html.fromHtml(features.get(i).getName()));

@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.RaceSelectorAdapter;
 import com.callisto.d5proj.adapters.RaceStepRVAdapter;
-import com.callisto.d5proj.db.tables.FeaturesDBAdapter;
 import com.callisto.d5proj.db.tables.RacesDBAdapter;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.PickChoicesDFragment;
@@ -76,6 +75,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
         // TODO: Implement 'Character' class and copy features from selected race. How to store it? A SharedPreference? Use DB?
         character.getFeatures().remove(feature);
+        rvFeatures.getAdapter().notifyDataSetChanged();
         character.getFeatures().addAll(choices);
         rvFeatures.getAdapter().notifyDataSetChanged();
         pickedFeatures = true;
