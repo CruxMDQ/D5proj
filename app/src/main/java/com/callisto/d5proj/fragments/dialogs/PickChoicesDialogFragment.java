@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -75,13 +76,24 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
                 dialog.dismiss();
             }
         });
+
         findComponents(view);
-        return alertDialogBuilder.create();
+
+        dialog = alertDialogBuilder.create();
+
+        return dialog;
+//        return alertDialogBuilder.create();
     }
 
     @Override
     public void onFeaturePicked(Feature pick) {
         addPick(pick);
+    }
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        super.show(manager, tag);
+        getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 
     private void findComponents(View rootView) {
@@ -102,6 +114,17 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
         } else {
             picks.add(pick);
         }
+
+        if (picks.size() != feature.getChoices()) {
+            getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        } else {
+            getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        }
+    }
+
+    @Override
+    public AlertDialog getDialog() {
+        return dialog;
     }
 
     public boolean isModal() {
@@ -120,4 +143,6 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
     private ArrayList<Feature> picks;
 
     private boolean isModal = false;
+
+    private AlertDialog dialog;
 }
