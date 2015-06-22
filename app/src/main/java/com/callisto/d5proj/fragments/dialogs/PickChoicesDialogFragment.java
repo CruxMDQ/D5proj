@@ -81,6 +81,14 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
 
         dialog = alertDialogBuilder.create();
 
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positive.setEnabled(false);
+            }
+        });
+
         return dialog;
 //        return alertDialogBuilder.create();
     }
@@ -93,7 +101,7 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
     @Override
     public void show(FragmentManager manager, String tag) {
         super.show(manager, tag);
-        getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+//        super.getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 
     private void findComponents(View rootView) {
