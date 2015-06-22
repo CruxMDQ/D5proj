@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 12/02/2015.
  */
-public class KeyStatsPerClass extends BaseTableAdapter {
+public class KeyStatsPerClass extends BaseTableHelper {
     /**
      * Table definition: character class key statistics
      */

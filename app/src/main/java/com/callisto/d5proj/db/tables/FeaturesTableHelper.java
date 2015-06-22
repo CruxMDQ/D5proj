@@ -11,25 +11,25 @@ import java.util.ArrayList;
  * Internal table adapter for retrieval of features.
  * Created by emiliano.desantis on 19/05/2015.
  */
-public class FeaturesDBAdapter extends BaseTableAdapter {
+public class FeaturesTableHelper extends BaseTableHelper {
 
     static public final String T_FEATURES = "Features";
     static public final String C_NAME = "name";
     static public final String C_HAS_OPTIONS = "hasOptions";
     static public final String C_DESCRIPTION = "description";
 
-    private FeaturesWithOptionsDBAdapter featuresWithOptionsDBAdapter;
-    private FeatureChoicesDBAdapter featureChoicesDBAdapter;
+    private FeaturesWithOptionsDBHelper featuresWithOptionsDBAdapter;
+    private FeatureChoicesDBHelper featureChoicesDBAdapter;
 
     private ArrayList<Feature> features;
 
-    public FeaturesDBAdapter(Context context) {
+    public FeaturesTableHelper(Context context) {
         super(context);
         this.setManagedTable(T_FEATURES);
         this.setColumns(new String[]{C_ID, C_NAME, C_HAS_OPTIONS, C_DESCRIPTION});
 
-        featureChoicesDBAdapter = new FeatureChoicesDBAdapter(context);
-        featuresWithOptionsDBAdapter = new FeaturesWithOptionsDBAdapter(context);
+        featureChoicesDBAdapter = new FeatureChoicesDBHelper(context);
+        featuresWithOptionsDBAdapter = new FeaturesWithOptionsDBHelper(context);
 
         load();
     }
@@ -53,10 +53,10 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
 
                 while (featuresWithOptionsCursor.moveToNext()) {
                     int featureCode = featuresWithOptionsCursor.getInt(featuresWithOptionsCursor
-                        .getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_ID_FEATURE));
+                        .getColumnIndexOrThrow(FeaturesWithOptionsDBHelper.C_ID_FEATURE));
 
                     int choices = featuresWithOptionsCursor.getInt(featuresWithOptionsCursor
-                        .getColumnIndexOrThrow(FeaturesWithOptionsDBAdapter.C_CHOICES));
+                        .getColumnIndexOrThrow(FeaturesWithOptionsDBHelper.C_CHOICES));
 
                     if (feature.getId() == featureCode) {
                         feature.setChoices(choices);
@@ -67,9 +67,10 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
                 Cursor featureChoicesCursor = featureChoicesDBAdapter.getCursor();
 
                 while (featureChoicesCursor.moveToNext()) {
-                    int featureId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_FEATURE));
+                    int featureId = featureChoicesCursor.getInt(featureChoicesCursor.getColumnIndexOrThrow(
+                        FeatureChoicesDBHelper.C_ID_FEATURE));
                     int choiceId = featureChoicesCursor.getInt(featureChoicesCursor
-                        .getColumnIndexOrThrow(FeatureChoicesDBAdapter.C_ID_CHOICE));
+                        .getColumnIndexOrThrow(FeatureChoicesDBHelper.C_ID_CHOICE));
                     if (featureId == feature.getId()) {
                         for (Feature potentialChoice : features) {
                             if (potentialChoice.getId() == choiceId) {
@@ -98,27 +99,27 @@ public class FeaturesDBAdapter extends BaseTableAdapter {
         return features;
     }
 
-    class FeaturesWithOptionsDBAdapter extends BaseTableAdapter {
+    class FeaturesWithOptionsDBHelper extends BaseTableHelper {
 
         static public final String T_FEATURES_WITH_OPTIONS = "FeaturesWithOptions";
         static public final String C_ID_FEATURE = "id_feature";
         static public final String C_CHOICES = "choices";
         static public final String C_ROW_ID = "rowid";
 
-        public FeaturesWithOptionsDBAdapter(Context context) {
+        public FeaturesWithOptionsDBHelper(Context context) {
             super(context);
             this.setManagedTable(T_FEATURES_WITH_OPTIONS);
             this.setColumns(new String[] { C_ID_FEATURE, C_CHOICES });
         }
     }
 
-    class FeatureChoicesDBAdapter extends BaseTableAdapter {
+    class FeatureChoicesDBHelper extends BaseTableHelper {
 
         static public final String T_FEATURES_CHOICES = "FeatureChoices";
         static public final String C_ID_FEATURE = "id_feature";
         static public final String C_ID_CHOICE = "id_choice";
 
-        public FeatureChoicesDBAdapter(Context context) {
+        public FeatureChoicesDBHelper(Context context) {
             super(context);
             this.setManagedTable(T_FEATURES_CHOICES);
             this.setColumns(new String[] { C_ID_FEATURE, C_ID_CHOICE});

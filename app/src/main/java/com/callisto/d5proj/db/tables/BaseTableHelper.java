@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.callisto.d5proj.db.DBHelper;
 
-public abstract class BaseTableAdapter {
+public abstract class BaseTableHelper {
     static public final String C_ID = "_id";
 
     protected Context context;
@@ -41,7 +41,7 @@ public abstract class BaseTableAdapter {
         this.columns = columns;
     }
 
-    public BaseTableAdapter(Context context) {
+    public BaseTableHelper(Context context) {
         this.context = context;
     }
 
@@ -138,7 +138,7 @@ public abstract class BaseTableAdapter {
         return result;
     }
 
-    public BaseTableAdapter open() throws SQLException {
+    public BaseTableHelper open() throws SQLException {
         dbHelper = DBHelper.getInstance(context);
         db = dbHelper.getWritableDatabase();
 

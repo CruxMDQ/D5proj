@@ -19,8 +19,9 @@ import java.util.ArrayList;
  */
 public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoicesRVAdapter.ChoiceRowHolder> {
 
-    public FeatureChoicesRVAdapter(ArrayList<Feature> features, OnFeaturePickedListener listener) {
-        this.options = features;
+    public FeatureChoicesRVAdapter(Feature root, OnFeaturePickedListener listener) {
+        this.rootFeature = root;
+        this.options = root.getFeatureChoices();
         this.listener = listener;
     }
 
@@ -41,9 +42,6 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
         return (null != options ? options.size() : 0);
     }
 
-    private ArrayList<Feature> options;
-    private OnFeaturePickedListener listener;
-
     public class ChoiceRowHolder extends RecyclerView.ViewHolder {
 
         protected Feature option;
@@ -63,4 +61,9 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
                 });
         }
     }
+
+    private Feature rootFeature;
+    private ArrayList<Feature> options;
+    private OnFeaturePickedListener listener;
+
 }

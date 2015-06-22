@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class BaseCreatureTypes extends BaseTableAdapter {
+public class BaseCreatureTypes extends BaseTableHelper {
 
     public BaseCreatureTypes(Context context) {
         super(context);

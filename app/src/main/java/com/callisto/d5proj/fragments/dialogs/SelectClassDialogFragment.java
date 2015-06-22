@@ -1,4 +1,4 @@
-package com.callisto.d5proj.fragments;
+package com.callisto.d5proj.fragments.dialogs;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -16,19 +16,19 @@ import com.callisto.d5proj.adapters.ClassSelectorAdapter;
 /**
  * Created by emiliano.desantis on 10/02/2015.
  */
-public class SelectClassDFragment extends android.support.v4.app.DialogFragment {
+public class SelectClassDialogFragment extends android.support.v4.app.DialogFragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static SelectClassDFragment newInstance(int sectionNumber) {
-        SelectClassDFragment fragment = new SelectClassDFragment();
+    public static SelectClassDialogFragment newInstance(int sectionNumber) {
+        SelectClassDialogFragment fragment = new SelectClassDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SelectClassDFragment() {
+    public SelectClassDialogFragment() {
     }
 
     @Override

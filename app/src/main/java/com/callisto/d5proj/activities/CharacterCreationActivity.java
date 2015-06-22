@@ -16,13 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.db.tables.CharacterClassesAdapter;
+import com.callisto.d5proj.db.tables.CharacterClassesHelper;
 import com.callisto.d5proj.db.tables.ExperienceLevels;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.BaseStatsFragment;
 import com.callisto.d5proj.fragments.DerivedStatsFragment;
 import com.callisto.d5proj.fragments.NavigationDrawerFragment;
-import com.callisto.d5proj.fragments.SelectClassDFragment;
+import com.callisto.d5proj.fragments.dialogs.SelectClassDialogFragment;
 import com.callisto.d5proj.interfaces.OnStatChangeListener;
 import com.callisto.d5proj.pojos.CharacterClass;
 import com.callisto.d5proj.pojos.Level;
@@ -48,7 +48,7 @@ public class CharacterCreationActivity extends ActionBarActivity
     /**
      * Database stuff
      */
-    private CharacterClassesAdapter dbCharacterClasses;
+    private CharacterClassesHelper dbCharacterClasses;
     private ExperienceLevels dbCharacterLevels;
 
     /**
@@ -58,7 +58,7 @@ public class CharacterCreationActivity extends ActionBarActivity
 
     private BaseStatsFragment baseStatsFragment;
     private DerivedStatsFragment derivedStatsFragment;
-    private SelectClassDFragment selectClassDFragment;
+    private SelectClassDialogFragment selectClassDFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -81,9 +81,9 @@ public class CharacterCreationActivity extends ActionBarActivity
 
         baseStatsFragment = BaseStatsFragment.newInstance(1);
         derivedStatsFragment = DerivedStatsFragment.newInstance(2);
-        selectClassDFragment = SelectClassDFragment.newInstance(3);
+        selectClassDFragment = SelectClassDialogFragment.newInstance(3);
 
-        dbCharacterClasses = new CharacterClassesAdapter(this);
+        dbCharacterClasses = new CharacterClassesHelper(this);
         dbCharacterLevels = new ExperienceLevels(this);
 
 //        parseXML();

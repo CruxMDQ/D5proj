@@ -15,12 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.callisto.d5proj.Constants;
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.RaceSelectorAdapter;
 import com.callisto.d5proj.adapters.RaceStepRVAdapter;
-import com.callisto.d5proj.db.tables.RacesDBAdapter;
+import com.callisto.d5proj.db.tables.RacesTableHelper;
+import com.callisto.d5proj.db.tables.SpellsTableHelper;
 import com.callisto.d5proj.enums.BaseStatistic;
-import com.callisto.d5proj.fragments.PickChoicesDFragment;
+import com.callisto.d5proj.fragments.dialogs.PickChoicesDialogFragment;
 import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
 import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
@@ -56,7 +58,8 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     }
 
     private void resetRaces() {
-        RacesDBAdapter racesDBAdapter = new RacesDBAdapter(this.getActivity());
+        RacesTableHelper racesDBAdapter = new RacesTableHelper(this.getActivity());
+        SpellsTableHelper spellsTableHelper = new SpellsTableHelper(this.getActivity());
 
         races = racesDBAdapter.getAllRaces();
 
@@ -173,9 +176,18 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
     @Override
     public void onInputClick(Feature feature) {
-        PickChoicesDFragment pickChoices = PickChoicesDFragment.newInstance(feature, this);
-        pickChoices.setModal(true);
-        pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
+        switch (feature.getId()) {
+        case Constants.FEATURE_CODE_CANTRIP: {
+            break;
+        }
+        default: {
+            PickChoicesDialogFragment pickChoices = PickChoicesDialogFragment
+                .newInstance(feature, this);
+            pickChoices.setModal(true);
+            pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
+            break;
+        }
+        }
     }
 
     private boolean pickedFeatures = false;

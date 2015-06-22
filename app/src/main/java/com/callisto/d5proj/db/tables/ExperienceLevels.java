@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 09/02/2015.
  */
-public class ExperienceLevels extends BaseTableAdapter {
+public class ExperienceLevels extends BaseTableHelper {
     public ExperienceLevels(Context context) {
         super(context);
         this.setManagedTable(T_EXP_LEVELS);
@@ -50,7 +50,7 @@ public class ExperienceLevels extends BaseTableAdapter {
         + C_ID_FEATURE + " INTEGER NOT NULL,"
         + C_LEVEL + " INTEGER,"
         + " PRIMARY KEY (" + C_ID_CLASS + ", " + C_ID_FEATURE + "),"
-        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + CharacterClassesAdapter.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
+        + " FOREIGN KEY (" + C_ID_CLASS + ")" + " REFERENCES " + CharacterClassesHelper.T_CHARACTER_CLASSES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE,"
         + " FOREIGN KEY (" + C_ID_FEATURE + ")" + " REFERENCES " + T_FEATURES + "(" + C_ID + ")" + " ON UPDATE CASCADE ON DELETE CASCADE"
         + ");";
 }

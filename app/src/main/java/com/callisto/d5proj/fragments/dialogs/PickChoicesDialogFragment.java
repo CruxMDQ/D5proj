@@ -1,4 +1,4 @@
-package com.callisto.d5proj.fragments;
+package com.callisto.d5proj.fragments.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,14 +22,14 @@ import java.util.ArrayList;
 /**
  * Created by emiliano.desantis on 10/02/2015.
  */
-public class PickChoicesDFragment extends android.support.v4.app.DialogFragment
+public class PickChoicesDialogFragment extends android.support.v4.app.DialogFragment
     implements OnFeaturePickedListener  {
 
-    public PickChoicesDFragment() { }
+    public PickChoicesDialogFragment() { }
 
-    public static PickChoicesDFragment newInstance(Feature feature, AfterChoosingOptionsListener listener)
+    public static PickChoicesDialogFragment newInstance(Feature feature, AfterChoosingOptionsListener listener)
     {
-        PickChoicesDFragment frag = new PickChoicesDFragment();
+        PickChoicesDialogFragment frag = new PickChoicesDialogFragment();
         frag.listener = listener;
         frag.feature = feature;
         frag.isModal = true;
@@ -39,7 +39,7 @@ public class PickChoicesDFragment extends android.support.v4.app.DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (isModal) {
+        if (this.isModal()) {
             return super.onCreateView(inflater, container, savedInstanceState);
         } else {
             View rootView = inflater
@@ -92,7 +92,7 @@ public class PickChoicesDFragment extends android.support.v4.app.DialogFragment
     }
 
     private void populateFeatureChoices() {
-        rvFeatureChoices.setAdapter(new FeatureChoicesRVAdapter(feature.getFeatureChoices(), this));
+        rvFeatureChoices.setAdapter(new FeatureChoicesRVAdapter(feature, this));
     }
 
     public void addPick(Feature pick) {

@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 13/02/2015.
  */
-public class SkillsPerClass extends BaseTableAdapter {
+public class SkillsPerClass extends BaseTableHelper {
     public SkillsPerClass(Context context) {
         super(context);
         this.setManagedTable(T_SKILLS_CLASSES);

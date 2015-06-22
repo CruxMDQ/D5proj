@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
-public class RacesDBAdapter extends BaseTableAdapter {
+public class RacesTableHelper extends BaseTableHelper {
 
     static public final String T_RACES = "Races";
     static public final String C_NAME = "name";
@@ -25,18 +25,18 @@ public class RacesDBAdapter extends BaseTableAdapter {
     static public final String C_ID_PARENT = "id_parent";
     static public final String C_IS_ARCHETYPE = "isArchetype";
 
-    private RacialStatsDBAdapter racialStatsDBAdapter;
-    private RacialFeaturesDBAdapter racialFeaturesDBAdapter;
-    private FeaturesDBAdapter featuresDBAdapter;
+    private RacialStatsTableHelper racialStatsDBAdapter;
+    private RacialFeaturesTableHelper racialFeaturesDBAdapter;
+    private FeaturesTableHelper featuresDBAdapter;
 
     private List<Race> races;
     private List<Feature> featureList;
 
-    public RacesDBAdapter(Context context) {
+    public RacesTableHelper(Context context) {
         super(context);
-        racialStatsDBAdapter = new RacialStatsDBAdapter(context);
-        racialFeaturesDBAdapter = new RacialFeaturesDBAdapter(context);
-        featuresDBAdapter = new FeaturesDBAdapter(context);
+        racialStatsDBAdapter = new RacialStatsTableHelper(context);
+        racialFeaturesDBAdapter = new RacialFeaturesTableHelper(context);
+        featuresDBAdapter = new FeaturesTableHelper(context);
         this.setManagedTable(T_RACES);
         this.setColumns(new String[]{C_ID, C_NAME, C_SPEED, C_ID_SIZE, C_ID_PARENT, C_IS_ARCHETYPE});
     }
@@ -59,11 +59,12 @@ public class RacesDBAdapter extends BaseTableAdapter {
             race.setId(raceId);
 
             while (raceStats.moveToNext()) {
-                if (raceId == raceStats.getInt(raceStats.getColumnIndexOrThrow(RacialStatsDBAdapter.C_ID_RACE))) {
+                if (raceId == raceStats.getInt(raceStats.getColumnIndexOrThrow(
+                    RacialStatsTableHelper.C_ID_RACE))) {
                     Pair<BaseStatistic, Integer> statMod = new Pair<>(
                         (BaseStatistic.valueOf(raceStats.getString(raceStats.getColumnIndexOrThrow(
-                            RacialStatsDBAdapter.C_STAT)))),
-                        raceStats.getInt(raceStats.getColumnIndexOrThrow(RacialStatsDBAdapter.C_BONUS))
+                            RacialStatsTableHelper.C_STAT)))),
+                        raceStats.getInt(raceStats.getColumnIndexOrThrow(RacialStatsTableHelper.C_BONUS))
                     );
 
                     race.addStatMod(statMod);
@@ -112,21 +113,21 @@ public class RacesDBAdapter extends BaseTableAdapter {
         return featureList;
     }
 
-    public class RacialStatsDBAdapter extends BaseTableAdapter {
+    public class RacialStatsTableHelper extends BaseTableHelper {
 
         static public final String T_RACIAL_STATS = "RacialStats";
         static public final String C_ID_RACE = "id_race";
         static public final String C_STAT = "stat";
         static public final String C_BONUS = "bonus";
 
-        public RacialStatsDBAdapter(Context context) {
+        public RacialStatsTableHelper(Context context) {
             super(context);
             this.setManagedTable(T_RACIAL_STATS);
             this.setColumns(new String[] { C_ID, C_ID_RACE, C_STAT, C_BONUS });
         }
     }
 
-    public class RacialFeaturesDBAdapter extends BaseTableAdapter {
+    public class RacialFeaturesTableHelper extends BaseTableHelper {
 
         static public final String T_RACIAL_FEATURES = "RacialFeatures";
         static public final String C_ID_RACE = "id_race";
@@ -134,7 +135,7 @@ public class RacesDBAdapter extends BaseTableAdapter {
 
         List<Feature> featureList;
 
-        public RacialFeaturesDBAdapter(Context context) {
+        public RacialFeaturesTableHelper(Context context) {
             super(context);
             this.setManagedTable(T_RACIAL_FEATURES);
             this.setColumns(new String[] { C_ID, C_ID_RACE, C_ID_FEATURE });

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.callisto.d5proj.Constants;
 import com.callisto.d5proj.R;
 
 /**
@@ -26,9 +27,9 @@ public class EditableStatBox extends LinearLayout{
         setAttributeRoll(aAttrs.getInteger(R.styleable.StatBox_attributeRoll, 0));
         setAttributeBonus(aAttrs.getInteger(R.styleable.StatBox_attributeBonus, 0));
         setMinimumValue(aAttrs
-            .getInteger(R.styleable.StatBox_minimumValue, R.integer.MINIMUM_CHAR_STARTING_STAT));
+            .getInteger(R.styleable.StatBox_minimumValue, Constants.MINIMUM_CHAR_STARTING_STAT));
         setMaximumValue(aAttrs
-            .getInteger(R.styleable.StatBox_maximumValue, R.integer.MAXIMUM_CHAR_STARTING_STAT));
+            .getInteger(R.styleable.StatBox_maximumValue, Constants.MAXIMUM_CHAR_STARTING_STAT));
 
         aAttrs.recycle();
 
