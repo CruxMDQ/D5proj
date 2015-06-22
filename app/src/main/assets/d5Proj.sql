@@ -1214,9 +1214,14 @@ CREATE TABLE "SpellSchools" (
 "_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 "schoolName"  TEXT NOT NULL
 );
-INSERT INTO "SpellSchools" VALUES(1,'Evocation');
-INSERT INTO "SpellSchools" VALUES(2,'Abjuration');
-INSERT INTO "SpellSchools" VALUES(3,'Enchantment');
+INSERT INTO "SpellSchools" VALUES(1,'Abjuration');
+INSERT INTO "SpellSchools" VALUES(2,'Conjuration');
+INSERT INTO "SpellSchools" VALUES(3,'Divination');
+INSERT INTO "SpellSchools" VALUES(4,'Enchantment');
+INSERT INTO "SpellSchools" VALUES(5,'Evocation');
+INSERT INTO "SpellSchools" VALUES(6,'Illusion');
+INSERT INTO "SpellSchools" VALUES(7,'Necromancy');
+INSERT INTO "SpellSchools" VALUES(8,'Transmutation');
 DROP TABLE IF EXISTS "Spellbooks";
 CREATE TABLE Spellbooks
 (
@@ -1242,10 +1247,10 @@ CREATE TABLE "Spells" (
 "detail"  TEXT NOT NULL,
 CONSTRAINT "fk_spell_school" FOREIGN KEY ("id_school") REFERENCES "SpellSchools" ("_id")
 );
-INSERT INTO "Spells" VALUES(1,'Dancing Lights',1,0,5,1,0,1,1,1,0,'You create up to four torch-sized lights within range.');
-INSERT INTO "Spells" VALUES(2,'Blade Ward',2,0,5,1,0,1,1,0,0,'Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.');
-INSERT INTO "Spells" VALUES(3,'Friends',3,0,5,0,1,0,1,1,0,'You have advantage on all Charisma checks directed at one creature of your choice that is not hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you.');
-INSERT INTO "Spells" VALUES(4,'Light',1,0,5,0,0,1,0,1,0,'One object touched no larger than 10 feet in any dimension sheds bright light in a 20-foot radius and dim light for an additional 20 feet.');
+INSERT INTO "Spells" VALUES(1,'Dancing Lights',5,0,5,1,0,1,1,1,0,'You create up to four torch-sized lights within range.');
+INSERT INTO "Spells" VALUES(2,'Blade Ward',1,0,5,1,0,1,1,0,0,'Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.');
+INSERT INTO "Spells" VALUES(3,'Friends',4,0,5,0,1,0,1,1,0,'You have advantage on all Charisma checks directed at one creature of your choice that is not hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you.');
+INSERT INTO "Spells" VALUES(4,'Light',5,0,5,0,0,1,0,1,0,'One object touched no larger than 10 feet in any dimension sheds bright light in a 20-foot radius and dim light for an additional 20 feet.');
 DROP TABLE IF EXISTS "TimeUnits";
 CREATE TABLE "TimeUnits"
 (
