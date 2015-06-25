@@ -9,9 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.interfaces.OnFeaturePickedListener;
-import com.callisto.d5proj.interfaces.OnSpellPickedListener;
-import com.callisto.d5proj.pojos.Feature;
+import com.callisto.d5proj.interfaces.OnChoicePickedListener;
 import com.callisto.d5proj.pojos.Spell;
 
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
  */
 public class SpellChoicesRVAdapter extends RecyclerView.Adapter<SpellChoicesRVAdapter.ChoiceRowHolder> {
 
-    public SpellChoicesRVAdapter(ArrayList<Spell> options, OnSpellPickedListener listener) {
+    public SpellChoicesRVAdapter(ArrayList<Spell> options, OnChoicePickedListener listener) {
         this.options = options;
         this.listener = listener;
     }
@@ -47,9 +45,9 @@ public class SpellChoicesRVAdapter extends RecyclerView.Adapter<SpellChoicesRVAd
 
         protected Spell spell;
         protected CheckBox chkFeatureChoice;
-        protected OnSpellPickedListener listener;
+        protected OnChoicePickedListener listener;
 
-        public ChoiceRowHolder(View view, final OnSpellPickedListener listener) {
+        public ChoiceRowHolder(View view, final OnChoicePickedListener listener) {
             super(view);
             this.listener = listener;
             this.chkFeatureChoice = (CheckBox) view.findViewById(R.id.chkFeatureChoice);
@@ -57,13 +55,13 @@ public class SpellChoicesRVAdapter extends RecyclerView.Adapter<SpellChoicesRVAd
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        listener.onSpellPicked(spell);
+                        listener.onChoicePicked(spell);
                     }
                 });
         }
     }
 
     private ArrayList<Spell> options;
-    private OnSpellPickedListener listener;
+    private OnChoicePickedListener listener;
 
 }

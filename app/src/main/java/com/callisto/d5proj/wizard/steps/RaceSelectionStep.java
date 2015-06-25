@@ -22,7 +22,8 @@ import com.callisto.d5proj.adapters.RaceStepRVAdapter;
 import com.callisto.d5proj.db.tables.RacesTableHelper;
 import com.callisto.d5proj.db.tables.SpellsTableHelper;
 import com.callisto.d5proj.enums.BaseStatistic;
-import com.callisto.d5proj.fragments.dialogs.PickChoicesDialogFragment;
+import com.callisto.d5proj.fragments.dialogs.PickFeatureDialogFragment;
+import com.callisto.d5proj.fragments.dialogs.PickSpellsDialogFragment;
 import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
 import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
@@ -59,7 +60,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
 
     private void resetRaces() {
         RacesTableHelper racesDBAdapter = new RacesTableHelper(this.getActivity());
-        SpellsTableHelper spellsTableHelper = new SpellsTableHelper(this.getActivity());
+        spellsTableHelper = new SpellsTableHelper(this.getActivity());
 
         races = racesDBAdapter.getAllRaces();
 
@@ -74,15 +75,15 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         }
     }
 
-    @Override
-    public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
-        // TODO: Implement 'Character' class and copy features from selected race. How to store it? A SharedPreference? Use DB?
-        character.getFeatures().remove(feature);
-        rvFeatures.getAdapter().notifyDataSetChanged();
-        character.getFeatures().addAll(choices);
-        rvFeatures.getAdapter().notifyDataSetChanged();
-        pickedFeatures = true;
-    }
+//    @Override
+//    public void afterChoosingOptions(Feature feature, ArrayList<Feature> choices) {
+//        // TODO: Implement 'Character' class and copy features from selected race. How to store it? A SharedPreference? Use DB?
+//        character.getFeatures().remove(feature);
+//        rvFeatures.getAdapter().notifyDataSetChanged();
+//        character.getFeatures().addAll(choices);
+//        rvFeatures.getAdapter().notifyDataSetChanged();
+//        pickedFeatures = true;
+//    }
 
     private void findComponents(View rootView) {
         spinnerSelectRace = (Spinner) rootView.findViewById(R.id.spinnerSelectRace);
@@ -178,10 +179,14 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     public void onInputClick(Feature feature) {
         switch (feature.getId()) {
         case Constants.FEATURE_CODE_CANTRIP: {
+            PickSpellsDialogFragment pickSpells = PickSpellsDialogFragment
+                .newInstance(feature, spellsTableHelper.filterSpellsPerLevel(0), this);
+            pickSpells.setModal(true);
+            pickSpells.show(getActivity().getSupportFragmentManager(), "PickSpells");
             break;
         }
         default: {
-            PickChoicesDialogFragment pickChoices = PickChoicesDialogFragment
+            PickFeatureDialogFragment pickChoices = PickFeatureDialogFragment
                 .newInstance(feature, this);
             pickChoices.setModal(true);
             pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
@@ -203,4 +208,17 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     private RecyclerView rvFeatures;
 
     private GameActor character = new GameActor();
+
+    private SpellsTableHelper spellsTableHelper;
+
+    @Override
+    public void afterChoosingOptions(Object feature, ArrayList choices) {
+        if ((feature instanceof Feature) && (choices.get(0) instanceof Feature)) {
+            character.getFeatures().remove(feature);
+            rvFeatures.getAdapter().notifyDataSetChanged();
+            character.getFeatures().addAll(choices);
+            rvFeatures.getAdapter().notifyDataSetChanged();
+            pickedFeatures = true;
+        }
+    }
 }

@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.interfaces.OnFeaturePickedListener;
+import com.callisto.d5proj.interfaces.OnChoicePickedListener;
 import com.callisto.d5proj.pojos.Feature;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoicesRVAdapter.ChoiceRowHolder> {
 
-    public FeatureChoicesRVAdapter(Feature root, OnFeaturePickedListener listener) {
+    public FeatureChoicesRVAdapter(Feature root, OnChoicePickedListener listener) {
         this.rootFeature = root;
         this.options = root.getFeatureChoices();
         this.listener = listener;
@@ -46,9 +46,9 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
 
         protected Feature option;
         protected CheckBox chkFeatureChoice;
-        protected OnFeaturePickedListener listener;
+        protected OnChoicePickedListener listener;
 
-        public ChoiceRowHolder(View view, final OnFeaturePickedListener listener) {
+        public ChoiceRowHolder(View view, final OnChoicePickedListener listener) {
             super(view);
             this.listener = listener;
             this.chkFeatureChoice = (CheckBox) view.findViewById(R.id.chkFeatureChoice);
@@ -56,7 +56,7 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        listener.onFeaturePicked(option);
+                        listener.onChoicePicked(option);
                     }
                 });
         }
@@ -64,6 +64,6 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
 
     private Feature rootFeature;
     private ArrayList<Feature> options;
-    private OnFeaturePickedListener listener;
+    private OnChoicePickedListener listener;
 
 }

@@ -66,4 +66,20 @@ public class SpellsTableHelper extends BaseTableHelper {
         spell.setIsCombatSpell(cursor.getInt(cursor.getColumnIndexOrThrow(C_IS_COMBAT_SPELL)) == 1);
         spell.setDetail(cursor.getString(cursor.getColumnIndexOrThrow(C_DETAIL)));
     }
+
+    public ArrayList<Spell> filterSpellsPerLevel(int level) {
+        if (spells == null) {
+            load();
+        }
+
+        ArrayList<Spell> result = new ArrayList<>();
+
+        for (Spell s : spells) {
+            if (s.getLevel() == level) {
+                result.add(s);
+            }
+        }
+
+        return result;
+    }
 }

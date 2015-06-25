@@ -13,29 +13,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.adapters.FeatureChoicesRVAdapter;
 import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
-import com.callisto.d5proj.interfaces.OnFeaturePickedListener;
+import com.callisto.d5proj.interfaces.OnChoicePickedListener;
 import com.callisto.d5proj.pojos.Feature;
 
 import java.util.ArrayList;
 
 /**
- * Created by emiliano.desantis on 10/02/2015.
+ * Created by emiliano.desantis on 25/06/2015.
  */
-public class PickChoicesDialogFragment extends android.support.v4.app.DialogFragment
-    implements OnFeaturePickedListener  {
-
-    public PickChoicesDialogFragment() { }
-
-    public static PickChoicesDialogFragment newInstance(Feature feature, AfterChoosingOptionsListener listener)
-    {
-        PickChoicesDialogFragment frag = new PickChoicesDialogFragment();
-        frag.listener = listener;
-        frag.feature = feature;
-        frag.isModal = true;
-        return frag;
-    }
+public abstract class PickOptionDialogFragment<T> extends android.support.v4.app.DialogFragment implements OnChoicePickedListener {
+    protected RecyclerView rvChoices;
+    protected Button mButton;
+    protected Feature feature;
+    protected AfterChoosingOptionsListener<T> listener;
+    protected ArrayList<T> picks;
+    protected boolean isModal = false;
+    protected AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,16 +56,12 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
 
         alertDialogBuilder.setView(view);
 
-        if (feature.getChoices() == 1) {
-            alertDialogBuilder.setTitle(getString(R.string.feature_options_pick_one));
-        } else {
-            alertDialogBuilder.setTitle(
-                String.format(getString(R.string.feature_options_pick_several), feature.getChoices()));
-        }
+        setDialogTitle(alertDialogBuilder);
 
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+//                fireOnClick(feature, picks);
                 listener.afterChoosingOptions(feature, picks);
                 dialog.dismiss();
             }
@@ -90,11 +80,10 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
         });
 
         return dialog;
-//        return alertDialogBuilder.create();
     }
 
     @Override
-    public void onFeaturePicked(Feature pick) {
+    public void onChoicePicked(Object pick) {
         addPick(pick);
     }
 
@@ -104,31 +93,20 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
 //        super.getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 
-    private void findComponents(View rootView) {
-        rvFeatureChoices = (RecyclerView) rootView.findViewById(R.id.rvFeatureChoices);
-        rvFeatureChoices.setLayoutManager(new LinearLayoutManager(getActivity()));
+    protected void findComponents(View rootView) {
+        rvChoices = (RecyclerView) rootView.findViewById(R.id.rvFeatureChoices);
+        rvChoices.setLayoutManager(new LinearLayoutManager(getActivity()));
         mButton = (Button) rootView.findViewById(R.id.btnOK);
-        populateFeatureChoices();
+        populateChoices();
     }
 
-    private void populateFeatureChoices() {
-        rvFeatureChoices.setAdapter(new FeatureChoicesRVAdapter(feature, this));
-    }
+    protected abstract void setDialogTitle(AlertDialog.Builder alertDialogBuilder);
 
-    public void addPick(Feature pick) {
-        if (picks == null) picks = new ArrayList<>();
-        if (picks.contains(pick)) {
-            picks.remove(pick);
-        } else {
-            picks.add(pick);
-        }
+    protected abstract void populateChoices();
 
-        if (picks.size() != feature.getChoices()) {
-            getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        } else {
-            getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-        }
-    }
+    protected abstract void addPick(Object pick);
+
+//    protected abstract void fireOnClick(Object feature, ArrayList<T> picks);
 
     @Override
     public AlertDialog getDialog() {
@@ -142,15 +120,4 @@ public class PickChoicesDialogFragment extends android.support.v4.app.DialogFrag
     public void setModal(boolean isModal) {
         this.isModal = isModal;
     }
-
-    private RecyclerView rvFeatureChoices;
-    private Button mButton;
-
-    private Feature feature;
-    private AfterChoosingOptionsListener listener;
-    private ArrayList<Feature> picks;
-
-    private boolean isModal = false;
-
-    private AlertDialog dialog;
 }
