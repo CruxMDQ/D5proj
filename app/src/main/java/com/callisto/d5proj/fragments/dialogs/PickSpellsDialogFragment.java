@@ -18,13 +18,14 @@ public class PickSpellsDialogFragment extends PickOptionDialogFragment //android
 {
     public PickSpellsDialogFragment() { }
 
-    public static PickSpellsDialogFragment newInstance(Feature feature, ArrayList<Spell> spells, AfterChoosingOptionsListener listener) {
+    public static PickSpellsDialogFragment newInstance(Feature feature, ArrayList<Spell> spells, int spellLevel, AfterChoosingOptionsListener listener) {
         PickSpellsDialogFragment frag = new PickSpellsDialogFragment();
         frag.listener = listener;
         frag.feature = feature;
         frag.isModal = true;
 
         frag.spells = spells;
+        frag.spellLevel = spellLevel;
 
         return frag;
     }
@@ -142,5 +143,5 @@ public class PickSpellsDialogFragment extends PickOptionDialogFragment //android
     private ArrayList<Spell> spells;
 
     private int spellLevel;
-    private String casterClass;
+//    private String casterClass;
 }

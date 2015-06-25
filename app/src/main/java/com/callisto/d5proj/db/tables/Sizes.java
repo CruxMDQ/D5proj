@@ -5,10 +5,11 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
-public class Sizes extends BaseTableHelper {
+@SuppressWarnings("unused")
+class Sizes extends BaseTableHelper {
 
-    static public final String T_SIZES = "Sizes";
-    static public final String C_NAME = "name";
+    private static final String T_SIZES = "Sizes";
+    private static final String C_NAME = "name";
 
     public Sizes(Context context) {
         super(context);

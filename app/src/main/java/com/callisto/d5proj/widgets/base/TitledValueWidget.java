@@ -34,35 +34,35 @@ public abstract class TitledValueWidget extends LinearLayout {
         getTxtAttributeRoll().setText(String.valueOf(getAttributeValue()));
     }
 
-    public TextView getTxtAttributeName() {
+    private TextView getTxtAttributeName() {
         return txtAttributeName;
     }
 
-    public void setTxtAttributeName(TextView txtAttributeName) {
+    private void setTxtAttributeName(TextView txtAttributeName) {
         this.txtAttributeName = txtAttributeName;
     }
 
-    public TextView getTxtAttributeRoll() {
+    private TextView getTxtAttributeRoll() {
         return txtAttributeRoll;
     }
 
-    public void setTxtAttributeRoll(TextView txtAttributeRoll) {
+    private void setTxtAttributeRoll(TextView txtAttributeRoll) {
         this.txtAttributeRoll = txtAttributeRoll;
     }
 
-    public String getAttributeName() {
+    private String getAttributeName() {
         return attributeName;
     }
 
-    public void setAttributeName(String attributeName) {
+    private void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
     }
 
-    public int getAttributeValue() {
+    protected int getAttributeValue() {
         return attributeValue;
     }
 
-    public void setAttributeValue(int attributeValue) {
+    protected void setAttributeValue(int attributeValue) {
         this.attributeValue = attributeValue;
         if (getTxtAttributeRoll() != null) {
             getTxtAttributeRoll().setText(String.valueOf(attributeValue));

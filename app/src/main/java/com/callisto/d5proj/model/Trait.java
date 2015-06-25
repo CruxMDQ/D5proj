@@ -3,7 +3,7 @@ package com.callisto.d5proj.model;
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class Trait {
+class Trait {
     public int getId() {
         return id;
     }

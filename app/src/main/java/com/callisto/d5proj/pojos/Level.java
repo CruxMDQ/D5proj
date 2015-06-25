@@ -4,9 +4,9 @@ package com.callisto.d5proj.pojos;
  * Created by Crux on 07/02/2015.
  */
 public class Level {
-    int number;
-    int experience;
-    int proficiencyBonus;
+    private int number;
+    private int experience;
+    private int proficiencyBonus;
 
     public int getNumber() {
         return number;

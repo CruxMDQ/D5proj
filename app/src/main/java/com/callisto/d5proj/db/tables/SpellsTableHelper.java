@@ -11,18 +11,18 @@ import java.util.ArrayList;
  * Created by emiliano.desantis on 22/06/2015.
  */
 public class SpellsTableHelper extends BaseTableHelper {
-    static public final String T_SPELLS = "Spells";
-    static public final String C_NAME = "name";
-    static public final String C_ID_SCHOOL = "id_school";
-    static public final String C_LEVEL = "level";
-    static public final String C_CASTING_TIME = "castingTime";
-    static public final String C_IS_INSTANTANEOUS = "isInstantaneous";
-    static public final String C_REQ_CONCENTRATION = "requiresConcentration";
-    static public final String C_COMP_HAS_VERBAL = "hasVerbalComponent";
-    static public final String C_COMP_HAS_SOMATIC = "hasSomaticComponent";
-    static public final String C_COMP_HAS_MATERIAL = "hasMaterialComponent";
-    static public final String C_IS_COMBAT_SPELL = "isCombatSpell";
-    static public final String C_DETAIL = "detail";
+    private static final String T_SPELLS = "Spells";
+    private static final String C_NAME = "name";
+    private static final String C_ID_SCHOOL = "id_school";
+    private static final String C_LEVEL = "level";
+    private static final String C_CASTING_TIME = "castingTime";
+    private static final String C_IS_INSTANTANEOUS = "isInstantaneous";
+    private static final String C_REQ_CONCENTRATION = "requiresConcentration";
+    private static final String C_COMP_HAS_VERBAL = "hasVerbalComponent";
+    private static final String C_COMP_HAS_SOMATIC = "hasSomaticComponent";
+    private static final String C_COMP_HAS_MATERIAL = "hasMaterialComponent";
+    private static final String C_IS_COMBAT_SPELL = "isCombatSpell";
+    private static final String C_DETAIL = "detail";
 
     private SpellSchoolsTableHelper spellSchoolsTableHelper;
 

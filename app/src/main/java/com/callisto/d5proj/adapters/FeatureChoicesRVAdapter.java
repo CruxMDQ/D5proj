@@ -44,9 +44,9 @@ public class FeatureChoicesRVAdapter extends RecyclerView.Adapter<FeatureChoices
 
     public class ChoiceRowHolder extends RecyclerView.ViewHolder {
 
-        protected Feature option;
-        protected CheckBox chkFeatureChoice;
-        protected OnChoicePickedListener listener;
+        Feature option;
+        CheckBox chkFeatureChoice;
+        OnChoicePickedListener listener;
 
         public ChoiceRowHolder(View view, final OnChoicePickedListener listener) {
             super(view);

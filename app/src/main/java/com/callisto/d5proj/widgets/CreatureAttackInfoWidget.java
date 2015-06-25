@@ -46,31 +46,31 @@ public class CreatureAttackInfoWidget extends LinearLayout{
 
     }
 
-    public TextView getTxtDmg() {
+    private TextView getTxtDmg() {
         return txtDmg;
     }
 
-    public void setTxtDmg(TextView txtDmg) {
+    private void setTxtDmg(TextView txtDmg) {
         this.txtDmg = txtDmg;
     }
 
-    public TextView getTxtSpecialQualities() {
+    private TextView getTxtSpecialQualities() {
         return txtSpecialQualities;
     }
 
-    public void setTxtSpecialQualities(TextView txtSpecialQualities) {
+    private void setTxtSpecialQualities(TextView txtSpecialQualities) {
         this.txtSpecialQualities = txtSpecialQualities;
     }
 
-    public TextView getTxtWeapon() {
+    private TextView getTxtWeapon() {
         return txtWeapon;
     }
 
-    public void setTxtWeapon(TextView txtWeapon) {
+    private void setTxtWeapon(TextView txtWeapon) {
         this.txtWeapon = txtWeapon;
     }
 
-    public int getLayout() {
+    private int getLayout() {
         return R.layout.fragment_frame_attack;
     }
 }

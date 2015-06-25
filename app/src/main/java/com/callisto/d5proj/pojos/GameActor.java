@@ -1,10 +1,12 @@
 package com.callisto.d5proj.pojos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by emiliano.desantis on 07/05/2015.
  */
+@SuppressWarnings("unused")
 public class GameActor {
     private int STR;
     private int DEX;
@@ -18,6 +20,7 @@ public class GameActor {
     private Race race;
     private ArrayList<Feature> features;
     private ArrayList<ClassLevel> classLevels;
+    private ArrayList<Spell> knownSpells;
 
     public GameActor() { }
 
@@ -138,5 +141,32 @@ public class GameActor {
 
     public void setFeatures(ArrayList<Feature> features) {
         this.features = features;
+    }
+
+    public ArrayList<Spell> getKnownSpells() {
+        return knownSpells;
+    }
+
+    public void setKnownSpells(ArrayList<Spell> knownSpells) {
+        this.knownSpells = knownSpells;
+    }
+
+    public boolean knowsSpell(Spell spell) {
+        if (knownSpells == null) {
+            knownSpells = new ArrayList<>();
+            return false;
+        }
+        for (Spell s : knownSpells) {
+            if (s.getName().equalsIgnoreCase(spell.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void resetSpells() {
+        if (knownSpells != null) {
+            knownSpells.clear();
+        }
     }
 }

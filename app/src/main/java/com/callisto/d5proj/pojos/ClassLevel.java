@@ -5,7 +5,8 @@ import com.callisto.d5proj.tools.DiceRoller;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
-public class ClassLevel {
+@SuppressWarnings("unused")
+class ClassLevel {
 
     private CharacterClass characterClass;
     private int hpRoll;

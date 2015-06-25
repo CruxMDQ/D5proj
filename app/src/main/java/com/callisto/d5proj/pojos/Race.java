@@ -13,6 +13,7 @@ import java.util.HashSet;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
+@SuppressWarnings("unused")
 public class Race implements Serializable {
 
     private int id;

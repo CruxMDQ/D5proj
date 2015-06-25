@@ -9,9 +9,9 @@ import java.util.ArrayList;
 /**
  * Created by emiliano.desantis on 22/06/2015.
  */
-public class SpellSchoolsTableHelper extends BaseTableHelper {
-    static public final String T_SPELL_SCHOOLS = "SpellSchools";
-    static public final String C_SCHOOL_NAME = "schoolName";
+class SpellSchoolsTableHelper extends BaseTableHelper {
+    private static final String T_SPELL_SCHOOLS = "SpellSchools";
+    private static final String C_SCHOOL_NAME = "schoolName";
 
     private ArrayList<Pair<Integer, String>> spellSchools;
 

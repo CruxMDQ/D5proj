@@ -11,12 +11,12 @@ import java.util.ArrayList;
  * Internal table adapter for retrieval of features.
  * Created by emiliano.desantis on 19/05/2015.
  */
-public class FeaturesTableHelper extends BaseTableHelper {
+class FeaturesTableHelper extends BaseTableHelper {
 
-    static public final String T_FEATURES = "Features";
-    static public final String C_NAME = "name";
-    static public final String C_HAS_OPTIONS = "hasOptions";
-    static public final String C_DESCRIPTION = "description";
+    private static final String T_FEATURES = "Features";
+    private static final String C_NAME = "name";
+    private static final String C_HAS_OPTIONS = "hasOptions";
+    private static final String C_DESCRIPTION = "description";
 
     private FeaturesWithOptionsDBHelper featuresWithOptionsDBAdapter;
     private FeatureChoicesDBHelper featureChoicesDBAdapter;

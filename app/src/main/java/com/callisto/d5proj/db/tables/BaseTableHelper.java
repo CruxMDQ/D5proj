@@ -8,40 +8,42 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.callisto.d5proj.db.DBHelper;
 
+@SuppressWarnings("unused")
 public abstract class BaseTableHelper {
-    static public final String C_ID = "_id";
+    static final String C_ID = "_id";
 
-    protected Context context;
-    protected DBHelper dbHelper;
-    protected SQLiteDatabase db;
-    protected String keyColumn, managedTable;
-    protected String[] columns;
+    private Context context;
+    private DBHelper dbHelper;
+    private SQLiteDatabase db;
+    private String keyColumn;
+    private String managedTable;
+    private String[] columns;
 
     public SQLiteDatabase getDb() {
         return db;
     }
 
-    public String getManagedTable() {
+    private String getManagedTable() {
         return managedTable;
     }
 
-    public void setManagedTable(String managedTable) {
+    void setManagedTable(String managedTable) {
         this.managedTable = managedTable;
     }
 
-    public String getKeyColumn() {
+    private String getKeyColumn() {
         return keyColumn;
     }
 
-    public void setKeyColumn(String columnName) {
+    void setKeyColumn(String columnName) {
         this.keyColumn = columnName;
     }
 
-    public void setColumns(String[] columns) {
+    void setColumns(String[] columns) {
         this.columns = columns;
     }
 
-    public BaseTableHelper(Context context) {
+    BaseTableHelper(Context context) {
         this.context = context;
     }
 
@@ -66,7 +68,7 @@ public abstract class BaseTableHelper {
      * @return Cursor containing all table rows and columns.
      * @throws SQLException
      */
-    public Cursor getCursor() throws SQLException {
+    Cursor getCursor() throws SQLException {
         if (db == null) {
             open();
         }
@@ -138,7 +140,7 @@ public abstract class BaseTableHelper {
         return result;
     }
 
-    public BaseTableHelper open() throws SQLException {
+    private BaseTableHelper open() throws SQLException {
         dbHelper = DBHelper.getInstance(context);
         db = dbHelper.getWritableDatabase();
 

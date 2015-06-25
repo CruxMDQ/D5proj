@@ -23,13 +23,12 @@ import java.util.ArrayList;
  * Created by emiliano.desantis on 25/06/2015.
  */
 public abstract class PickOptionDialogFragment<T> extends android.support.v4.app.DialogFragment implements OnChoicePickedListener {
-    protected RecyclerView rvChoices;
-    protected Button mButton;
-    protected Feature feature;
-    protected AfterChoosingOptionsListener<T> listener;
-    protected ArrayList<T> picks;
-    protected boolean isModal = false;
-    protected AlertDialog dialog;
+    RecyclerView rvChoices;
+    Feature feature;
+    AfterChoosingOptionsListener<T> listener;
+    ArrayList<T> picks;
+    boolean isModal = false;
+    AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,10 +92,9 @@ public abstract class PickOptionDialogFragment<T> extends android.support.v4.app
 //        super.getDialog().getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 
-    protected void findComponents(View rootView) {
+    private void findComponents(View rootView) {
         rvChoices = (RecyclerView) rootView.findViewById(R.id.rvFeatureChoices);
         rvChoices.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mButton = (Button) rootView.findViewById(R.id.btnOK);
         populateChoices();
     }
 
@@ -113,7 +111,7 @@ public abstract class PickOptionDialogFragment<T> extends android.support.v4.app
         return dialog;
     }
 
-    public boolean isModal() {
+    boolean isModal() {
         return isModal;
     }
 

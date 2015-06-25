@@ -98,6 +98,6 @@
     <Row>
         <Level>20</Level>
         <Experience>355000</Experience>
-        <ProficiencyBonus></ProficiencyBonus>
+        <ProficiencyBonus>6</ProficiencyBonus>
     </Row>
 </ExperienceTable>

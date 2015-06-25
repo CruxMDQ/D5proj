@@ -5,14 +5,14 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 12/02/2015.
  */
-public class KeyStatsPerClass extends BaseTableHelper {
+class KeyStatsPerClass extends BaseTableHelper {
     /**
      * Table definition: character class key statistics
      */
-    static public final String T_CLASSES_KEYSTATS = "KeyStatsPerClass";
-    static public final String C_ID_CLASS = "id_class";
-    static public final String C_STAT = "stat";
-    static public final String C_TYPE = "type";
+    private static final String T_CLASSES_KEYSTATS = "KeyStatsPerClass";
+    private static final String C_ID_CLASS = "id_class";
+    private static final String C_STAT = "stat";
+    private static final String C_TYPE = "type";
 //    static public final String V_PRIMARY = "Primary";
 //    static public final String V_SAVE = "Save";
 //    static public final String DEFINE_CLASSES_KEYSTATS = "CREATE TABLE IF NOT EXISTS" + " " + T_CLASSES_KEYSTATS + "("

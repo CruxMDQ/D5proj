@@ -16,9 +16,9 @@ public class ExperienceLevels extends BaseTableHelper {
     /**
      * Base experience table stuff
      */
-    static public String T_EXP_LEVELS = "experienceLevels",
-        C_XP = "xp",
-        C_BONUS = "profBonus";
+    private static String T_EXP_LEVELS = "experienceLevels";
+    private static String C_XP = "xp";
+    private static String C_BONUS = "profBonus";
 
     static public String DEFINE_EXP_LEVELS = "CREATE TABLE IF NOT EXISTS " + T_EXP_LEVELS + "("
         + C_ID + " " + "INTEGER PRIMARY KEY" + ","
@@ -29,8 +29,8 @@ public class ExperienceLevels extends BaseTableHelper {
     /**
      * Features table stuff
      */
-    static public String T_FEATURES = "features",
-        C_NAME = "name";
+    private static String T_FEATURES = "features";
+    private static String C_NAME = "name";
 
     static public String DEFINE_FEATURES = "CREATE TABLE IF NOT EXISTS " + T_FEATURES + "("
         + C_ID + " " + "INTEGER PRIMARY KEY" + ","
@@ -40,10 +40,10 @@ public class ExperienceLevels extends BaseTableHelper {
     /**
      * Classes / features / levels
      */
-    static public String T_CLASSES_FEATURES = "classesFeatures",
-        C_ID_CLASS = "id_class",
-        C_ID_FEATURE = "id_feature",
-        C_LEVEL = "level";
+    private static String T_CLASSES_FEATURES = "classesFeatures";
+    private static String C_ID_CLASS = "id_class";
+    private static String C_ID_FEATURE = "id_feature";
+    private static String C_LEVEL = "level";
 
     static public String DEFINE_CLASSES_FEATURES = "CREATE TABLE IF NOT EXISTS" + " " + T_CLASSES_FEATURES + "("
         + C_ID_CLASS + " INTEGER NOT NULL,"

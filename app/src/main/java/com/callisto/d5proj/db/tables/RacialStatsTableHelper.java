@@ -5,12 +5,12 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 08/05/2015.
  */
-public class RacialStatsTableHelper extends BaseTableHelper {
+class RacialStatsTableHelper extends BaseTableHelper {
 
-    static public final String T_RACIAL_STATS = "RacialStats";
-    static public final String C_ID_RACE = "id_race";
-    static public final String C_STAT = "stat";
-    static public final String C_BONUS = "bonus";
+    private static final String T_RACIAL_STATS = "RacialStats";
+    private static final String C_ID_RACE = "id_race";
+    private static final String C_STAT = "stat";
+    private static final String C_BONUS = "bonus";
 
     public RacialStatsTableHelper(Context context) {
         super(context);

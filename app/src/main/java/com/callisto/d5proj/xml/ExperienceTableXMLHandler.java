@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * Source: http://www.mysamplecode.com/2012/10/android-parse-xml-file-from-assets-or.html
  */
 public class ExperienceTableXMLHandler extends DefaultHandler {
-    boolean currentElement = false;
-    String currentValue = "";
+    private boolean currentElement = false;
+    private String currentValue = "";
     private ArrayList<Level> levels;
     private Level level;
 

@@ -47,7 +47,7 @@ public class SelectClassDialogFragment extends android.support.v4.app.DialogFrag
 
     }
 
-    public void showClassSelectorDialog() {
+    private void showClassSelectorDialog() {
         LayoutInflater li = LayoutInflater.from(getActivity());
 
         View promptsView = li.inflate(R.layout.dialog_select_class, null);
@@ -68,9 +68,6 @@ public class SelectClassDialogFragment extends android.support.v4.app.DialogFrag
 
         mSpinner.setAdapter(new ClassSelectorAdapter(getActivity(),
             ((CharacterCreationActivity) getActivity()).getCharacterClasses()));
-
-        final Button mButton = (Button) promptsView
-            .findViewById(R.id.buttonOK);
 
         // reference UI elements from my_dialog_layout in similar fashion
 

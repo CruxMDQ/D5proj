@@ -57,11 +57,11 @@ public class EditableStatBox extends LinearLayout{
         return R.layout.widget_stat_box_editable;
     }
 
-    public TextView getTxtAttributeName() {
+    private TextView getTxtAttributeName() {
         return txtAttributeName;
     }
 
-    public void setTxtAttributeName(TextView txtAttributeName) {
+    private void setTxtAttributeName(TextView txtAttributeName) {
         this.txtAttributeName = txtAttributeName;
     }
 
@@ -69,7 +69,7 @@ public class EditableStatBox extends LinearLayout{
         return txtAttributeRoll;
     }
 
-    public void setTxtAttributeRoll(TextView txtAttributeValue) {
+    private void setTxtAttributeRoll(TextView txtAttributeValue) {
         this.txtAttributeRoll = txtAttributeValue;
     }
 
@@ -78,15 +78,15 @@ public class EditableStatBox extends LinearLayout{
         return txtAttributeBonus;
     }
 
-    public void setTxtAttributeBonus(TextView txtAttributeBonus) {
+    private void setTxtAttributeBonus(TextView txtAttributeBonus) {
         this.txtAttributeBonus = txtAttributeBonus;
     }
 
-    public TextView getTxtAttributeTotal() {
+    private TextView getTxtAttributeTotal() {
         return txtAttributeTotal;
     }
 
-    public void setTxtAttributeTotal(TextView txtAttributeTotal) {
+    private void setTxtAttributeTotal(TextView txtAttributeTotal) {
         this.txtAttributeTotal = txtAttributeTotal;
     }
 
@@ -94,7 +94,7 @@ public class EditableStatBox extends LinearLayout{
         return btnIncreaseValue;
     }
 
-    public void setBtnIncreaseValue(Button btnIncreaseValue) {
+    private void setBtnIncreaseValue(Button btnIncreaseValue) {
         this.btnIncreaseValue = btnIncreaseValue;
     }
 
@@ -102,15 +102,15 @@ public class EditableStatBox extends LinearLayout{
         return btnDecreaseValue;
     }
 
-    public void setBtnDecreaseValue(Button btnDecreaseValue) {
+    private void setBtnDecreaseValue(Button btnDecreaseValue) {
         this.btnDecreaseValue = btnDecreaseValue;
     }
 
-    public String getAttributeName() {
+    private String getAttributeName() {
         return attributeName;
     }
 
-    public void setAttributeName(String attributeName) {
+    private void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
     }
 
@@ -135,7 +135,7 @@ public class EditableStatBox extends LinearLayout{
         return attributeTotal;
     }
 
-    public void setAttributeTotal(int attributeTotal) {
+    private void setAttributeTotal(int attributeTotal) {
         this.attributeTotal = attributeTotal;
         if (attributeTotal > maximumValue) {
             txtAttributeTotal.setTextColor(getResources().getColor(android.R.color.holo_red_light));
@@ -152,7 +152,7 @@ public class EditableStatBox extends LinearLayout{
         return maximumValue;
     }
 
-    public void setMaximumValue(int maximumValue) {
+    private void setMaximumValue(int maximumValue) {
         this.maximumValue = maximumValue;
     }
 
@@ -161,7 +161,7 @@ public class EditableStatBox extends LinearLayout{
         return minimumValue;
     }
 
-    public void setMinimumValue(int minimumValue) {
+    private void setMinimumValue(int minimumValue) {
         this.minimumValue = minimumValue;
     }
 
@@ -197,8 +197,8 @@ public class EditableStatBox extends LinearLayout{
         }
     }
 
-    int minimumValue;
-    int maximumValue;
+    private int minimumValue;
+    private int maximumValue;
 
     private TextView txtAttributeName;
     private TextView txtAttributeRoll;

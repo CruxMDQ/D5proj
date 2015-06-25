@@ -29,6 +29,7 @@ import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.GameActor;
 import com.callisto.d5proj.pojos.Race;
+import com.callisto.d5proj.pojos.Spell;
 import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
@@ -97,6 +98,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (pickedFeatures) {
                     resetRaces();
+                    character.resetSpells();
                     spinnerSelectRace.setSelection(position);
                     pickedFeatures = false;
                 }
@@ -161,10 +163,6 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         }
     }
 
-    private void populateRacialAbilities(Race race) {
-        rvFeatures.setAdapter(new RaceStepRVAdapter(getActivity(), race, this));
-    }
-
     private void populateRacialAbilities(ArrayList<Feature> features) {
         rvFeatures.setAdapter(new RaceStepRVAdapter(getActivity(), features, this));
     }
@@ -180,7 +178,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
         switch (feature.getId()) {
         case Constants.FEATURE_CODE_CANTRIP: {
             PickSpellsDialogFragment pickSpells = PickSpellsDialogFragment
-                .newInstance(feature, spellsTableHelper.filterSpellsPerLevel(0), this);
+                .newInstance(feature, spellsTableHelper.filterSpellsPerLevel(Constants.SPELL_LEVEL_0), Constants.SPELL_LEVEL_0, this);
             pickSpells.setModal(true);
             pickSpells.show(getActivity().getSupportFragmentManager(), "PickSpells");
             break;
@@ -192,6 +190,31 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
             pickChoices.show(getActivity().getSupportFragmentManager(), "PickChoices");
             break;
         }
+        }
+    }
+
+    @Override
+    public void afterChoosingOptions(Object object, ArrayList choices) {
+        if (object instanceof Feature) {
+            Feature feature = (Feature) object;
+            for (Object o : choices) {
+                if (o instanceof Feature) {
+                    character.getFeatures().remove(object);
+                    character.getFeatures().add((Feature) o);
+                    rvFeatures.getAdapter().notifyDataSetChanged();
+                    pickedFeatures = true;
+                } else if (o instanceof Spell) {
+                    if (!character.knowsSpell((Spell) o)) {
+                        character.getKnownSpells().add((Spell) o);
+                    }
+                    feature.setChoices(0);
+                    feature.setName(feature.getName() + " - " + ((Spell) o).getName());
+                    character.getFeatures().remove(object);
+                    character.getFeatures().add(feature);
+                    rvFeatures.getAdapter().notifyDataSetChanged();
+                    pickedFeatures = true;
+                }
+            }
         }
     }
 
@@ -210,15 +233,4 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     private GameActor character = new GameActor();
 
     private SpellsTableHelper spellsTableHelper;
-
-    @Override
-    public void afterChoosingOptions(Object feature, ArrayList choices) {
-        if ((feature instanceof Feature) && (choices.get(0) instanceof Feature)) {
-            character.getFeatures().remove(feature);
-            rvFeatures.getAdapter().notifyDataSetChanged();
-            character.getFeatures().addAll(choices);
-            rvFeatures.getAdapter().notifyDataSetChanged();
-            pickedFeatures = true;
-        }
-    }
 }

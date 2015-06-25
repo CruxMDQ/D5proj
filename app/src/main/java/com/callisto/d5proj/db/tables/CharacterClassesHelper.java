@@ -42,17 +42,9 @@ public class CharacterClassesHelper extends BaseTableHelper {
     /**
      * Table definition: character classes
      */
-    static public final String T_CHARACTER_CLASSES = "CharacterClasses",
-        C_NAME = "name",
-        C_DIE_SIZE = "dieSize",
-        C_SKILLS = "skills";
-
-    static public final String DEFINE_PC_CLASSES = "CREATE TABLE IF NOT EXISTS" + " " + T_CHARACTER_CLASSES + "("
-        + C_ID + " " + "INTEGER PRIMARY KEY AUTOINCREMENT" + ","
-        + C_NAME + " " + "TEXT NOT NULL" + ","
-        + C_DIE_SIZE + " " + "INTEGER NOT NULL,"
-        + C_SKILLS + " " + "INTEGER NOT NULL,"
-        + "UNIQUE (" + C_NAME + ")"
-        + ");";
+    static public final String T_CHARACTER_CLASSES = "CharacterClasses";
+    private static final String C_NAME = "name";
+    private static final String C_DIE_SIZE = "dieSize";
+    private static final String C_SKILLS = "skills";
 
 }

@@ -67,7 +67,7 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
     }
 
     public class StringRowHolder extends RecyclerView.ViewHolder {
-        protected TextView txtFeatureName;
+        TextView txtFeatureName;
 
         public StringRowHolder(View view) {
             super(view);

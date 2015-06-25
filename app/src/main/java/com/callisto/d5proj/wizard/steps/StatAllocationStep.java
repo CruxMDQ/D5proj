@@ -28,7 +28,7 @@ import org.codepond.wizardroid.WizardStep;
 
 public class StatAllocationStep extends WizardStep {
 
-    Race race;
+    private Race race;
 
     public StatAllocationStep() { super(); }
 
@@ -233,7 +233,7 @@ public class StatAllocationStep extends WizardStep {
         setRolls();
     }
 
-    void decreaseStat(EditableStatBox editableStatBox) {
+    private void decreaseStat(EditableStatBox editableStatBox) {
         if (editableStatBox.getAttributeRoll() > 3) {
             editableStatBox.setAttribute((editableStatBox.getAttributeRoll() - 1));
             setPointPool(getPointPool() + 1);
@@ -241,7 +241,7 @@ public class StatAllocationStep extends WizardStep {
         }
     }
 
-    void increaseStat(EditableStatBox editableStatBox) {
+    private void increaseStat(EditableStatBox editableStatBox) {
         if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < 18) {
             editableStatBox.setAttribute(editableStatBox.getAttributeRoll() + 1);
             setPointPool(getPointPool() - 1);
@@ -249,11 +249,11 @@ public class StatAllocationStep extends WizardStep {
         }
     }
 
-    int getPointPool() {
+    private int getPointPool() {
         return pointPool;
     }
 
-    void setPointPool(int pointPool) {
+    private void setPointPool(int pointPool) {
         this.pointPool = pointPool;
         txtPointPool.setText(String.valueOf(pointPool));
     }

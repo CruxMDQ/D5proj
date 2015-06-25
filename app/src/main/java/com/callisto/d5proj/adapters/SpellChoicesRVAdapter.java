@@ -43,9 +43,9 @@ public class SpellChoicesRVAdapter extends RecyclerView.Adapter<SpellChoicesRVAd
 
     public class ChoiceRowHolder extends RecyclerView.ViewHolder {
 
-        protected Spell spell;
-        protected CheckBox chkFeatureChoice;
-        protected OnChoicePickedListener listener;
+        Spell spell;
+        CheckBox chkFeatureChoice;
+        OnChoicePickedListener listener;
 
         public ChoiceRowHolder(View view, final OnChoicePickedListener listener) {
             super(view);

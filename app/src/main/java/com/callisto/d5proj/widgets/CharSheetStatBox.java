@@ -35,23 +35,23 @@ public class CharSheetStatBox extends TitledValueWidget {
             calculateModifier();
         }
     }
-    public TextView getTxtModifier() {
+    private TextView getTxtModifier() {
         return txtModifier;
     }
 
-    public void setTxtModifier(TextView txtModifier) {
+    private void setTxtModifier(TextView txtModifier) {
         this.txtModifier = txtModifier;
     }
 
-    public int getModifier() {
+    private int getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    private void setModifier(int modifier) {
         this.modifier = modifier;
     }
 
-    public void calculateModifier() {
+    private void calculateModifier() {
         setModifier((getAttributeValue() - 10) / 2);
         getTxtModifier().setText(String.valueOf(getModifier()));
     }

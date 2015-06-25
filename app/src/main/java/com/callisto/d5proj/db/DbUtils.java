@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,7 +15,8 @@ import java.io.OutputStream;
 /** Database utils, for example to execute SQL scripts
  * Source: https://github.com/greenrobot/greenDAO/blob/master/DaoCore/src/de/greenrobot/dao/DbUtils.java
  */
-public class DBUtils {
+@SuppressWarnings("unused")
+class DBUtils {
 
     public static void vacuum(SQLiteDatabase db) {
         db.execSQL("VACUUM");
@@ -37,7 +39,7 @@ public class DBUtils {
      *
      * @return number of statements executed.
      */
-    public static int executeSqlScript(Context context, SQLiteDatabase db, String assetFilename, boolean transactional)
+    private static int executeSqlScript(Context context, SQLiteDatabase db, String assetFilename, boolean transactional)
         throws IOException {
         byte[] bytes = readAsset(context, assetFilename);
         String sql = new String(bytes, "UTF-8");
@@ -52,7 +54,7 @@ public class DBUtils {
         return count;
     }
 
-    public static int executeSqlStatementsInTx(SQLiteDatabase db, String[] statements) {
+    private static int executeSqlStatementsInTx(SQLiteDatabase db, String[] statements) {
         db.beginTransaction();
         try {
             int count = executeSqlStatements(db, statements);
@@ -63,7 +65,7 @@ public class DBUtils {
         }
     }
 
-    public static int executeSqlStatements(SQLiteDatabase db, String[] statements) {
+    private static int executeSqlStatements(SQLiteDatabase db, String[] statements) {
         int count = 0;
         for (String line : statements) {
             line = line.trim();
@@ -80,7 +82,7 @@ public class DBUtils {
      *
      * @return number of bytes copied
      */
-    public static int copyAllBytes(InputStream in, OutputStream out) throws IOException {
+    private static int copyAllBytes(InputStream in, OutputStream out) throws IOException {
         int byteCount = 0;
         byte[] buffer = new byte[4096];
         while (true) {
@@ -94,13 +96,13 @@ public class DBUtils {
         return byteCount;
     }
 
-    public static byte[] readAllBytes(InputStream in) throws IOException {
+    private static byte[] readAllBytes(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         copyAllBytes(in, out);
         return out.toByteArray();
     }
 
-    public static byte[] readAsset(Context context, String filename) throws IOException {
+    private static byte[] readAsset(Context context, String filename) throws IOException {
         AssetManager assetManager = context.getResources().getAssets();
         InputStream in = assetManager.open(filename);
         try {
@@ -114,7 +116,7 @@ public class DBUtils {
         Cursor cursor = db.query(tablename, null, null, null, null, null, null);
         try {
             String dump = DatabaseUtils.dumpCursorToString(cursor);
-//            DaoLog.d(dump);
+            Log.d(DBUtils.class.toString(), dump);
         } finally {
             cursor.close();
         }

@@ -7,12 +7,13 @@ import java.util.ArrayList;
 /**
  * Created by Crux on 08/02/2015.
  */
+@SuppressWarnings("unused")
 public class CharacterClass {
-    String name;
-    int dieSize;
-    int skills;
-    ArrayList<BaseStatistic> keyStats;
-    ArrayList<BaseStatistic> savingThrowProficiencies;
+    private String name;
+    private int dieSize;
+    private int skills;
+    private ArrayList<BaseStatistic> keyStats;
+    private ArrayList<BaseStatistic> savingThrowProficiencies;
 
     public String getName() {
         return name;

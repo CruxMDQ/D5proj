@@ -18,12 +18,12 @@ import java.util.List;
  */
 public class RacesTableHelper extends BaseTableHelper {
 
-    static public final String T_RACES = "Races";
-    static public final String C_NAME = "name";
-    static public final String C_SPEED = "speed";
-    static public final String C_ID_SIZE = "id_size";
-    static public final String C_ID_PARENT = "id_parent";
-    static public final String C_IS_ARCHETYPE = "isArchetype";
+    private static final String T_RACES = "Races";
+    private static final String C_NAME = "name";
+    private static final String C_SPEED = "speed";
+    private static final String C_ID_SIZE = "id_size";
+    private static final String C_ID_PARENT = "id_parent";
+    private static final String C_IS_ARCHETYPE = "isArchetype";
 
     private RacialStatsTableHelper racialStatsDBAdapter;
     private RacialFeaturesTableHelper racialFeaturesDBAdapter;
@@ -104,7 +104,7 @@ public class RacesTableHelper extends BaseTableHelper {
         return races;
     }
 
-    public void setFeatureList(List<Feature> featureList) {
+    private void setFeatureList(List<Feature> featureList) {
         this.featureList = featureList;
         racialFeaturesDBAdapter.featureList = featureList;
     }

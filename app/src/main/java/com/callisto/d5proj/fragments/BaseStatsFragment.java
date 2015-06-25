@@ -233,7 +233,7 @@ public class BaseStatsFragment extends Fragment {
         }
     }
 
-    void decreaseStat(EditableStatBox editableStatBox) {
+    private void decreaseStat(EditableStatBox editableStatBox) {
         if (editableStatBox.getAttributeRoll() > 3) {
             editableStatBox.setAttributeRoll((editableStatBox.getAttributeRoll() - 1));
             setPointPool(getPointPool() + 1);
@@ -241,7 +241,7 @@ public class BaseStatsFragment extends Fragment {
         }
     }
 
-    void increaseStat(EditableStatBox editableStatBox) {
+    private void increaseStat(EditableStatBox editableStatBox) {
         if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < 18) {
             editableStatBox.setAttributeRoll(editableStatBox.getAttributeRoll() + 1);
             setPointPool(getPointPool() - 1);
@@ -249,17 +249,17 @@ public class BaseStatsFragment extends Fragment {
         }
     }
 
-    int getPointPool() {
+    private int getPointPool() {
         return pointPool;
     }
 
-    void setPointPool(int pointPool) {
+    private void setPointPool(int pointPool) {
         this.pointPool = pointPool;
         txtPointPool.setText(String.valueOf(pointPool));
     }
 
     // Source: http://stackoverflow.com/questions/17344259/
-    void reset() {
+    private void reset() {
         txtRandomAttribute1.setVisibility(View.VISIBLE);
         txtRandomAttribute2.setVisibility(View.VISIBLE);
         txtRandomAttribute3.setVisibility(View.VISIBLE);
@@ -313,7 +313,7 @@ public class BaseStatsFragment extends Fragment {
     private Button btnResetRolls;
     private Button btnRollNewValues;
 
-    OnStatChangeListener onStatChangeListener;
+    private OnStatChangeListener onStatChangeListener;
     //    private LinearLayout panelRolls;
 
     /**

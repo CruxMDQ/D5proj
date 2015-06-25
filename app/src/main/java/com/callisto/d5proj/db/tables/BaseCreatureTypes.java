@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by emiliano.desantis on 02/09/2014.
  */
-public class BaseCreatureTypes extends BaseTableHelper {
+class BaseCreatureTypes extends BaseTableHelper {
 
     public BaseCreatureTypes(Context context) {
         super(context);
@@ -38,17 +38,17 @@ public class BaseCreatureTypes extends BaseTableHelper {
             + "(" + C_ID + " " + "ASC)";
     }
 
-    static public final String T_CREATURE_TYPES = "creatureTypes",
-            C_ID = "_id",
-            C_STR = "str",
-            C_DEX = "dex",
-            C_CON = "con",
-            C_INT = "int",
-            C_WIS = "wis",
-            C_CHA = "cha",
-            C_DIE_SIZE = "dieSize",
-            C_SKILLS = "skills",
-            C_ATK_RATING = "atkRating",
-            C_NAME = "name";
+    private static final String T_CREATURE_TYPES = "creatureTypes";
+    private static final String C_ID = "_id";
+    private static final String C_STR = "str";
+    private static final String C_DEX = "dex";
+    private static final String C_CON = "con";
+    private static final String C_INT = "int";
+    private static final String C_WIS = "wis";
+    private static final String C_CHA = "cha";
+    private static final String C_DIE_SIZE = "dieSize";
+    private static final String C_SKILLS = "skills";
+    private static final String C_ATK_RATING = "atkRating";
+    private static final String C_NAME = "name";
 
 }

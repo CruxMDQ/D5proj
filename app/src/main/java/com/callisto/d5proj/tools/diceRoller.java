@@ -8,6 +8,7 @@ import java.util.Random;
  * Toolkit for handling dice rolls.
  * Created by emiliano.desantis on 08/05/2015.
  */
+@SuppressWarnings("unused")
 public class DiceRoller {
 
     static private Random mRand = new Random();

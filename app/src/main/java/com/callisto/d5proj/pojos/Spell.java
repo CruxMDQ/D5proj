@@ -3,6 +3,7 @@ package com.callisto.d5proj.pojos;
 /**
  * Created by emiliano.desantis on 22/06/2015.
  */
+@SuppressWarnings("unused")
 public class Spell {
     private String name;
     private int level;
