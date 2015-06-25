@@ -61,5 +61,25 @@
     <string name="OK">OK</string>
     <string name="feature_options_pick_one">Choose 1 option</string>
     <string name="feature_options_pick_several">Choose %s options</string>
-    <string name="error_options_array_null">Options array not initialized!</string>
+    <string name="spells_pick_one_zero">Choose 1 0th level spell</string>
+    <string name="spells_pick_one_one">Choose 1 1st level spell</string>
+    <string name="spells_pick_one_two">Choose 1 2nd level spell</string>
+    <string name="spells_pick_one_three">Choose 1 3rd level spell</string>
+    <string name="spells_pick_one_four">Choose 1 4th level spell</string>
+    <string name="spells_pick_one_five">Choose 1 5th level spell</string>
+    <string name="spells_pick_one_six">Choose 1 6th level spell</string>
+    <string name="spells_pick_one_seven">Choose 1 7th level spell</string>
+    <string name="spells_pick_one_eight">Choose 1 8th level spell</string>
+    <string name="spells_pick_one_nine">Choose 1 9th level spell</string>
+    <string name="spells_pick_several_zero">Choose %s 0th level spells</string>
+    <string name="spells_pick_several_one">Choose %s 1st level spells</string>
+    <string name="spells_pick_several_two">Choose %s 2nd level spells</string>
+    <string name="spells_pick_several_three">Choose %s 3rd level spells</string>
+    <string name="spells_pick_several_four">Choose %s 4th level spells</string>
+    <string name="spells_pick_several_five">Choose %s 5th level spells</string>
+    <string name="spells_pick_several_six">Choose %s 6th level spells</string>
+    <string name="spells_pick_several_seven">Choose %s 7th level spells</string>
+    <string name="spells_pick_several_eight">Choose %s 8th level spells</string>
+    <string name="spells_pick_several_nine">Choose %s 9th level spells</string>
+    <string name="error_options_array">Options array not initialized!</string>
 </resources>
