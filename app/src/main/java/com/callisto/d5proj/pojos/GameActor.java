@@ -1,7 +1,6 @@
 package com.callisto.d5proj.pojos;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by emiliano.desantis on 07/05/2015.
