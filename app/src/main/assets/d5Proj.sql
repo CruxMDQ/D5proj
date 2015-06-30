@@ -7,6 +7,17 @@ CREATE TABLE AmmoPerWeapon
   CONSTRAINT Relationship38 FOREIGN KEY (id_weapon) REFERENCES RangedWeapons (_id),
   CONSTRAINT Relationship39 FOREIGN KEY (id_ammo) REFERENCES "Items" (_id)
 );
+DROP TABLE IF EXISTS "AreaOfEffectSpells";
+CREATE TABLE "AreaOfEffectSpells" (
+"id_spell"  INTEGER NOT NULL,
+"id_aoe_type"  INTEGER NOT NULL,
+"dimension1"  INTEGER DEFAULT 0,
+"dimension2"  INTEGER DEFAULT 0,
+"heightenedFactor"  REAL DEFAULT 1,
+PRIMARY KEY ("id_spell" ASC, "id_aoe_type" ASC),
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_aoe" FOREIGN KEY ("id_aoe_type") REFERENCES "AreasOfEffect" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS "AreasOfEffect";
 CREATE TABLE AreasOfEffect
 (
@@ -86,14 +97,13 @@ CONSTRAINT "fk_character" FOREIGN KEY ("id_character") REFERENCES "Characters" (
 CONSTRAINT "fk_equipment" FOREIGN KEY ("id_item") REFERENCES "Items" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "CharacterLevels";
-CREATE TABLE CharacterLevels
-(
-  id_character INTEGER NOT NULL,
-  id_class INTEGER NOT NULL,
-  hpRoll INTEGER NOT NULL,
-  CONSTRAINT Key23 PRIMARY KEY (id_character,id_class),
-  CONSTRAINT Relationship27 FOREIGN KEY (id_character) REFERENCES Characters (_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT Relationship28 FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "CharacterLevels" (
+"id_character"  INTEGER NOT NULL,
+"id_class"  INTEGER NOT NULL,
+"hpRoll"  INTEGER NOT NULL,
+PRIMARY KEY ("id_character" ASC, "id_class" ASC),
+CONSTRAINT "Relationship27" FOREIGN KEY ("id_character") REFERENCES "Characters" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "Relationship28" FOREIGN KEY ("id_class") REFERENCES "CharacterClasses" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "Characters";
 CREATE TABLE "Characters" (
@@ -128,6 +138,18 @@ CREATE TABLE "ClassProficiencyGroups"
   CONSTRAINT Relationship19 FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT Relationship20 FOREIGN KEY (id_group) REFERENCES ProficiencyGroups (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+DROP TABLE IF EXISTS "DamageDealingSpells";
+CREATE TABLE "DamageDealingSpells" (
+"id_spell"  INTEGER NOT NULL,
+"id_type_damage"  INTEGER NOT NULL,
+"dice"  INTEGER,
+"dieSize"  INTEGER,
+"avgDamage"  INTEGER DEFAULT 0,
+"heightenedFactor"  INTEGER DEFAULT 1,
+PRIMARY KEY ("id_spell" ASC, "id_type_damage" ASC),
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_type_damage" FOREIGN KEY ("id_type_damage") REFERENCES "DamageTypes" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS "DamageTypes";
 CREATE TABLE DamageTypes
 (
@@ -148,51 +170,6 @@ INSERT INTO "DamageTypes" VALUES(10,'Poison');
 INSERT INTO "DamageTypes" VALUES(11,'Psychic');
 INSERT INTO "DamageTypes" VALUES(12,'Radiant');
 INSERT INTO "DamageTypes" VALUES(13,'Thunder');
-DROP TABLE IF EXISTS "EffectAOEs";
-CREATE TABLE EffectAOEs
-(
-  id_effect INTEGER NOT NULL,
-  id_aoe_type INTEGER NOT NULL,
-  range INTEGER NOT NULL,
-  targetsSelf INTEGER DEFAULT 1
-        CONSTRAINT checkNeverSomeAlways CHECK (targetsSelf IN (0, 1, 2)),
-  CONSTRAINT Key6 PRIMARY KEY (id_aoe_type,id_effect),
-  CONSTRAINT fk_aoe_effect FOREIGN KEY (id_aoe_type) REFERENCES AreasOfEffect (_id),
-  CONSTRAINT fk_effect_aoe FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
-);
-DROP TABLE IF EXISTS "EffectDamageTypes";
-CREATE TABLE "EffectDamageTypes" (
-"id_effect"  INTEGER NOT NULL,
-"id_damageType"  INTEGER NOT NULL,
-PRIMARY KEY ("id_effect", "id_damageType"),
-CONSTRAINT "fk_effect" FOREIGN KEY ("id_effect") REFERENCES "MagicalEffects" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT "fk_damageType" FOREIGN KEY ("id_damageType") REFERENCES "DamageTypes" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-DROP TABLE IF EXISTS "EffectDiceValues";
-CREATE TABLE EffectDiceValues
-(
-  id_effect INTEGER NOT NULL,
-  dice INTEGER NOT NULL,
-  dieSize INTEGER NOT NULL,
-  CONSTRAINT Key4 PRIMARY KEY (id_effect),
-  CONSTRAINT fk_eff_dice_values FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
-);
-DROP TABLE IF EXISTS "EffectDiscreteTargets";
-CREATE TABLE EffectDiscreteTargets
-(
-  id_effect INTEGER NOT NULL,
-  numberOfTargets INTEGER NOT NULL,
-  CONSTRAINT Key8 PRIMARY KEY (id_effect),
-  CONSTRAINT fk_eff_discrete_targets FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
-);
-DROP TABLE IF EXISTS "EffectFixedValues";
-CREATE TABLE EffectFixedValues
-(
-  id_effect INTEGER NOT NULL,
-  value INTEGER NOT NULL,
-  CONSTRAINT Key4 PRIMARY KEY (id_effect),
-  CONSTRAINT fk_eff_val_fixed FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 DROP TABLE IF EXISTS "Equipment";
 CREATE TABLE "Equipment" (
 "id_item"  INTEGER NOT NULL,
@@ -544,15 +521,6 @@ INSERT INTO "FeaturesWithOptions" VALUES(18,1);
 INSERT INTO "FeaturesWithOptions" VALUES(39,2);
 INSERT INTO "FeaturesWithOptions" VALUES(60,1);
 INSERT INTO "FeaturesWithOptions" VALUES(77,2);
-DROP TABLE IF EXISTS "HigherCastings";
-CREATE TABLE HigherCastings
-(
-  id_spell_effect INTEGER NOT NULL,
-  affects TEXT NOT NULL,
-  levelFactor INTEGER NOT NULL,
-  value INTEGER NOT NULL,
-  CONSTRAINT fk_spell_high_cast FOREIGN KEY (id_spell_effect) REFERENCES SpellEffects (_id)
-);
 DROP TABLE IF EXISTS "Items";
 CREATE TABLE "Items" (
 "_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -837,17 +805,6 @@ id_language INTEGER NOT NULL,
 CONSTRAINT pk_composite_lang_race PRIMARY KEY (id_race, id_language),
 CONSTRAINT fk_composite_lr_race FOREIGN KEY (id_race) REFERENCES Races (_id) ON UPDATE CASCADE ON DELETE CASCADE,
 CONSTRAINT fk_composite_lr_language FOREIGN KEY (id_language) REFERENCES Languages (_id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-DROP TABLE IF EXISTS "MagicalEffects";
-CREATE TABLE "MagicalEffects" (
-"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-"name"  TEXT NOT NULL,
-"targetsSelf"  INTEGER NOT NULL,
-"range"  INTEGER NOT NULL DEFAULT 0,
-"requiresTouch"  INTEGER NOT NULL DEFAULT 0,
-"duration"  INTEGER NOT NULL DEFAULT 0,
-CONSTRAINT "CheckNeverSomeAlways" CHECK (targetsSelf IN (0, 1, 2)),
-CONSTRAINT "checkBoolean" CHECK (requiresTouch IN (0, 1))
 );
 DROP TABLE IF EXISTS "ProficiencyGroups";
 CREATE TABLE ProficiencyGroups
@@ -1188,18 +1145,21 @@ CREATE TABLE "SpellCastingTimes" (
 "id_spell"  INTEGER NOT NULL,
 "id_timeUnit"  INTEGER NOT NULL,
 "timeUnitAmount"  INTEGER,
+PRIMARY KEY ("id_spell", "id_timeUnit"),
 CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT "fk_timeUnit" FOREIGN KEY ("id_timeUnit") REFERENCES "TimeUnits" ("_id")
 );
-DROP TABLE IF EXISTS "SpellEffects";
-CREATE TABLE SpellEffects
-(
-  _id INTEGER NOT NULL
-        CONSTRAINT Key3 PRIMARY KEY AUTOINCREMENT,
-  id_spell INTEGER NOT NULL,
-  id_effect INTEGER NOT NULL,
-  CONSTRAINT fk_spell FOREIGN KEY (id_spell) REFERENCES Spells (_id),
-  CONSTRAINT fk_effect FOREIGN KEY (id_effect) REFERENCES MagicalEffects (_id)
+DROP TABLE IF EXISTS "SpellDurations";
+CREATE TABLE "SpellDurations" (
+"id_spell"  INTEGER NOT NULL,
+"id_time_unit"  INTEGER NOT NULL,
+"time_units"  INTEGER NOT NULL,
+"heightenedEffect"  TEXT,
+"heightenedFactor"  REAL,
+PRIMARY KEY ("id_spell" ASC, "id_time_unit" ASC),
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_time_unit" FOREIGN KEY ("id_time_unit") REFERENCES "TimeUnits" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "chk_heighten_effect" CHECK (heightenedEffect IN ('multiply', 'increase'))
 );
 DROP TABLE IF EXISTS "SpellMaterials";
 CREATE TABLE "SpellMaterials" (
@@ -1222,6 +1182,14 @@ INSERT INTO "SpellSchools" VALUES(5,'Evocation');
 INSERT INTO "SpellSchools" VALUES(6,'Illusion');
 INSERT INTO "SpellSchools" VALUES(7,'Necromancy');
 INSERT INTO "SpellSchools" VALUES(8,'Transmutation');
+DROP TABLE IF EXISTS "SpellTargets";
+CREATE TABLE "SpellTargets" (
+"id_spell"  INTEGER NOT NULL,
+"targets"  INTEGER NOT NULL,
+"heightenedFactor"  INTEGER,
+PRIMARY KEY ("id_spell" ASC),
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS "Spellbooks";
 CREATE TABLE Spellbooks
 (
@@ -1237,20 +1205,60 @@ CREATE TABLE "Spells" (
 "name"  TEXT NOT NULL,
 "id_school"  INTEGER NOT NULL,
 "level"  INTEGER DEFAULT 0,
-"castingTime"  INTEGER DEFAULT 5,
+"isCombatSpell"  INTEGER DEFAULT 0,
 "isInstantaneous"  INTEGER DEFAULT 1,
+"isRitual"  INTEGER DEFAULT 0,
 "requiresConcentration"  INTEGER DEFAULT 0,
 "hasVerbalComponent"  INTEGER DEFAULT 0,
 "hasSomaticComponent"  INTEGER DEFAULT 0,
 "hasMaterialComponent"  INTEGER DEFAULT 0,
-"isCombatSpell"  INTEGER DEFAULT 0,
+"hasVariants"  INTEGER DEFAULT 0,
+"canBeHeightened"  INTEGER DEFAULT 0,
+"id_parent"  INTEGER,
 "detail"  TEXT NOT NULL,
-CONSTRAINT "fk_spell_school" FOREIGN KEY ("id_school") REFERENCES "SpellSchools" ("_id")
+CONSTRAINT "fk_spell_school" FOREIGN KEY ("id_school") REFERENCES "SpellSchools" ("_id"),
+CONSTRAINT "fk_parent" FOREIGN KEY ("id_parent") REFERENCES "Spells" ("_id")
 );
-INSERT INTO "Spells" VALUES(1,'Dancing Lights',5,0,5,1,0,1,1,1,0,'You create up to four torch-sized lights within range.');
-INSERT INTO "Spells" VALUES(2,'Blade Ward',1,0,5,1,0,1,1,0,0,'Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.');
-INSERT INTO "Spells" VALUES(3,'Friends',4,0,5,0,1,0,1,1,0,'You have advantage on all Charisma checks directed at one creature of your choice that is not hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you.');
-INSERT INTO "Spells" VALUES(4,'Light',5,0,5,0,0,1,0,1,0,'One object touched no larger than 10 feet in any dimension sheds bright light in a 20-foot radius and dim light for an additional 20 feet.');
+INSERT INTO "Spells" VALUES(1,'Dancing Lights',5,0,1,1,0,0,1,1,1,0,0,NULL,'You create up to four torch-sized lights within range.');
+INSERT INTO "Spells" VALUES(2,'Blade Ward',1,0,1,1,0,0,1,1,0,0,0,NULL,'Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.');
+INSERT INTO "Spells" VALUES(3,'Friends',4,0,0,0,0,1,0,1,1,0,0,NULL,'You have advantage on all Charisma checks directed at one creature of your choice that is not hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you.');
+INSERT INTO "Spells" VALUES(4,'Light',5,0,1,0,0,0,1,0,1,0,0,NULL,'One object touched no larger than 10 feet in any dimension sheds bright light in a 20-foot radius and dim light for an additional 20 feet.');
+DROP TABLE IF EXISTS "SpellsPerClass";
+CREATE TABLE "SpellsPerClass" (
+"id_class"  INTEGER NOT NULL,
+"id_spell"  INTEGER NOT NULL,
+PRIMARY KEY ("id_class" ASC, "id_spell" ASC),
+CONSTRAINT "fk_class" FOREIGN KEY ("id_class") REFERENCES "CharacterClasses" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO "SpellsPerClass" VALUES(2,1);
+INSERT INTO "SpellsPerClass" VALUES(2,2);
+INSERT INTO "SpellsPerClass" VALUES(2,3);
+INSERT INTO "SpellsPerClass" VALUES(2,4);
+INSERT INTO "SpellsPerClass" VALUES(10,1);
+INSERT INTO "SpellsPerClass" VALUES(10,2);
+INSERT INTO "SpellsPerClass" VALUES(10,3);
+INSERT INTO "SpellsPerClass" VALUES(10,4);
+INSERT INTO "SpellsPerClass" VALUES(12,1);
+INSERT INTO "SpellsPerClass" VALUES(12,2);
+INSERT INTO "SpellsPerClass" VALUES(12,3);
+INSERT INTO "SpellsPerClass" VALUES(12,4);
+INSERT INTO "SpellsPerClass" VALUES(11,2);
+INSERT INTO "SpellsPerClass" VALUES(11,3);
+INSERT INTO "SpellsPerClass" VALUES(3,4);
+DROP TABLE IF EXISTS "StatusEffectSpells";
+CREATE TABLE "StatusEffectSpells" (
+"id_spell"  INTEGER NOT NULL,
+"id_status_effect"  INTEGER NOT NULL,
+PRIMARY KEY ("id_spell" ASC, "id_status_effect"),
+CONSTRAINT "fk_id_spell" FOREIGN KEY ("id_spell") REFERENCES "Spells" ("_id") ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT "fk_id_st_ef" FOREIGN KEY ("id_status_effect") REFERENCES "StatusEffects" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+DROP TABLE IF EXISTS "StatusEffects";
+CREATE TABLE "StatusEffects" (
+"_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"name"  TEXT NOT NULL
+);
 DROP TABLE IF EXISTS "TimeUnits";
 CREATE TABLE "TimeUnits"
 (
@@ -1258,6 +1266,7 @@ CREATE TABLE "TimeUnits"
         CONSTRAINT Key1 PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL
 );
+INSERT INTO "TimeUnits" VALUES(1,'Round');
 DROP TABLE IF EXISTS "ToolProfsPerClass";
 CREATE TABLE ToolProfsPerClass
 (
@@ -1404,3 +1413,213 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
+CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
+FROM Languages, Features
+JOIN FeatureLanguages
+WHERE Languages._id = FeatureLanguages.id_language
+AND Features._id = FeatureLanguages.id_feature;
+CREATE VIEW "CheckFeatureProficiencies" AS SELECT DISTINCT Items.name AS Item, Features.name AS Feature
+FROM Items, Features
+JOIN FeatureProficiencies
+WHERE Items._id = FeatureProficiencies.id_equipment
+AND Features._id = FeatureProficiencies.id_feature;
+CREATE VIEW CheckFeatureSkills AS SELECT DISTINCT Skills.name AS Skill, Features.name AS Feature
+FROM Features, Skills
+JOIN FeatureSkills
+WHERE Skills._id = FeatureSkills.id_skill
+AND Features._id = FeatureSkills.id_feature;
+CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
+FROM Races, Features
+JOIN RacialFeatures
+WHERE Races._id = RacialFeatures.id_race
+AND Features._id = RacialFeatures.id_feature;
+CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
+FROM Races, RacialStats
+WHERE Races._id = RacialStats.id_race;
+CREATE VIEW CheckSpellsPerClass AS SELECT DISTINCT Spells.name AS Spell, CharacterClasses.name AS Class
+FROM Spells, CharacterClasses
+JOIN SpellsPerClass
+WHERE Spells._id = SpellsPerClass.id_spell
+AND CharacterClasses._id = SpellsPerClass.id_class;
+CREATE VIEW "GetArmors" AS 
+SELECT Items._id, Items.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Items.weight, Items.cost
+FROM Armors, Equipment, Items
+WHERE Equipment.id_item = Armors._id
+AND Items._id = Equipment.id_item;
+CREATE VIEW GetClassSkills AS
+SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
+FROM CharacterClasses, Skills, SkillsPerClass
+WHERE Skills._id = SkillsPerClass.id_skill 
+AND CharacterClasses._id = SkillsPerClass.id_class;
+CREATE VIEW "GetEffectAOEs" AS 
+SELECT
+EffectAOEs.id_effect,
+AreasOfEffect.name,
+EffectAOEs.range,
+EffectAOEs.targetsSelf
+FROM
+EffectAOEs
+INNER JOIN AreasOfEffect ON EffectAOEs.id_aoe_type = AreasOfEffect._id;
+CREATE VIEW "GetSpells" AS 
+SELECT DISTINCT
+Spells._id,
+Spells.name AS spellName,
+SpellSchools.schoolName,
+Spells.level,
+Spells.castingTime,
+Spells.isInstantaneous,
+Spells.requiresConcentration,
+Spells.hasVerbalComponent,
+Spells.hasSomaticComponent,
+Spells.hasMaterialComponent,
+Spells.detail
+FROM
+Spells
+INNER JOIN SpellSchools ON Spells.id_school = SpellSchools._id;
+CREATE VIEW "GetTools" AS SELECT Tools._id, Items.name, Items.weight, Items.cost FROM Tools
+JOIN Items
+WHERE Tools._id = Items._id;
+CREATE VIEW "GetWeapons" AS SELECT DISTINCT Items._id, Items.name, Equipment.proficiencyGroup, Weapons.dice, Weapons.dieSize, Weapons.id_damageType, RangedWeapons.shortRange, RangedWeapons.longRange, Items.weight, Items.cost
+FROM Equipment, Weapons, Items
+LEFT JOIN RangedWeapons
+ON RangedWeapons._id = Weapons._id
+WHERE Equipment.id_item = Weapons._id
+AND Items._id = Weapons._id;
+CREATE TRIGGER "insert_effect_aoe" INSTEAD OF INSERT ON "GetEffectAOEs"
+BEGIN
+
+INSERT OR IGNORE INTO AreasOfEffect (name)
+SELECT new.name
+WHERE NOT EXISTS
+(
+SELECT 1 FROM AreasOfEffect
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO EffectAOEs (
+id_aoe_type,
+range,
+targetsSelf)
+SELECT
+AreasOfEffect._id,
+new.range,
+new.targetsSelf
+FROM AreasOfEffect
+WHERE AreasOfEffect.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_armor
+INSTEAD OF INSERT 
+ON GetArmors
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO     Armors (_id, bonus, impairsStealth, requiredStr, maxDexBonus)
+SELECT Items._id, new.bonus, new.impairsStealth, new.requiredStr, new.maxDexBonus
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_tools
+INSTEAD OF INSERT 
+ON GetTools
+
+BEGIN
+
+INSERT OR IGNORE INTO     Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO     Tools (_id)
+SELECT Items._id
+FROM Items 
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_weapon
+INSTEAD OF INSERT 
+ON GetWeapons
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO Weapons (_id, dice, dieSize, id_damageType)
+SELECT Items._id, new.dice, new.dieSize, new.id_damageType
+FROM Items 
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO RangedWeapons (_id, shortRange, longRange)
+SELECT Items._id, new.shortRange, new.longRange
+FROM Items 
+WHERE new.shortRange NOTNULL 
+AND new.name = Items.name;
+
+END;
+CREATE TRIGGER "insert_spell" INSTEAD OF INSERT ON "GetSpells"
+BEGIN
+
+INSERT OR IGNORE INTO SpellSchools (schoolName)
+SELECT new.schoolName
+WHERE NOT EXISTS
+(
+SELECT 1 FROM SpellSchools
+WHERE schoolName = new.schoolName
+);
+
+INSERT OR IGNORE INTO Spells (
+name, 
+id_school, 
+level, 
+castingTime, 
+isInstantaneous, 
+requiresConcentration, 
+hasVerbalComponent, 
+hasSomaticComponent, 
+hasMaterialComponent,
+detail)
+SELECT 
+new.spellName, 
+SpellSchools._id, 
+new.level, 
+new.castingTime, 
+new.isInstantaneous, 
+new.requiresConcentration, 
+new.hasVerbalComponent, 
+new.hasSomaticComponent, 
+new.hasMaterialComponent,
+new.detail
+FROM SpellSchools
+WHERE SpellSchools.schoolName = new.schoolName;
+
+END;
+CREATE INDEX "IX_Relationship1"
+ON "Spells" ("id_school" ASC);
