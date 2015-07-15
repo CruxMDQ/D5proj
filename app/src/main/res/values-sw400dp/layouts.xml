@@ -1,0 +1,3 @@
+<resources>
+    <item name="activity_wizard" type="layout">@layout/activity_wizard_tablet</item>
+</resources>

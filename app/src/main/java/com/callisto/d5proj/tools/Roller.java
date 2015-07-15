@@ -9,7 +9,7 @@ import java.util.Random;
  * Created by emiliano.desantis on 08/05/2015.
  */
 @SuppressWarnings("unused")
-public class DiceRoller {
+public class Roller {
 
     static private Random mRand = new Random();
 
@@ -28,7 +28,7 @@ public class DiceRoller {
 
         // Source: http://stackoverflow.com/questions/363681/
         for (int i = 0; i < dice; i++) {
-            rolls[i] = DiceRoller.randInt(size);
+            rolls[i] = Roller.randInt(size);
         }
 
         // Source: http://stackoverflow.com/questions/8938235/

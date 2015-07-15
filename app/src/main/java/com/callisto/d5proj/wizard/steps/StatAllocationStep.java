@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.pojos.Race;
-import com.callisto.d5proj.tools.DiceRoller;
+import com.callisto.d5proj.tools.Roller;
 import com.callisto.d5proj.widgets.EditableStatBox;
 import com.google.gson.Gson;
 
@@ -176,12 +176,12 @@ public class StatAllocationStep extends WizardStep {
 
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putString("rand1", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
-        editor.putString("rand2", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
-        editor.putString("rand3", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
-        editor.putString("rand4", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
-        editor.putString("rand5", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
-        editor.putString("rand6", String.valueOf(DiceRoller.rollDice(4, 6, 1)));
+        editor.putString("rand1", String.valueOf(Roller.rollDice(4, 6, 1)));
+        editor.putString("rand2", String.valueOf(Roller.rollDice(4, 6, 1)));
+        editor.putString("rand3", String.valueOf(Roller.rollDice(4, 6, 1)));
+        editor.putString("rand4", String.valueOf(Roller.rollDice(4, 6, 1)));
+        editor.putString("rand5", String.valueOf(Roller.rollDice(4, 6, 1)));
+        editor.putString("rand6", String.valueOf(Roller.rollDice(4, 6, 1)));
 
         increaseRollCount();
 

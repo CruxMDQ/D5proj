@@ -15,13 +15,17 @@ public class SpellsTableHelper extends BaseTableHelper {
     private static final String C_NAME = "name";
     private static final String C_ID_SCHOOL = "id_school";
     private static final String C_LEVEL = "level";
-    private static final String C_CASTING_TIME = "castingTime";
+//    private static final String C_CASTING_TIME = "castingTime";
     private static final String C_IS_INSTANTANEOUS = "isInstantaneous";
+    private static final String C_IS_COMBAT_SPELL = "isCombatSpell";
+    private static final String C_IS_RITUAL = "isRitual";
     private static final String C_REQ_CONCENTRATION = "requiresConcentration";
     private static final String C_COMP_HAS_VERBAL = "hasVerbalComponent";
     private static final String C_COMP_HAS_SOMATIC = "hasSomaticComponent";
     private static final String C_COMP_HAS_MATERIAL = "hasMaterialComponent";
-    private static final String C_IS_COMBAT_SPELL = "isCombatSpell";
+    private static final String C_HAS_VARIANTS = "hasVariants";
+    private static final String C_CAN_BE_HEIGHTENED = "canBeHeightened";
+    private static final String C_ID_PARENT = "id_parent";
     private static final String C_DETAIL = "detail";
 
     private SpellSchoolsTableHelper spellSchoolsTableHelper;
@@ -32,7 +36,7 @@ public class SpellsTableHelper extends BaseTableHelper {
         super(context);
         this.setManagedTable(T_SPELLS);
         this.setColumns(
-            new String[]{C_ID, C_NAME, C_ID_SCHOOL, C_LEVEL, C_CASTING_TIME, C_IS_INSTANTANEOUS, C_REQ_CONCENTRATION, C_COMP_HAS_VERBAL, C_COMP_HAS_SOMATIC, C_COMP_HAS_MATERIAL, C_IS_COMBAT_SPELL, C_DETAIL});
+            new String[]{C_ID, C_NAME, C_ID_SCHOOL, C_LEVEL, C_IS_INSTANTANEOUS, C_IS_COMBAT_SPELL, C_IS_RITUAL, C_REQ_CONCENTRATION, C_COMP_HAS_VERBAL, C_COMP_HAS_SOMATIC, C_COMP_HAS_MATERIAL, C_HAS_VARIANTS, C_CAN_BE_HEIGHTENED, C_ID_PARENT, C_DETAIL});
 
         spellSchoolsTableHelper = new SpellSchoolsTableHelper(context);
 
@@ -57,7 +61,7 @@ public class SpellsTableHelper extends BaseTableHelper {
         spell.setName(cursor.getString(cursor.getColumnIndexOrThrow(SpellsTableHelper.C_NAME)));
         spell.setLevel(cursor.getInt(cursor.getColumnIndexOrThrow(SpellsTableHelper.C_LEVEL)));
         spell.setSchool(spellSchoolsTableHelper.getSchoolName(cursor.getInt(cursor.getColumnIndexOrThrow(SpellsTableHelper.C_ID_SCHOOL))));
-        spell.setCastingTime(cursor.getInt(cursor.getColumnIndexOrThrow(C_CASTING_TIME)));
+//        spell.setCastingTime(cursor.getInt(cursor.getColumnIndexOrThrow(C_CASTING_TIME)));
         spell.setIsInstantaneous(cursor.getInt(cursor.getColumnIndexOrThrow(C_IS_INSTANTANEOUS)) == 1);
         spell.setRequiresConcentration(cursor.getInt(cursor.getColumnIndexOrThrow(C_REQ_CONCENTRATION)) == 1);
         spell.setHasVerbalComponent(cursor.getInt(cursor.getColumnIndexOrThrow(C_COMP_HAS_VERBAL)) == 1);

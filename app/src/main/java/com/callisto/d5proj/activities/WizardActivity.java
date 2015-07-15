@@ -14,4 +14,15 @@ public class WizardActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
     }
+    // Following snippet useful for checking sw value on emulator.
+    // Source: http://android4beginners.com/2013/07/appendix-c-everything-about-sizes-and-dimensions-in-android/
+
+//    if (getResources().getConfiguration().smallestScreenWidthDp >= 600)
+//    {
+//        setContentView(R.layout.activity_main_tablet);
+//    }
+//    else
+//    {
+//        setContentView(R.layout.activity_main);
+//    }
 }

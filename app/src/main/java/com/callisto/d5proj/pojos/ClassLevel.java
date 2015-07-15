@@ -1,6 +1,6 @@
 package com.callisto.d5proj.pojos;
 
-import com.callisto.d5proj.tools.DiceRoller;
+import com.callisto.d5proj.tools.Roller;
 
 /**
  * Created by emiliano.desantis on 08/05/2015.
@@ -37,7 +37,7 @@ class ClassLevel {
     }
 
     public void rollHp() {
-        this.hpRoll = DiceRoller.randInt(characterClass.getDieSize());
+        this.hpRoll = Roller.randInt(characterClass.getDieSize());
     }
 
     public int getSkillPoints() {
