@@ -82,4 +82,11 @@
     <string name="spells_pick_several_eight">Choose %s 8th level spells</string>
     <string name="spells_pick_several_nine">Choose %s 9th level spells</string>
     <string name="error_options_array">Options array not initialized!</string>
+    <string name="dialog_statalloc_settings_standard">Use standard scores</string>
+    <string name="dialog_statalloc_settings_roll">Roll random scores</string>
+    <string name="dialog_statalloc_settings_roll_numberdice">Dice to roll</string>
+    <string name="dialog_statalloc_settings_dice_extrarolls">Extra rolls</string>
+    <string name="dialog_statalloc_settings_pointbuy">Point buy</string>
+    <string name="dialog_statalloc_settings_directinput">Direct score input</string>
+    <string name="dialog_statalloc_settings_pointsfordistribution">Amount to distribute</string>
 </resources>

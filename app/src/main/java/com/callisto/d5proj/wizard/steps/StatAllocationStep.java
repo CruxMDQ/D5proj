@@ -11,6 +11,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.enums.BaseStatistic;
+import com.callisto.d5proj.fragments.dialogs.StatStepSettingsDialogFragment;
 import com.callisto.d5proj.pojos.Race;
 import com.callisto.d5proj.tools.Roller;
 import com.callisto.d5proj.widgets.EditableStatBox;
@@ -31,6 +35,33 @@ public class StatAllocationStep extends WizardStep {
     private Race race;
 
     public StatAllocationStep() { super(); }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.stat_alloc, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.settings: {
+                StatStepSettingsDialogFragment settingsDialogFragment = new StatStepSettingsDialogFragment();
+//                        .newInstance(feature, this);
+//                settingsDialogFragment.setModal(true);
+                settingsDialogFragment.show(getActivity().getSupportFragmentManager(), "StatStepSettings");
+                break;
+            }
+        }
+        return false;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
