@@ -56,7 +56,7 @@ public class StatAllocationStep extends WizardStep {
                 StatStepSettingsDialogFragment settingsDialogFragment = new StatStepSettingsDialogFragment();
 //                        .newInstance(feature, this);
 //                settingsDialogFragment.setModal(true);
-                settingsDialogFragment.show(getActivity().getSupportFragmentManager(), "StatStepSettings");
+                settingsDialogFragment.show(getActivity().getFragmentManager(), "StatStepSettings");
                 break;
             }
         }

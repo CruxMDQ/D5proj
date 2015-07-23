@@ -3,7 +3,7 @@ package com.callisto.d5proj.fragments.dialogs;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +17,7 @@ import com.callisto.d5proj.R;
 /**
  * Created by Crux on 21/07/2015.
  */
-public class StatStepSettingsDialogFragment extends android.support.v4.app.DialogFragment {
+public class StatStepSettingsDialogFragment extends android.app.DialogFragment {
     static private int DEFAULT_DICE = 4;
     static private int DEFAULT_EXTRA_ROLLS = 0;
     static private int DEFAULT_POINT_POOL = 27;
