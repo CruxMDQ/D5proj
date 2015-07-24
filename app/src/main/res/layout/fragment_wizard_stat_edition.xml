@@ -10,10 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/tool_bar" />
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -24,12 +20,12 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="left|top"
-            android:layout_margin="15dp"
+            android:layout_margin="5dp"
             android:background="@drawable/circle"
-            android:src="@drawable/ic_build_24px" />
+            android:src="@android:drawable/ic_menu_manage" />
 
     </FrameLayout>
 
@@ -50,7 +46,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical">
 
@@ -67,7 +63,7 @@
 
                     <TextView
                         android:id="@+id/txtPointPool"
-                        style="@style/statNumberEditableXXXL"
+                        style="@style/statNumberEditableL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -77,8 +73,9 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxStr"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Strength"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_str"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
@@ -86,8 +83,9 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxDex"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Dexterity"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_dex"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
@@ -95,8 +93,9 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxCon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Constitution"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_con"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
@@ -104,8 +103,9 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxInt"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Intelligence"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_int"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
@@ -113,8 +113,9 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxWis"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Wisdom"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_wis"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
@@ -122,14 +123,16 @@
                 <com.callisto.d5proj.widgets.EditableStatBox
                     android:id="@+id/statBoxCha"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    custom:attributeName="Charisma"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    custom:attributeName="@string/stat_name_brief_cha"
                     custom:attributeRoll="0"
                     custom:maximumValue="20"
                     custom:minimumValue="3" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/panelTotalRolls"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -148,7 +151,7 @@
 
                     <TextView
                         android:id="@+id/txtTotalRolls"
-                        style="@style/statNumberEditableXXXL"
+                        style="@style/statNumberEditableL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -163,56 +166,32 @@
 
                     <TextView
                         android:id="@+id/txtRandomAttribute1"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txtRandomAttribute2"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txtRandomAttribute3"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txtRandomAttribute4"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txtRandomAttribute5"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txtRandomAttribute6"
-                        style="@style/statNumberEditableXXXL"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/attribute_setting_row_height"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        style="@style/statNumberEditableL"
                         android:visibility="invisible" />
                 </LinearLayout>
             </LinearLayout>

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,8 +45,8 @@ public class EditableStatBox extends LinearLayout{
         setTxtAttributeBonus((TextView) findViewById(R.id.txtAttributeBonus));
         setTxtAttributeTotal((TextView) findViewById(R.id.txtAttributeTotal));
 
-        setBtnIncreaseValue((Button) findViewById(R.id.btnIncreaseValue));
-        setBtnDecreaseValue((Button) findViewById(R.id.btnDecreaseValue));
+        setBtnIncreaseValue((TextView) findViewById(R.id.btnIncreaseValue));
+        setBtnDecreaseValue((TextView) findViewById(R.id.btnDecreaseValue));
 
         padEditStats = (LinearLayout) findViewById(R.id.padEditStats);
     }
@@ -90,19 +88,19 @@ public class EditableStatBox extends LinearLayout{
         this.txtAttributeTotal = txtAttributeTotal;
     }
 
-    public Button getBtnIncreaseValue() {
+    public TextView getBtnIncreaseValue() {
         return btnIncreaseValue;
     }
 
-    private void setBtnIncreaseValue(Button btnIncreaseValue) {
+    private void setBtnIncreaseValue(TextView btnIncreaseValue) {
         this.btnIncreaseValue = btnIncreaseValue;
     }
 
-    public Button getBtnDecreaseValue() {
+    public TextView getBtnDecreaseValue() {
         return btnDecreaseValue;
     }
 
-    private void setBtnDecreaseValue(Button btnDecreaseValue) {
+    private void setBtnDecreaseValue(TextView btnDecreaseValue) {
         this.btnDecreaseValue = btnDecreaseValue;
     }
 
@@ -189,12 +187,14 @@ public class EditableStatBox extends LinearLayout{
         getTxtAttributeRoll().setTypeface(Typeface.DEFAULT);
     }
 
-    public void toggleButtons() {
-        if (padEditStats.getVisibility() == View.VISIBLE) {
-            padEditStats.setVisibility(View.GONE);
-        } else {
-            padEditStats.setVisibility(View.VISIBLE);
-        }
+    public void disableButtons() {
+        btnDecreaseValue.setVisibility(GONE);
+        btnIncreaseValue.setVisibility(GONE);
+    }
+
+    public void enableButtons() {
+        btnDecreaseValue.setVisibility(VISIBLE);
+        btnIncreaseValue.setVisibility(VISIBLE);
     }
 
     private int minimumValue;
@@ -205,8 +205,8 @@ public class EditableStatBox extends LinearLayout{
     private TextView txtAttributeBonus;
     private TextView txtAttributeTotal;
 
-    private Button btnIncreaseValue;
-    private Button btnDecreaseValue;
+    private TextView btnIncreaseValue;
+    private TextView btnDecreaseValue;
 
     private String attributeName;
     private int attributeRoll;

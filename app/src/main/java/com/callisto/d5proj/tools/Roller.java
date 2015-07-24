@@ -34,7 +34,7 @@ public class Roller {
         // Source: http://stackoverflow.com/questions/8938235/
         Arrays.sort(rolls, Collections.reverseOrder());
 
-        for (int i = 0; i < (dice - discard); i++) {
+        for (int i = 0; i < 3; i++) {
             total += rolls[i];
         }
 

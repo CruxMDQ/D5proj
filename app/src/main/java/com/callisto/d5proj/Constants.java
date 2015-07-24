@@ -9,4 +9,8 @@ public class Constants {
     static public final int FEATURE_CODE_CANTRIP = 42;
 
     public static final int SPELL_LEVEL_0 = 0;
+
+    public static final int DEFAULT_DICE = 4;
+    public static final int DEFAULT_EXTRA_ROLLS = 0;
+    public static final int DEFAULT_POINT_POOL = 27;
 }

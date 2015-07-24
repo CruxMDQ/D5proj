@@ -20,9 +20,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.callisto.d5proj.Constants;
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.dialogs.StatStepSettingsDialogFragment;
+import com.callisto.d5proj.interfaces.OnInputClickListener;
 import com.callisto.d5proj.pojos.Race;
 import com.callisto.d5proj.tools.Roller;
 import com.callisto.d5proj.widgets.EditableStatBox;
@@ -30,9 +32,10 @@ import com.google.gson.Gson;
 
 import org.codepond.wizardroid.WizardStep;
 
-public class StatAllocationStep extends WizardStep {
+import java.util.Arrays;
+import java.util.Collections;
 
-    private Race race;
+public class StatAllocationStep extends WizardStep implements OnInputClickListener {
 
     public StatAllocationStep() { super(); }
 
@@ -53,10 +56,9 @@ public class StatAllocationStep extends WizardStep {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.settings: {
-                StatStepSettingsDialogFragment settingsDialogFragment = new StatStepSettingsDialogFragment();
-//                        .newInstance(feature, this);
-//                settingsDialogFragment.setModal(true);
-                settingsDialogFragment.show(getActivity().getFragmentManager(), "StatStepSettings");
+                StatStepSettingsDialogFragment settingsDialogFragment = StatStepSettingsDialogFragment.newInstance(this);
+                settingsDialogFragment.show(getActivity().getFragmentManager(),
+                    getActivity().getResources().getString(R.string.tag_statalloc_settings));
                 break;
             }
         }
@@ -116,7 +118,7 @@ public class StatAllocationStep extends WizardStep {
     private SharedPreferences getCharSharedPrefs() {
         Context context = getActivity();
         return context.getSharedPreferences(
-            getString(R.string.character_stats), Context.MODE_PRIVATE);
+            getString(R.string.tag_character_stats), Context.MODE_PRIVATE);
     }
 
     private void findComponents(View rootView) {
@@ -184,18 +186,22 @@ public class StatAllocationStep extends WizardStep {
 //                onStatChangeListener.onStatChange(baseStatistic, attributeValue);
             }
         });
+
         editableStatBox.getBtnDecreaseValue().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decreaseStat(editableStatBox);
             }
         });
+
         editableStatBox.getBtnIncreaseValue().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 increaseStat(editableStatBox);
             }
         });
+
+        editableStatBox.disableButtons();
     }
 
     private boolean hasPreviousRolls() {
@@ -203,22 +209,92 @@ public class StatAllocationStep extends WizardStep {
     }
 
     private void generateRolls() {
+        SharedPreferences settings = getActivity().getSharedPreferences(
+            getString(R.string.tag_statalloc_settings), Context.MODE_PRIVATE);
+
+        Integer[] rolls;
+
         SharedPreferences sharedPref = getCharSharedPrefs();
 
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putString("rand1", String.valueOf(Roller.rollDice(4, 6, 1)));
-        editor.putString("rand2", String.valueOf(Roller.rollDice(4, 6, 1)));
-        editor.putString("rand3", String.valueOf(Roller.rollDice(4, 6, 1)));
-        editor.putString("rand4", String.valueOf(Roller.rollDice(4, 6, 1)));
-        editor.putString("rand5", String.valueOf(Roller.rollDice(4, 6, 1)));
-        editor.putString("rand6", String.valueOf(Roller.rollDice(4, 6, 1)));
+        if (settings.getBoolean(getActivity().getResources().getString(R.string.pref_method_roll), true)) {
+            enableRollsPanel();
 
-        increaseRollCount();
+            dice = settings.getInt(getActivity().getResources().getString(R.string.pref_value_dice), Constants.DEFAULT_DICE);
+            extraRolls = settings.getInt(getActivity().getResources().getString(R.string.pref_value_extrarolls), Constants.DEFAULT_EXTRA_ROLLS);
 
-        editor.putString("totalRolls", String.valueOf(totalRolls));
+            rolls = new Integer[6 + extraRolls];
 
-        editor.apply();
+            for (int i = 0; i < 6 + extraRolls; i++) {
+                rolls[i] = Roller.rollDice(dice, 6, 1);
+            }
+
+            Arrays.sort(rolls, Collections.reverseOrder());
+
+            editor.putString("rand1", String.valueOf(rolls[0]));
+            editor.putString("rand2", String.valueOf(rolls[1]));
+            editor.putString("rand3", String.valueOf(rolls[2]));
+            editor.putString("rand4", String.valueOf(rolls[3]));
+            editor.putString("rand5", String.valueOf(rolls[4]));
+            editor.putString("rand6", String.valueOf(rolls[5]));
+
+            increaseRollCount();
+
+            editor.putString("totalRolls", String.valueOf(totalRolls));
+
+            if (settings.getBoolean(getActivity().getResources().getString(R.string.pref_method_roll_allowstatedit), false)) {
+                editableStatBoxStr.enableButtons();
+                editableStatBoxDex.enableButtons();
+                editableStatBoxCon.enableButtons();
+                editableStatBoxInt.enableButtons();
+                editableStatBoxWis.enableButtons();
+                editableStatBoxCha.enableButtons();
+            }
+
+            editor.apply();
+        } else if (settings.getBoolean("method_stdscores", false)) {
+            enableRollsPanel();
+
+            editor.putString("rand1", String.valueOf(15));
+            editor.putString("rand2", String.valueOf(14));
+            editor.putString("rand3", String.valueOf(13));
+            editor.putString("rand4", String.valueOf(12));
+            editor.putString("rand5", String.valueOf(10));
+            editor.putString("rand6", String.valueOf(8));
+
+            editor.apply();
+        } else if (settings.getBoolean("method_pointbuy", false)) {
+            disableRollsPanel();
+
+            setPointPool(settings.getInt("pointPool", Constants.DEFAULT_POINT_POOL));
+
+            editableStatBoxStr.setAttribute(8);
+            editableStatBoxDex.setAttribute(8);
+            editableStatBoxCon.setAttribute(8);
+            editableStatBoxInt.setAttribute(8);
+            editableStatBoxWis.setAttribute(8);
+            editableStatBoxCha.setAttribute(8);
+
+            editableStatBoxStr.enableButtons();
+            editableStatBoxDex.enableButtons();
+            editableStatBoxCon.enableButtons();
+            editableStatBoxInt.enableButtons();
+            editableStatBoxWis.enableButtons();
+            editableStatBoxCha.enableButtons();
+
+            editor.apply();
+        }
+    }
+
+    private void enableRollsPanel() {
+        rootView.findViewById(R.id.panelTotalRolls).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.panelRolls).setVisibility(View.VISIBLE);
+    }
+
+    private void disableRollsPanel() {
+        rootView.findViewById(R.id.panelTotalRolls).setVisibility(View.GONE);
+        rootView.findViewById(R.id.panelRolls).setVisibility(View.GONE);
     }
 
     private void increaseRollCount() {
@@ -327,8 +403,22 @@ public class StatAllocationStep extends WizardStep {
         setRaceModifiers();
     }
 
+    @Override
+    public void onInputClickOk(String text) {
+        reset();
+
+        reRoll();
+    }
+
+    @Override
+    public void onInputClickCancel(String text) { }
+
+    private Race race;
+
     private View rootView;
 
+    private int dice = 4;
+    private int extraRolls = 0;
     private int pointPool;
     private int totalRolls;
 
@@ -351,8 +441,6 @@ public class StatAllocationStep extends WizardStep {
 
     private Button btnResetRolls;
     private Button btnRollNewValues;
-
-    //    private LinearLayout panelRolls;
 
     /**
      * ChoiceTouchListener will handle touch events on draggable views

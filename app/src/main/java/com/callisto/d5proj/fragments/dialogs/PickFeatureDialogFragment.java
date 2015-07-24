@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.FeatureChoicesRVAdapter;
-import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.AfterChoosingFeatureOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class PickFeatureDialogFragment extends PickOptionDialogFragment {
 
     public PickFeatureDialogFragment() { }
 
-    public static PickFeatureDialogFragment newInstance(Feature feature, AfterChoosingOptionsListener listener)
+    public static PickFeatureDialogFragment newInstance(Feature feature, AfterChoosingFeatureOptionsListener listener)
     {
         PickFeatureDialogFragment frag = new PickFeatureDialogFragment();
         frag.listener = listener;

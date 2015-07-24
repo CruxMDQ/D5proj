@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.AfterChoosingFeatureOptionsListener;
 import com.callisto.d5proj.interfaces.OnChoicePickedListener;
 import com.callisto.d5proj.pojos.Feature;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public abstract class PickOptionDialogFragment<T> extends android.support.v4.app.DialogFragment implements OnChoicePickedListener {
     RecyclerView rvChoices;
     Feature feature;
-    AfterChoosingOptionsListener<T> listener;
+    AfterChoosingFeatureOptionsListener<T> listener;
     ArrayList<T> picks;
     boolean isModal = false;
     AlertDialog dialog;
