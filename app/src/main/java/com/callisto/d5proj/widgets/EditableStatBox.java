@@ -150,7 +150,7 @@ public class EditableStatBox extends LinearLayout{
         return maximumValue;
     }
 
-    private void setMaximumValue(int maximumValue) {
+    public void setMaximumValue(int maximumValue) {
         this.maximumValue = maximumValue;
     }
 
@@ -159,7 +159,7 @@ public class EditableStatBox extends LinearLayout{
         return minimumValue;
     }
 
-    private void setMinimumValue(int minimumValue) {
+    public void setMinimumValue(int minimumValue) {
         this.minimumValue = minimumValue;
     }
 
