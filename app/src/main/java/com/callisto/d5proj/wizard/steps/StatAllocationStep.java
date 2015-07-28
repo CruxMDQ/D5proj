@@ -220,11 +220,23 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
             setMethodStdScores();
         } else if (settings.getBoolean(getStringResource(R.string.pref_method_pointbuy), false)) {
             setMethodPointBuy();
+        } else if (settings.getBoolean(getStringResource(R.string.pref_method_manual), false)) {
+            setMethodCheat();
         }
     }
 
     private String getStringResource(int pref_method_roll) {
         return getActivity().getResources().getString(pref_method_roll);
+    }
+
+    private void setMethodCheat() {
+        currentMode = getStringResource(R.string.pref_method_manual);
+
+        disableRollsPanel();
+        disableRolling();
+        disablePointPool();
+        disableReRollAndReset();
+        enableStatEditing();
     }
 
     private void setMethodPointBuy() {
@@ -237,36 +249,10 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
 
         disableRollsPanel();
         disableRolling();
+        enablePointPool();
+        enableStatEditing();
 
         setPointPool(settings.getInt("pointPool", Constants.DEFAULT_POINT_POOL));
-
-        editableStatBoxStr.setAttribute(8);
-        editableStatBoxDex.setAttribute(8);
-        editableStatBoxCon.setAttribute(8);
-        editableStatBoxInt.setAttribute(8);
-        editableStatBoxWis.setAttribute(8);
-        editableStatBoxCha.setAttribute(8);
-
-        editableStatBoxStr.setMinimumValue(8);
-        editableStatBoxDex.setMinimumValue(8);
-        editableStatBoxCon.setMinimumValue(8);
-        editableStatBoxInt.setMinimumValue(8);
-        editableStatBoxWis.setMinimumValue(8);
-        editableStatBoxCha.setMinimumValue(8);
-
-        editableStatBoxStr.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxStr.getAttributeRoll()));
-        editableStatBoxDex.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxDex.getAttributeRoll()));
-        editableStatBoxCon.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxCon.getAttributeRoll()));
-        editableStatBoxInt.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxInt.getAttributeRoll()));
-        editableStatBoxWis.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxWis.getAttributeRoll()));
-        editableStatBoxCha.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxCha.getAttributeRoll()));
-
-        editableStatBoxStr.enableButtons();
-        editableStatBoxDex.enableButtons();
-        editableStatBoxCon.enableButtons();
-        editableStatBoxInt.enableButtons();
-        editableStatBoxWis.enableButtons();
-        editableStatBoxCha.enableButtons();
 
         editor.apply();
     }
@@ -277,6 +263,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
         SharedPreferences.Editor editor = getCharSharedPrefs().edit();
 
         enableRollsPanel();
+        disableRolling();
+        disableStatEditing();
 
         editor.putString("rand1", String.valueOf(15));
         editor.putString("rand2", String.valueOf(14));
@@ -286,10 +274,17 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
         editor.putString("rand6", String.valueOf(8));
 
         editor.apply();
+
+        setRolls();
     }
 
     private void setMethodRoll() {
         currentMode = getStringResource(R.string.pref_method_roll);
+
+        enableRollsPanel();
+        enableRolling();
+        disablePointPool();
+        disableStatEditing();
 
         SharedPreferences.Editor editor = getCharSharedPrefs().edit();
 
@@ -297,7 +292,6 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
             getString(R.string.tag_statalloc_settings), Context.MODE_PRIVATE);
 
         Integer[] rolls;
-        enableRollsPanel();
 
         dice = settings.getInt(getStringResource(R.string.pref_value_dice), Constants.DEFAULT_DICE);
         extraRolls = settings.getInt(getStringResource(R.string.pref_value_extrarolls), Constants.DEFAULT_EXTRA_ROLLS);
@@ -343,9 +337,79 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
         rootView.findViewById(R.id.panelRolls).setVisibility(View.GONE);
     }
 
+    private void disablePointPool() {
+        rootView.findViewById(R.id.panelPointPool).setVisibility(View.GONE);
+    }
+
+    private void enablePointPool() {
+        rootView.findViewById(R.id.panelPointPool).setVisibility(View.VISIBLE);
+    }
+
     private void increaseRollCount() {
         totalRolls++;
         txtTotalRolls.setText(String.valueOf(totalRolls));
+    }
+
+    private void enableStatEditing() {
+        int minimum = 3;
+        if (currentMode.equals(getStringResource(R.string.pref_method_pointbuy))) {
+            minimum = 8;
+        }
+        editableStatBoxStr.setAttribute(minimum);
+        editableStatBoxDex.setAttribute(minimum);
+        editableStatBoxCon.setAttribute(minimum);
+        editableStatBoxInt.setAttribute(minimum);
+        editableStatBoxWis.setAttribute(minimum);
+        editableStatBoxCha.setAttribute(minimum);
+
+        editableStatBoxStr.setMinimumValue(minimum);
+        editableStatBoxDex.setMinimumValue(minimum);
+        editableStatBoxCon.setMinimumValue(minimum);
+        editableStatBoxInt.setMinimumValue(minimum);
+        editableStatBoxWis.setMinimumValue(minimum);
+        editableStatBoxCha.setMinimumValue(minimum);
+
+        editableStatBoxStr.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxStr.getAttributeRoll()));
+        editableStatBoxDex.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxDex.getAttributeRoll()));
+        editableStatBoxCon.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxCon.getAttributeRoll()));
+        editableStatBoxInt.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxInt.getAttributeRoll()));
+        editableStatBoxWis.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxWis.getAttributeRoll()));
+        editableStatBoxCha.getTxtAttributeRoll().setText(String.valueOf(editableStatBoxCha.getAttributeRoll()));
+
+        editableStatBoxStr.enableButtons();
+        editableStatBoxDex.enableButtons();
+        editableStatBoxCon.enableButtons();
+        editableStatBoxInt.enableButtons();
+        editableStatBoxWis.enableButtons();
+        editableStatBoxCha.enableButtons();
+    }
+
+    private void disableStatEditing() {
+        editableStatBoxStr.disableButtons();
+        editableStatBoxDex.disableButtons();
+        editableStatBoxCon.disableButtons();
+        editableStatBoxInt.disableButtons();
+        editableStatBoxWis.disableButtons();
+        editableStatBoxCha.disableButtons();
+
+        editableStatBoxStr.setMinimumValue(0);
+        editableStatBoxDex.setMinimumValue(0);
+        editableStatBoxCon.setMinimumValue(0);
+        editableStatBoxInt.setMinimumValue(0);
+        editableStatBoxWis.setMinimumValue(0);
+        editableStatBoxCha.setMinimumValue(0);
+
+        editableStatBoxStr.reset();
+        editableStatBoxDex.reset();
+        editableStatBoxCon.reset();
+        editableStatBoxInt.reset();
+        editableStatBoxWis.reset();
+        editableStatBoxCha.reset();
+    }
+
+    private void disableReRollAndReset() {
+        btnResetRolls.setVisibility(View.GONE);
+        btnRollNewValues.setVisibility(View.GONE);
     }
 
     private void setRolls() {
@@ -389,16 +453,28 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
     private void decreaseStat(EditableStatBox editableStatBox) {
         if (editableStatBox.getAttributeRoll() > editableStatBox.getMinimumValue()) {
             editableStatBox.setAttribute((editableStatBox.getAttributeRoll() - 1));
-            setPointPool(getPointPool() + 1);
             editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
+            if (currentMode.equals(getStringResource(R.string.pref_method_pointbuy))) {
+                setPointPool(getPointPool() + 1);
+            }
         }
     }
 
     private void increaseStat(EditableStatBox editableStatBox) {
-        if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < editableStatBox.getMaximumValue()) {
-            editableStatBox.setAttribute(editableStatBox.getAttributeRoll() + 1);
-            setPointPool(getPointPool() - 1);
-            editableStatBox.getTxtAttributeRoll().setText(String.valueOf(editableStatBox.getAttributeRoll()));
+        if (currentMode.equals(getStringResource(R.string.pref_method_pointbuy))) {
+            if (getPointPool() > 0 && editableStatBox.getAttributeRoll() < editableStatBox
+                .getMaximumValue()) {
+                editableStatBox.setAttribute(editableStatBox.getAttributeRoll() + 1);
+                setPointPool(getPointPool() - 1);
+                editableStatBox.getTxtAttributeRoll()
+                    .setText(String.valueOf(editableStatBox.getAttributeRoll()));
+            }
+        } else if (currentMode.equals(getStringResource(R.string.pref_method_manual))) {
+            if (editableStatBox.getAttributeRoll() < editableStatBox.getMaximumValue()) {
+                editableStatBox.setAttribute(editableStatBox.getAttributeRoll() + 1);
+                editableStatBox.getTxtAttributeRoll()
+                    .setText(String.valueOf(editableStatBox.getAttributeRoll()));
+            }
         }
     }
 
@@ -421,19 +497,24 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
             txtRandomAttribute5.setVisibility(View.VISIBLE);
             txtRandomAttribute6.setVisibility(View.VISIBLE);
 
-            editableStatBoxStr.reset();
-            editableStatBoxDex.reset();
-            editableStatBoxCon.reset();
-            editableStatBoxInt.reset();
-            editableStatBoxWis.reset();
-            editableStatBoxCha.reset();
-
             setPointPool(0);
 
             enableRolling();
+//            setMethodRoll();
         } else if (currentMode.equals(getStringResource(R.string.pref_method_pointbuy))){
             setMethodPointBuy();
+        } else if (currentMode.equals(getStringResource(R.string.pref_method_stdscores))) {
+            setMethodStdScores();
+        } else if (currentMode.equals(getStringResource(R.string.pref_method_manual))) {
+            setMethodCheat();
         }
+
+        editableStatBoxStr.reset();
+        editableStatBoxDex.reset();
+        editableStatBoxCon.reset();
+        editableStatBoxInt.reset();
+        editableStatBoxWis.reset();
+        editableStatBoxCha.reset();
     }
 
     private void enableRolling() {

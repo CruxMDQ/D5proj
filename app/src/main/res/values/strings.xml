@@ -19,7 +19,7 @@
     <string name="point_pool">Point pool</string>
     <string name="panel_rolls_title">Rolls</string>
     <string name="btn_roll">Roll</string>
-    <string name="btn_reset">Reset rolls</string>
+    <string name="btn_reset">Reset</string>
     <string name="experience_points">XP</string>
     <string name="character_level">Character level</string>
     <string name="ok">OK</string>

@@ -4,7 +4,7 @@
     tools:context=".WizardActivity">
     <item android:id="@+id/settings"
         android:title="@string/action_example"
-        android:icon="@drawable/ic_build_24px"
+        android:icon="@android:drawable/ic_menu_manage"
         android:showAsAction="withText|ifRoom"/>
     <!--<item android:id="@+id/action_settings"-->
         <!--android:title="@string/action_settings"-->

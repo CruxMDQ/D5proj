@@ -181,7 +181,7 @@ public class EditableStatBox extends LinearLayout{
     }
 
     public void reset() {
-        setAttributeRoll(0);
+        setAttributeRoll(getMinimumValue());    // 0
         getTxtAttributeRoll().setText(String.valueOf(getAttributeRoll()));
         getTxtAttributeRoll().setTag(null);
         getTxtAttributeRoll().setTypeface(Typeface.DEFAULT);
