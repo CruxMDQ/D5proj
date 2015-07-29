@@ -24,8 +24,8 @@ import com.callisto.d5proj.db.tables.SpellsTableHelper;
 import com.callisto.d5proj.enums.BaseStatistic;
 import com.callisto.d5proj.fragments.dialogs.PickFeatureDialogFragment;
 import com.callisto.d5proj.fragments.dialogs.PickSpellsDialogFragment;
-import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
-import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.AfterChoosingFeatureOptionsListener;
+import com.callisto.d5proj.interfaces.OnChoosingFeatureOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.GameActor;
 import com.callisto.d5proj.pojos.Race;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * Race selection fragment for wizard.
  * Created by emiliano.desantis on 11/05/2015.
  */
-public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsListener, AfterChoosingOptionsListener {
+public class RaceSelectionStep extends WizardStep implements OnChoosingFeatureOptionsListener, AfterChoosingFeatureOptionsListener {
 
     public RaceSelectionStep() { }
 
@@ -170,7 +170,7 @@ public class RaceSelectionStep extends WizardStep implements OnChoosingOptionsLi
     private SharedPreferences getCharSharedPrefs() {
         Context context = getActivity();
         return context.getSharedPreferences(
-            getString(R.string.character_stats), Context.MODE_PRIVATE);
+            getString(R.string.tag_character_stats), Context.MODE_PRIVATE);
     }
 
     @Override

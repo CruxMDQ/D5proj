@@ -3,4 +3,11 @@
     <color name="shadow_for_text_white">#B3cccccc</color>
     <color name="attribute_bonus">#ff0f9d58</color><!-- green 500 -->
     <color name="bkgr_feature_choices_pending">#99DB9696</color>
+
+    <color name="colorPrimary">#F50057</color>
+    <color name="colorPrimaryDark">#C51162</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#FF80AB</color>
 </resources>

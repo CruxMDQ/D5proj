@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/chkUseStdScores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/dialog_statalloc_settings_standard"/>
+
+    <CheckBox
+        android:id="@+id/chkRoll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/dialog_statalloc_settings_roll"/>
+
+    <LinearLayout
+        android:id="@+id/panelCustomizeRolls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_half"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/dialog_statalloc_settings_roll_numberdice"/>
+
+                <TextView
+                    android:id="@+id/txtDiceToRoll"
+                    style="@style/statNumberEditableXXXL"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="1"
+                    android:visibility="visible"/>
+
+                <LinearLayout
+                    android:layout_width="@dimen/attribute_setting_buttonpad"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnIncreaseDice"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:text="@string/btnIncrease"/>
+
+                    <Button
+                        android:id="@+id/btnDecreaseDice"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_light"
+                        android:text="@string/btnDecrease"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_half"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:singleLine="false"
+                    android:text="@string/dialog_statalloc_settings_dice_extrarolls"/>
+
+                <TextView
+                    android:id="@+id/txtExtraRolls"
+                    style="@style/statNumberEditableXXXL"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="1"
+                    android:visibility="visible"/>
+
+                <LinearLayout
+                    android:layout_width="@dimen/attribute_setting_buttonpad"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnIncreaseRolls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:text="@string/btnIncrease"/>
+
+                    <Button
+                        android:id="@+id/btnDecreaseRolls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_light"
+                        android:text="@string/btnDecrease"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/chkAllowEdition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/dialog_statalloc_settings_roll_edit"/>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chkPointBuy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/dialog_statalloc_settings_pointbuy"/>
+
+    <LinearLayout
+        android:id="@+id/panelCustomizePointBuy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_half"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/dialog_statalloc_settings_pointsfordistribution"/>
+
+        <TextView
+            android:id="@+id/txtPoints"
+            style="@style/statNumberEditableXXXL"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="27"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_width="@dimen/attribute_setting_buttonpad"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnIncreasePoints"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_light"
+                android:text="@string/btnIncrease"/>
+
+            <Button
+                android:id="@+id/btnDecreasePoints"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_light"
+                android:text="@string/btnDecrease"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chkManual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/dialog_statalloc_settings_directinput"/>
+</LinearLayout>

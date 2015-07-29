@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.callisto.d5proj.R;
-import com.callisto.d5proj.interfaces.OnChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.OnChoosingFeatureOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Race;
 
@@ -20,13 +20,13 @@ import java.util.ArrayList;
  */
 public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.StringRowHolder> {
 
-    public RaceStepRVAdapter(Activity activity, Race race, OnChoosingOptionsListener listener) {
+    public RaceStepRVAdapter(Activity activity, Race race, OnChoosingFeatureOptionsListener listener) {
         this.mActivity = activity;
         this.listener = listener;
         this.features = race.getRacialFeatures();
     }
 
-    public RaceStepRVAdapter(Activity activity, ArrayList<Feature> features, OnChoosingOptionsListener listener) {
+    public RaceStepRVAdapter(Activity activity, ArrayList<Feature> features, OnChoosingFeatureOptionsListener listener) {
         this.mActivity = activity;
         this.listener = listener;
         this.features = features;
@@ -77,6 +77,6 @@ public class RaceStepRVAdapter extends RecyclerView.Adapter<RaceStepRVAdapter.St
 
     private Activity mActivity;
     private ArrayList<Feature> features;
-    private OnChoosingOptionsListener listener;
+    private OnChoosingFeatureOptionsListener listener;
 
 }

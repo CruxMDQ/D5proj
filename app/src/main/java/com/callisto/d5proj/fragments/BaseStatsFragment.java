@@ -70,7 +70,7 @@ public class BaseStatsFragment extends Fragment {
     private SharedPreferences getCharSharedPrefs() {
         Context context = getActivity();
         return context.getSharedPreferences(
-            getString(R.string.character_stats), Context.MODE_PRIVATE);
+            getString(R.string.tag_character_stats), Context.MODE_PRIVATE);
     }
 
     private void findComponents(View rootView) {

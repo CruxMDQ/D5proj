@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 
 import com.callisto.d5proj.R;
 import com.callisto.d5proj.adapters.SpellChoicesRVAdapter;
-import com.callisto.d5proj.interfaces.AfterChoosingOptionsListener;
+import com.callisto.d5proj.interfaces.AfterChoosingFeatureOptionsListener;
 import com.callisto.d5proj.pojos.Feature;
 import com.callisto.d5proj.pojos.Spell;
 
@@ -18,7 +18,7 @@ public class PickSpellsDialogFragment extends PickOptionDialogFragment //android
 {
     public PickSpellsDialogFragment() { }
 
-    public static PickSpellsDialogFragment newInstance(Feature feature, ArrayList<Spell> spells, int spellLevel, AfterChoosingOptionsListener listener) {
+    public static PickSpellsDialogFragment newInstance(Feature feature, ArrayList<Spell> spells, int spellLevel, AfterChoosingFeatureOptionsListener listener) {
         PickSpellsDialogFragment frag = new PickSpellsDialogFragment();
         frag.listener = listener;
         frag.feature = feature;

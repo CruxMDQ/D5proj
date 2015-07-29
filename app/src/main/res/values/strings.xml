@@ -19,8 +19,7 @@
     <string name="point_pool">Point pool</string>
     <string name="panel_rolls_title">Rolls</string>
     <string name="btn_roll">Roll</string>
-    <string name="btn_reset">Reset rolls</string>
-    <string name="character_stats">character_stats</string>
+    <string name="btn_reset">Reset</string>
     <string name="experience_points">XP</string>
     <string name="character_level">Character level</string>
     <string name="ok">OK</string>
@@ -34,6 +33,13 @@
     <string name="stat_name_int">Intelligence</string>
     <string name="stat_name_wis">Wisdom</string>
     <string name="stat_name_cha">Charisma</string>
+
+    <string name="stat_name_brief_str">STR</string>
+    <string name="stat_name_brief_dex">DEX</string>
+    <string name="stat_name_brief_con">CON</string>
+    <string name="stat_name_brief_int">INT</string>
+    <string name="stat_name_brief_wis">WIS</string>
+    <string name="stat_name_brief_cha">CHA</string>
 
     <string name="classname_barbarian">Barbarian</string>
     <string name="classname_bard">Bard</string>
@@ -82,4 +88,24 @@
     <string name="spells_pick_several_eight">Choose %s 8th level spells</string>
     <string name="spells_pick_several_nine">Choose %s 9th level spells</string>
     <string name="error_options_array">Options array not initialized!</string>
+    <string name="dialog_statalloc_settings_standard">Use standard scores</string>
+    <string name="dialog_statalloc_settings_roll">Roll random scores</string>
+    <string name="dialog_statalloc_settings_roll_numberdice">Dice to roll</string>
+    <string name="dialog_statalloc_settings_dice_extrarolls">Extra rolls</string>
+    <string name="dialog_statalloc_settings_pointbuy">Point buy</string>
+    <string name="dialog_statalloc_settings_directinput">Direct score input</string>
+    <string name="dialog_statalloc_settings_pointsfordistribution">Amount to distribute</string>
+    <string name="dialog_statalloc_settings_roll_edit">Allow stat edition</string>
+
+    <string name="tag_character_stats">character_stats</string>
+    <string name="tag_statalloc_settings">statalloc_settings</string>
+
+    <string name="pref_method_manual">method_manual</string>
+    <string name="pref_method_roll">method_roll</string>
+    <string name="pref_method_pointbuy">method_pointbuy</string>
+    <string name="pref_method_stdscores">method_stdscores</string>
+    <string name="pref_method_roll_allowstatedit">allowStatEdition</string>
+    <string name="pref_value_dice">dice</string>
+    <string name="pref_value_extrarolls">extraRolls</string>
+    <string name="pref_value_pointpool">pointPool</string>
 </resources>

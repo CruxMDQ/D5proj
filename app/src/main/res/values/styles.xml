@@ -1,36 +1,56 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="AppTheme" parent="android:Theme.Material">
         <!-- Customize your theme here. -->
     </style>
 
     <!--Text styles-->
     <style name="statNumberEditable">
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:shadowColor">@color/shadow_for_text_white</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="statNumberEditableM" parent="statNumberEditable">
+        <item name="android:textSize">@dimen/font_size_M</item>
+    </style>
+
+    <style name="statNumberEditableL" parent="statNumberEditable">
+        <item name="android:textSize">@dimen/font_size_L</item>
+    </style>
+
+    <style name="statNumberEditableXL" parent="statNumberEditable">
+        <item name="android:textSize">@dimen/font_size_XL</item>
+    </style>
+
+    <style name="statNumberEditableXXXL" parent="statNumberEditable">
         <item name="android:textSize">@dimen/font_size_XXXL</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">@color/shadow_for_text_white</item>
+    </style>
+
+    <style name="statModifierButtons" parent="statNumberEditable">
+        <item name="android:textSize">@dimen/font_size_L</item>
         <item name="android:shadowDx">2</item>
         <item name="android:shadowDy">2</item>
         <item name="android:shadowRadius">2</item>
     </style>
 
-    <style name="statNumberBonus">
+    <style name="statNumberBonus" parent="statNumberEditable">
         <item name="android:textColor">@color/attribute_bonus</item>
-        <item name="android:textSize">@dimen/font_size_XXL</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">@color/shadow_for_text_white</item>
-        <item name="android:shadowDx">2</item>
-        <item name="android:shadowDy">2</item>
-        <item name="android:shadowRadius">2</item>
     </style>
 
-    <style name="statNumberFixed" parent="statNumberEditable">
+    <style name="statNumberBonusM" parent="statNumberBonus">
+        <item name="android:textSize">@dimen/font_size_M</item>
+    </style>
+
+    <style name="statNumberFixed" parent="statNumberEditableXXXL">
         <item name="android:textSize">@dimen/font_size_XL</item>
     </style>
 
