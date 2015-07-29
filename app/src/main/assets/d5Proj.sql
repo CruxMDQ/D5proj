@@ -124,11 +124,23 @@ DROP TABLE IF EXISTS "ClassFeatures";
 CREATE TABLE ClassFeatures
 (
   id_class INTEGER NOT NULL,
-  id_feature INTEGER NOT NULL,
+  id_feature INTEGER NOT NULL, "requiredLevel" INTEGER, "requiredFeature" INTEGER,
   CONSTRAINT pk_class_features PRIMARY KEY (id_class,id_feature),
   CONSTRAINT fk_class FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+INSERT INTO "ClassFeatures" VALUES(1,114,1,NULL);
+INSERT INTO "ClassFeatures" VALUES(1,115,1,NULL);
+INSERT INTO "ClassFeatures" VALUES(1,116,2,NULL);
+INSERT INTO "ClassFeatures" VALUES(1,117,2,NULL);
+INSERT INTO "ClassFeatures" VALUES(1,118,3,NULL);
+INSERT INTO "ClassFeatures" VALUES(1,121,3,119);
+INSERT INTO "ClassFeatures" VALUES(1,122,6,119);
+INSERT INTO "ClassFeatures" VALUES(1,123,10,119);
+INSERT INTO "ClassFeatures" VALUES(1,124,14,119);
+INSERT INTO "ClassFeatures" VALUES(1,125,3,120);
+INSERT INTO "ClassFeatures" VALUES(1,126,3,120);
+INSERT INTO "ClassFeatures" VALUES(1,130,6,120);
 DROP TABLE IF EXISTS "ClassProficiencyGroups";
 CREATE TABLE "ClassProficiencyGroups"
 (
@@ -329,6 +341,14 @@ INSERT INTO "FeatureChoices" VALUES(60,67);
 INSERT INTO "FeatureChoices" VALUES(60,68);
 INSERT INTO "FeatureChoices" VALUES(60,69);
 INSERT INTO "FeatureChoices" VALUES(60,70);
+INSERT INTO "FeatureChoices" VALUES(118,119);
+INSERT INTO "FeatureChoices" VALUES(118,120);
+INSERT INTO "FeatureChoices" VALUES(126,127);
+INSERT INTO "FeatureChoices" VALUES(126,128);
+INSERT INTO "FeatureChoices" VALUES(126,129);
+INSERT INTO "FeatureChoices" VALUES(130,131);
+INSERT INTO "FeatureChoices" VALUES(130,132);
+INSERT INTO "FeatureChoices" VALUES(130,133);
 DROP TABLE IF EXISTS "FeatureLanguages";
 CREATE TABLE FeatureLanguages
 (
@@ -554,6 +574,26 @@ INSERT INTO "Features" VALUES(110,'Damage Resistance: Poison',0,'You are resista
 INSERT INTO "Features" VALUES(111,'Damage Resistance: Psychic',0,'You are resistant to Psychic damage.');
 INSERT INTO "Features" VALUES(112,'Damage Resistance: Radiant',0,'You are resistant to Radiant damage.');
 INSERT INTO "Features" VALUES(113,'Damage Resistance: Thunder',0,'You are resistant to Thunder damage.');
+INSERT INTO "Features" VALUES(114,'Rage',0,'On your turn, you can enter a rage as a bonus action.');
+INSERT INTO "Features" VALUES(115,'Unarmored Defense',0,'While unarmored, AC equals 10 + DEX modifier + CON modifier. Not canceled by using a shield.');
+INSERT INTO "Features" VALUES(116,'Reckless Attack',0,'You can throw aside all concern for defense to attack with fierce desperation.');
+INSERT INTO "Features" VALUES(117,'Danger Sense',0,'You gain an uncanny sense of when things nearby aren''t as they should be, giving you an edge when you dodge away from danger.');
+INSERT INTO "Features" VALUES(118,'Primal Path',1,'You choose a path that shapes the nature of your rage.');
+INSERT INTO "Features" VALUES(119,'Path of the Berserker',0,'Rage is a means to an end - that end being violence.');
+INSERT INTO "Features" VALUES(120,'Path of the Totem Warrior',0,'In battle, your totem spirit fills you with supernatural might, adding magical fuel to your barbarian rage.');
+INSERT INTO "Features" VALUES(121,'Frenzy',0,'When, while raging, you choose to go into a frenzy, while your rage lasts you can make a single weapon attack as a bonus action on each of your following turns.');
+INSERT INTO "Features" VALUES(122,'Mindless Rage',0,'You can''t be charmed or frightened while raging.');
+INSERT INTO "Features" VALUES(123,'Intimidating Presence',0,'You can use your action to frighten someone with your menacing presence.');
+INSERT INTO "Features" VALUES(124,'Retaliation',0,'When you take damage from a creature within 5 feet of you, you can use your reaction to make a melee weapon attack against that creature.');
+INSERT INTO "Features" VALUES(125,'Spirit Seeker',0,'Gain the ability to cast Beast Sense and Speak With Animals as rituals.');
+INSERT INTO "Features" VALUES(126,'Totem Spirit',1,'Choose a totem spirit and gain its feature.');
+INSERT INTO "Features" VALUES(127,'Totem Spirit (Bear)',0,'While raging, you have resistance to all damage except psychic damage.');
+INSERT INTO "Features" VALUES(128,'Totem Spirit (Eagle)',0,'While raging and not wearing heavy armor, other creatures have disadvantage on opportunity attack rolls against you, and you can Dash as a bonus action on your turn.');
+INSERT INTO "Features" VALUES(129,'Totem Spirit (Wolf)',0,'While raging, your friends have advantage on melee attack rolls against any creature within 5 feet of you that is hostile to you.');
+INSERT INTO "Features" VALUES(130,'Aspect of the Beast',1,'Gain a magical benefit based on the totem animal of your choice.');
+INSERT INTO "Features" VALUES(131,'Aspect of the Beast (Bear)',0,'Your carrying capacity (including maximum load and lift) is doubled, and you have advantage on Strength checks to push, pull, lift or break objects.');
+INSERT INTO "Features" VALUES(132,'Aspect of the Beast (Eagle)',0,'You can see up to 1 mile away as though looking at something no more than 100 feet away from you. Light does not impose disadvantage on your Wisdom (Perception) checks.');
+INSERT INTO "Features" VALUES(133,'Aspect of the Beast (Wolf)',0,'You can track other creatures while traveling at a fast pace, and you can move stealthily while traveling at a normal pace.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions
 (
@@ -566,6 +606,9 @@ INSERT INTO "FeaturesWithOptions" VALUES(18,1);
 INSERT INTO "FeaturesWithOptions" VALUES(39,2);
 INSERT INTO "FeaturesWithOptions" VALUES(60,1);
 INSERT INTO "FeaturesWithOptions" VALUES(77,2);
+INSERT INTO "FeaturesWithOptions" VALUES(118,1);
+INSERT INTO "FeaturesWithOptions" VALUES(126,1);
+INSERT INTO "FeaturesWithOptions" VALUES(130,1);
 DROP TABLE IF EXISTS "HigherCastings";
 CREATE TABLE HigherCastings
 (
@@ -1488,3 +1531,220 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
+CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
+FROM Languages, Features
+JOIN FeatureLanguages
+WHERE Languages._id = FeatureLanguages.id_language
+AND Features._id = FeatureLanguages.id_feature;
+CREATE VIEW "CheckFeatureProficiencies" AS SELECT DISTINCT Items.name AS Item, Features.name AS Feature
+FROM Items, Features
+JOIN FeatureProficiencies
+WHERE Items._id = FeatureProficiencies.id_equipment
+AND Features._id = FeatureProficiencies.id_feature;
+CREATE VIEW CheckFeatureSkills AS SELECT DISTINCT Skills.name AS Skill, Features.name AS Feature
+FROM Features, Skills
+JOIN FeatureSkills
+WHERE Skills._id = FeatureSkills.id_skill
+AND Features._id = FeatureSkills.id_feature;
+CREATE VIEW CheckRacialFeatures AS SELECT DISTINCT Races.name AS Race, Features.name AS Feature
+FROM Races, Features
+JOIN RacialFeatures
+WHERE Races._id = RacialFeatures.id_race
+AND Features._id = RacialFeatures.id_feature;
+CREATE VIEW CheckRacialStats AS SELECT DISTINCT Races.name AS Race, RacialStats.stat AS Statistic, RacialStats.bonus AS Bonus
+FROM Races, RacialStats
+WHERE Races._id = RacialStats.id_race;
+CREATE VIEW CheckSpellsPerClass AS SELECT DISTINCT Spells.name AS Spell, CharacterClasses.name AS Class
+FROM Spells, CharacterClasses
+JOIN SpellsPerClass
+WHERE Spells._id = SpellsPerClass.id_spell
+AND CharacterClasses._id = SpellsPerClass.id_class;
+CREATE VIEW "GetArmors" AS
+SELECT Items._id, Items.name, Equipment.proficiencyGroup, Armors.bonus, Armors.maxDexBonus, Armors.requiredStr, Armors.impairsStealth, Items.weight, Items.cost
+FROM Armors, Equipment, Items
+WHERE Equipment.id_item = Armors._id
+AND Items._id = Equipment.id_item;
+CREATE VIEW GetClassSkills AS
+SELECT CharacterClasses.name AS className, Skills.name AS skill, keyStat AS defaultStatistic
+FROM CharacterClasses, Skills, SkillsPerClass
+WHERE Skills._id = SkillsPerClass.id_skill
+AND CharacterClasses._id = SkillsPerClass.id_class;
+CREATE VIEW "GetEffectAOEs" AS
+SELECT
+EffectAOEs.id_effect,
+AreasOfEffect.name,
+EffectAOEs.range,
+EffectAOEs.targetsSelf
+FROM
+EffectAOEs
+INNER JOIN AreasOfEffect ON EffectAOEs.id_aoe_type = AreasOfEffect._id;
+CREATE VIEW "GetSpells" AS
+SELECT DISTINCT
+Spells.name AS Name,
+SpellSchools.schoolName,
+Spells.level,
+Spells.isCombatSpell,
+Spells.isInstantaneous,
+Spells.isRitual,
+Spells.requiresConcentration,
+Spells.hasVerbalComponent,
+Spells.hasSomaticComponent,
+Spells.hasMaterialComponent,
+Spells.hasVariants,
+Spells.canBeHeightened,
+ParentSpells.name AS Parent,
+Spells.detail
+FROM
+Spells
+INNER JOIN SpellSchools ON Spells.id_school = SpellSchools._id
+LEFT JOIN Spells AS ParentSpells ON Spells.id_parent = ParentSpells._id;
+CREATE VIEW "GetTools" AS SELECT Tools._id, Items.name, Items.weight, Items.cost FROM Tools
+JOIN Items
+WHERE Tools._id = Items._id;
+CREATE VIEW "GetWeapons" AS SELECT DISTINCT Items._id, Items.name, Equipment.proficiencyGroup, Weapons.dice, Weapons.dieSize, Weapons.id_damageType, RangedWeapons.shortRange, RangedWeapons.longRange, Items.weight, Items.cost
+FROM Equipment, Weapons, Items
+LEFT JOIN RangedWeapons
+ON RangedWeapons._id = Weapons._id
+WHERE Equipment.id_item = Weapons._id
+AND Items._id = Weapons._id;
+CREATE TRIGGER "insert_effect_aoe" INSTEAD OF INSERT ON "GetEffectAOEs"
+BEGIN
+
+INSERT OR IGNORE INTO AreasOfEffect (name)
+SELECT new.name
+WHERE NOT EXISTS
+(
+SELECT 1 FROM AreasOfEffect
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO EffectAOEs (
+id_aoe_type,
+range,
+targetsSelf)
+SELECT
+AreasOfEffect._id,
+new.range,
+new.targetsSelf
+FROM AreasOfEffect
+WHERE AreasOfEffect.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_armor
+INSTEAD OF INSERT
+ON GetArmors
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO     Armors (_id, bonus, impairsStealth, requiredStr, maxDexBonus)
+SELECT Items._id, new.bonus, new.impairsStealth, new.requiredStr, new.maxDexBonus
+FROM Items
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_tools
+INSTEAD OF INSERT
+ON GetTools
+
+BEGIN
+
+INSERT OR IGNORE INTO     Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO     Tools (_id)
+SELECT Items._id
+FROM Items
+WHERE Items.name = new.name;
+
+END;
+CREATE TRIGGER insert_equipment_weapon
+INSTEAD OF INSERT
+ON GetWeapons
+
+BEGIN
+
+INSERT OR IGNORE INTO Items (name, weight, cost)
+SELECT new.name, new.weight, new.cost
+WHERE NOT EXISTS
+(
+SELECT 1 FROM Items
+WHERE name = new.name
+);
+
+INSERT OR IGNORE INTO Equipment (proficiencyGroup)
+SELECT new.proficiencyGroup
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO Weapons (_id, dice, dieSize, id_damageType)
+SELECT Items._id, new.dice, new.dieSize, new.id_damageType
+FROM Items
+WHERE Items.name = new.name;
+
+INSERT OR IGNORE INTO RangedWeapons (_id, shortRange, longRange)
+SELECT Items._id, new.shortRange, new.longRange
+FROM Items
+WHERE new.shortRange NOTNULL
+AND new.name = Items.name;
+
+END;
+CREATE TRIGGER "insert_spell" INSTEAD OF INSERT ON "GetSpells"
+BEGIN
+
+INSERT OR IGNORE INTO SpellSchools (schoolName)
+SELECT new.schoolName
+WHERE NOT EXISTS
+(
+SELECT 1 FROM SpellSchools
+WHERE schoolName = new.schoolName
+);
+
+INSERT OR IGNORE INTO Spells (
+name,
+id_school,
+level,
+castingTime,
+isInstantaneous,
+requiresConcentration,
+hasVerbalComponent,
+hasSomaticComponent,
+hasMaterialComponent,
+detail)
+SELECT
+new.spellName,
+SpellSchools._id,
+new.level,
+new.castingTime,
+new.isInstantaneous,
+new.requiresConcentration,
+new.hasVerbalComponent,
+new.hasSomaticComponent,
+new.hasMaterialComponent,
+new.detail
+FROM SpellSchools
+WHERE SpellSchools.schoolName = new.schoolName;
+
+END;
+CREATE INDEX "IX_Relationship1"
+ON "Spells" ("id_school" ASC);
+CREATE INDEX IX_Relationship3 ON HigherCastings (id_spell_effect);
+CREATE INDEX IX_fk_effect ON SpellEffects (id_effect);
+CREATE INDEX IX_fk_spell ON SpellEffects (id_spell);
