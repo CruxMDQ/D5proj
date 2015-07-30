@@ -121,26 +121,46 @@ CREATE TABLE "Characters" (
 CONSTRAINT "fk_race" FOREIGN KEY ("id_race") REFERENCES "Races" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS "ClassFeatures";
-CREATE TABLE ClassFeatures
+CREATE TABLE "ClassFeatures"
 (
+  _id INTEGER NOT NULL PRIMARY KEY,
   id_class INTEGER NOT NULL,
-  id_feature INTEGER NOT NULL, "requiredLevel" INTEGER, "requiredFeature" INTEGER,
-  CONSTRAINT pk_class_features PRIMARY KEY (id_class,id_feature),
+  id_feature INTEGER NOT NULL, 
+  requiredLevel INTEGER NOT NULL, 
+  requiredFeature INTEGER,
   CONSTRAINT fk_class FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_requiredFeature FOREIGN KEY (requiredFeature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-INSERT INTO "ClassFeatures" VALUES(1,114,1,NULL);
-INSERT INTO "ClassFeatures" VALUES(1,115,1,NULL);
-INSERT INTO "ClassFeatures" VALUES(1,116,2,NULL);
-INSERT INTO "ClassFeatures" VALUES(1,117,2,NULL);
-INSERT INTO "ClassFeatures" VALUES(1,118,3,NULL);
-INSERT INTO "ClassFeatures" VALUES(1,121,3,119);
-INSERT INTO "ClassFeatures" VALUES(1,122,6,119);
-INSERT INTO "ClassFeatures" VALUES(1,123,10,119);
-INSERT INTO "ClassFeatures" VALUES(1,124,14,119);
-INSERT INTO "ClassFeatures" VALUES(1,125,3,120);
-INSERT INTO "ClassFeatures" VALUES(1,126,3,120);
-INSERT INTO "ClassFeatures" VALUES(1,130,6,120);
+INSERT INTO "ClassFeatures" VALUES(1,1,114,1,NULL);
+INSERT INTO "ClassFeatures" VALUES(2,1,115,1,NULL);
+INSERT INTO "ClassFeatures" VALUES(3,1,116,2,NULL);
+INSERT INTO "ClassFeatures" VALUES(4,1,117,2,NULL);
+INSERT INTO "ClassFeatures" VALUES(5,1,118,3,NULL);
+INSERT INTO "ClassFeatures" VALUES(6,1,121,3,119);
+INSERT INTO "ClassFeatures" VALUES(7,1,122,6,119);
+INSERT INTO "ClassFeatures" VALUES(8,1,123,10,119);
+INSERT INTO "ClassFeatures" VALUES(9,1,124,14,119);
+INSERT INTO "ClassFeatures" VALUES(10,1,125,3,120);
+INSERT INTO "ClassFeatures" VALUES(11,1,126,3,120);
+INSERT INTO "ClassFeatures" VALUES(12,1,130,6,120);
+INSERT INTO "ClassFeatures" VALUES(13,1,134,10,120);
+INSERT INTO "ClassFeatures" VALUES(14,1,135,14,120);
+INSERT INTO "ClassFeatures" VALUES(15,1,139,4,NULL);
+INSERT INTO "ClassFeatures" VALUES(16,1,139,8,NULL);
+INSERT INTO "ClassFeatures" VALUES(17,1,139,12,NULL);
+INSERT INTO "ClassFeatures" VALUES(18,1,139,16,NULL);
+INSERT INTO "ClassFeatures" VALUES(19,1,139,19,NULL);
+INSERT INTO "ClassFeatures" VALUES(20,1,141,5,NULL);
+INSERT INTO "ClassFeatures" VALUES(21,1,142,5,NULL);
+INSERT INTO "ClassFeatures" VALUES(22,1,143,7,NULL);
+INSERT INTO "ClassFeatures" VALUES(23,1,144,9,NULL);
+INSERT INTO "ClassFeatures" VALUES(24,1,144,13,NULL);
+INSERT INTO "ClassFeatures" VALUES(25,1,144,17,NULL);
+INSERT INTO "ClassFeatures" VALUES(26,1,145,11,NULL);
+INSERT INTO "ClassFeatures" VALUES(27,1,146,15,NULL);
+INSERT INTO "ClassFeatures" VALUES(28,1,147,18,NULL);
+INSERT INTO "ClassFeatures" VALUES(29,1,148,20,NULL);
 DROP TABLE IF EXISTS "ClassProficiencyGroups";
 CREATE TABLE "ClassProficiencyGroups"
 (
@@ -349,6 +369,17 @@ INSERT INTO "FeatureChoices" VALUES(126,129);
 INSERT INTO "FeatureChoices" VALUES(130,131);
 INSERT INTO "FeatureChoices" VALUES(130,132);
 INSERT INTO "FeatureChoices" VALUES(130,133);
+INSERT INTO "FeatureChoices" VALUES(135,136);
+INSERT INTO "FeatureChoices" VALUES(135,137);
+INSERT INTO "FeatureChoices" VALUES(135,138);
+INSERT INTO "FeatureChoices" VALUES(139,140);
+INSERT INTO "FeatureChoices" VALUES(139,39);
+INSERT INTO "FeatureChoices" VALUES(140,47);
+INSERT INTO "FeatureChoices" VALUES(140,48);
+INSERT INTO "FeatureChoices" VALUES(140,49);
+INSERT INTO "FeatureChoices" VALUES(140,50);
+INSERT INTO "FeatureChoices" VALUES(140,51);
+INSERT INTO "FeatureChoices" VALUES(140,52);
 DROP TABLE IF EXISTS "FeatureLanguages";
 CREATE TABLE FeatureLanguages
 (
@@ -594,6 +625,21 @@ INSERT INTO "Features" VALUES(130,'Aspect of the Beast',1,'Gain a magical benefi
 INSERT INTO "Features" VALUES(131,'Aspect of the Beast (Bear)',0,'Your carrying capacity (including maximum load and lift) is doubled, and you have advantage on Strength checks to push, pull, lift or break objects.');
 INSERT INTO "Features" VALUES(132,'Aspect of the Beast (Eagle)',0,'You can see up to 1 mile away as though looking at something no more than 100 feet away from you. Light does not impose disadvantage on your Wisdom (Perception) checks.');
 INSERT INTO "Features" VALUES(133,'Aspect of the Beast (Wolf)',0,'You can track other creatures while traveling at a fast pace, and you can move stealthily while traveling at a normal pace.');
+INSERT INTO "Features" VALUES(134,'Spirit Walker',0,'Cast Commune With Nature as a ritual.');
+INSERT INTO "Features" VALUES(135,'Totemic Attunement',1,'Gain a magical benefit based on a totem animal of your choice.');
+INSERT INTO "Features" VALUES(136,'Totemic Attunement (Bear)',0,'While raging, any hostile creature within 5 feet of you has disadvantage on attack rolls against targets other than you or another target with this feature.');
+INSERT INTO "Features" VALUES(137,'Totemic Attunement (Eagle)',0,'While raging, you have a flying speed equal to your current walking speed. ');
+INSERT INTO "Features" VALUES(138,'Totemic Attunement (Wolf)',0,'While raging, you can use a bonus action on your turn to knock a Large or smaller creature prone when you hit it with a melee weapon attack.');
+INSERT INTO "Features" VALUES(139,'Ability Score Improvement',1,'You can increase one ability score of your choice by 2, or two ability scores of your choice by 1.');
+INSERT INTO "Features" VALUES(140,'Increased ability score (1 choice)',1,'One ability score of your choice increases by 2.');
+INSERT INTO "Features" VALUES(141,'Extra Attack',0,'You can attack twice whenever you take the Attack action on your turn.');
+INSERT INTO "Features" VALUES(142,'Fast Movement',0,'Your speed increases by 10 feet while you aren''t wearing heavy armor.');
+INSERT INTO "Features" VALUES(143,'Feral Instinct',0,'You have advantage on initiative rolls. If you are surprised at the beginning of combat but not incapacitated, you can act normally on your first turn if you enter your rage before doing anything else on that turn.');
+INSERT INTO "Features" VALUES(144,'Brutal Critical',0,'You can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack.');
+INSERT INTO "Features" VALUES(145,'Relentless Rage',0,'Your rage can keep you fighting despite grievous wounds.');
+INSERT INTO "Features" VALUES(146,'Persistent Rage',0,'Your rage ends early only if you fall unconscious or if you choose to end it.');
+INSERT INTO "Features" VALUES(147,'Indomitable Might',0,'If your total for a Strength check is less than your Strength score, you can use that score in place of the total.');
+INSERT INTO "Features" VALUES(148,'Primal Champion',0,'Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions
 (
@@ -609,6 +655,9 @@ INSERT INTO "FeaturesWithOptions" VALUES(77,2);
 INSERT INTO "FeaturesWithOptions" VALUES(118,1);
 INSERT INTO "FeaturesWithOptions" VALUES(126,1);
 INSERT INTO "FeaturesWithOptions" VALUES(130,1);
+INSERT INTO "FeaturesWithOptions" VALUES(135,1);
+INSERT INTO "FeaturesWithOptions" VALUES(139,1);
+INSERT INTO "FeaturesWithOptions" VALUES(140,1);
 DROP TABLE IF EXISTS "HigherCastings";
 CREATE TABLE HigherCastings
 (
@@ -894,15 +943,6 @@ INSERT INTO "Languages" VALUES(13,'Infernal',4);
 INSERT INTO "Languages" VALUES(14,'Primordial',2);
 INSERT INTO "Languages" VALUES(15,'Sylvan',3);
 INSERT INTO "Languages" VALUES(16,'Undercommon',3);
-DROP TABLE IF EXISTS "LanguagesPerRace";
-CREATE TABLE LanguagesPerRace
-(
-id_race INTEGER NOT NULL,
-id_language INTEGER NOT NULL,
-CONSTRAINT pk_composite_lang_race PRIMARY KEY (id_race, id_language),
-CONSTRAINT fk_composite_lr_race FOREIGN KEY (id_race) REFERENCES Races (_id) ON UPDATE CASCADE ON DELETE CASCADE,
-CONSTRAINT fk_composite_lr_language FOREIGN KEY (id_language) REFERENCES Languages (_id) ON UPDATE CASCADE ON DELETE CASCADE
-);
 DROP TABLE IF EXISTS "MagicalEffects";
 CREATE TABLE "MagicalEffects" (
 "_id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -1039,7 +1079,7 @@ INSERT INTO "RacialFeatures" VALUES(58,18,1);
 INSERT INTO "RacialFeatures" VALUES(59,18,78);
 INSERT INTO "RacialFeatures" VALUES(60,18,79);
 INSERT INTO "RacialFeatures" VALUES(61,18,80);
-INSERT INTO "RacialFeatures" VALUES(62,19,81);
+INSERT INTO "RacialFeatures" VALUES(62,19,106);
 INSERT INTO "RacialFeatures" VALUES(63,19,82);
 INSERT INTO "RacialFeatures" VALUES(64,4,8);
 INSERT INTO "RacialFeatures" VALUES(65,8,8);
@@ -1531,6 +1571,26 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
+CREATE VIEW "CheckClassFeatures" AS SELECT DISTINCT 
+CharacterClasses.name AS Class, 
+F1.name AS Feature, 
+CF.requiredLevel as requiredLevel,
+F2.name as requiredFeature
+FROM ClassFeatures AS CF
+JOIN Features AS F1
+ON F1._id = CF.id_feature
+LEFT JOIN Features AS F2
+ON F2._id = CF.requiredFeature
+JOIN CharacterClasses 
+ON CharacterClasses._id = CF.id_class;
+CREATE VIEW CheckFeatureChoices AS SELECT DISTINCT 
+F1.name AS Parent, 
+F2.name as Option
+FROM FeatureChoices AS CF
+JOIN Features AS F1
+ON F1._id = CF.id_feature
+JOIN Features AS F2
+ON F2._id = CF.id_choice;
 CREATE VIEW CheckFeatureLanguages AS SELECT DISTINCT Languages.name AS Language, Features.name AS Feature
 FROM Languages, Features
 JOIN FeatureLanguages
