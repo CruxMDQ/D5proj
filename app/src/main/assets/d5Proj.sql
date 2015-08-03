@@ -161,6 +161,55 @@ INSERT INTO "ClassFeatures" VALUES(26,1,145,11,NULL);
 INSERT INTO "ClassFeatures" VALUES(27,1,146,15,NULL);
 INSERT INTO "ClassFeatures" VALUES(28,1,147,18,NULL);
 INSERT INTO "ClassFeatures" VALUES(29,1,148,20,NULL);
+INSERT INTO "ClassFeatures" VALUES(30,2,149,1,NULL);
+INSERT INTO "ClassFeatures" VALUES(31,2,42,1,149);
+INSERT INTO "ClassFeatures" VALUES(32,2,42,1,149);
+INSERT INTO "ClassFeatures" VALUES(33,2,150,1,149);
+INSERT INTO "ClassFeatures" VALUES(34,2,150,1,149);
+INSERT INTO "ClassFeatures" VALUES(35,2,150,1,149);
+INSERT INTO "ClassFeatures" VALUES(36,2,150,1,149);
+INSERT INTO "ClassFeatures" VALUES(37,2,151,1,149);
+INSERT INTO "ClassFeatures" VALUES(38,2,151,1,149);
+INSERT INTO "ClassFeatures" VALUES(39,2,150,2,149);
+INSERT INTO "ClassFeatures" VALUES(40,2,151,2,149);
+INSERT INTO "ClassFeatures" VALUES(41,2,150,3,149);
+INSERT INTO "ClassFeatures" VALUES(42,2,151,3,149);
+INSERT INTO "ClassFeatures" VALUES(43,2,152,3,149);
+INSERT INTO "ClassFeatures" VALUES(44,2,152,3,149);
+INSERT INTO "ClassFeatures" VALUES(45,2,42,4,149);
+INSERT INTO "ClassFeatures" VALUES(46,2,150,4,149);
+INSERT INTO "ClassFeatures" VALUES(47,2,152,4,149);
+INSERT INTO "ClassFeatures" VALUES(48,2,150,5,149);
+INSERT INTO "ClassFeatures" VALUES(49,2,153,5,149);
+INSERT INTO "ClassFeatures" VALUES(50,2,153,5,149);
+INSERT INTO "ClassFeatures" VALUES(51,2,150,6,149);
+INSERT INTO "ClassFeatures" VALUES(52,2,153,6,149);
+INSERT INTO "ClassFeatures" VALUES(53,2,150,7,149);
+INSERT INTO "ClassFeatures" VALUES(54,2,154,7,149);
+INSERT INTO "ClassFeatures" VALUES(55,2,150,8,149);
+INSERT INTO "ClassFeatures" VALUES(56,2,154,8,149);
+INSERT INTO "ClassFeatures" VALUES(57,2,150,9,149);
+INSERT INTO "ClassFeatures" VALUES(58,2,154,9,149);
+INSERT INTO "ClassFeatures" VALUES(59,2,155,9,149);
+INSERT INTO "ClassFeatures" VALUES(60,2,42,10,149);
+INSERT INTO "ClassFeatures" VALUES(61,2,150,10,149);
+INSERT INTO "ClassFeatures" VALUES(62,2,150,10,149);
+INSERT INTO "ClassFeatures" VALUES(63,2,155,10,149);
+INSERT INTO "ClassFeatures" VALUES(64,2,150,11,149);
+INSERT INTO "ClassFeatures" VALUES(65,2,156,11,149);
+INSERT INTO "ClassFeatures" VALUES(66,2,150,13,149);
+INSERT INTO "ClassFeatures" VALUES(67,2,157,13,149);
+INSERT INTO "ClassFeatures" VALUES(68,2,150,14,149);
+INSERT INTO "ClassFeatures" VALUES(69,2,150,14,149);
+INSERT INTO "ClassFeatures" VALUES(70,2,150,15,149);
+INSERT INTO "ClassFeatures" VALUES(71,2,158,15,149);
+INSERT INTO "ClassFeatures" VALUES(72,2,150,17,149);
+INSERT INTO "ClassFeatures" VALUES(73,2,159,17,149);
+INSERT INTO "ClassFeatures" VALUES(74,2,150,18,149);
+INSERT INTO "ClassFeatures" VALUES(75,2,150,18,149);
+INSERT INTO "ClassFeatures" VALUES(76,2,155,18,149);
+INSERT INTO "ClassFeatures" VALUES(77,2,156,19,149);
+INSERT INTO "ClassFeatures" VALUES(78,2,157,20,149);
 DROP TABLE IF EXISTS "ClassProficiencyGroups";
 CREATE TABLE "ClassProficiencyGroups"
 (
@@ -640,6 +689,17 @@ INSERT INTO "Features" VALUES(145,'Relentless Rage',0,'Your rage can keep you fi
 INSERT INTO "Features" VALUES(146,'Persistent Rage',0,'Your rage ends early only if you fall unconscious or if you choose to end it.');
 INSERT INTO "Features" VALUES(147,'Indomitable Might',0,'If your total for a Strength check is less than your Strength score, you can use that score in place of the total.');
 INSERT INTO "Features" VALUES(148,'Primal Champion',0,'Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.');
+INSERT INTO "Features" VALUES(149,'Spellcasting',0,'You have learned to reshape the fabric of reality through magic.');
+INSERT INTO "Features" VALUES(150,'Spell known',1,'You have knowledge of a spell.');
+INSERT INTO "Features" VALUES(151,'Spell slot (1st level)',0,'You can expend this slot to cast a 1st-level spell.');
+INSERT INTO "Features" VALUES(152,'Spell slot (2nd level)',0,'You can expend this slot to cast a 2nd-level spell.');
+INSERT INTO "Features" VALUES(153,'Spell slot (3rd level)',0,'You can expend this slot to cast a 3rd-level spell.');
+INSERT INTO "Features" VALUES(154,'Spell slot (4th level)',0,'You can expend this slot to cast a 4th-level spell.');
+INSERT INTO "Features" VALUES(155,'Spell slot (5th level)',0,'You can expend this slot to cast a 5th-level spell.');
+INSERT INTO "Features" VALUES(156,'Spell slot (6th level)',0,'You can expend this slot to cast a 6th-level spell.');
+INSERT INTO "Features" VALUES(157,'Spell slot (7th level)',0,'You can expend this slot to cast a 7th-level spell.');
+INSERT INTO "Features" VALUES(158,'Spell slot (8th level)',0,'You can expend this slot to cast a 8th-level spell.');
+INSERT INTO "Features" VALUES(159,'Spell slot (9th level)',0,'You can expend this slot to cast a 9th-level spell.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions
 (
@@ -1571,7 +1631,7 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
-CREATE VIEW "CheckClassFeatures" AS SELECT DISTINCT 
+CREATE VIEW "CheckClassFeatures" AS SELECT
 CharacterClasses.name AS Class, 
 F1.name AS Feature, 
 CF.requiredLevel as requiredLevel,
