@@ -127,89 +127,120 @@ CREATE TABLE "ClassFeatures"
   id_class INTEGER NOT NULL,
   id_feature INTEGER NOT NULL, 
   requiredLevel INTEGER NOT NULL, 
-  requiredFeature INTEGER,
+  requiredFeature INTEGER, "replacesFeature" INTEGER,
   CONSTRAINT fk_class FOREIGN KEY (id_class) REFERENCES CharacterClass (_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
-  CONSTRAINT fk_requiredFeature FOREIGN KEY (requiredFeature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_feature FOREIGN KEY (id_feature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_requiredFeature FOREIGN KEY (requiredFeature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_replacesFeature FOREIGN KEY (replacesFeature) REFERENCES Features (_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-INSERT INTO "ClassFeatures" VALUES(1,1,114,1,NULL);
-INSERT INTO "ClassFeatures" VALUES(2,1,115,1,NULL);
-INSERT INTO "ClassFeatures" VALUES(3,1,116,2,NULL);
-INSERT INTO "ClassFeatures" VALUES(4,1,117,2,NULL);
-INSERT INTO "ClassFeatures" VALUES(5,1,118,3,NULL);
-INSERT INTO "ClassFeatures" VALUES(6,1,121,3,119);
-INSERT INTO "ClassFeatures" VALUES(7,1,122,6,119);
-INSERT INTO "ClassFeatures" VALUES(8,1,123,10,119);
-INSERT INTO "ClassFeatures" VALUES(9,1,124,14,119);
-INSERT INTO "ClassFeatures" VALUES(10,1,125,3,120);
-INSERT INTO "ClassFeatures" VALUES(11,1,126,3,120);
-INSERT INTO "ClassFeatures" VALUES(12,1,130,6,120);
-INSERT INTO "ClassFeatures" VALUES(13,1,134,10,120);
-INSERT INTO "ClassFeatures" VALUES(14,1,135,14,120);
-INSERT INTO "ClassFeatures" VALUES(15,1,139,4,NULL);
-INSERT INTO "ClassFeatures" VALUES(16,1,139,8,NULL);
-INSERT INTO "ClassFeatures" VALUES(17,1,139,12,NULL);
-INSERT INTO "ClassFeatures" VALUES(18,1,139,16,NULL);
-INSERT INTO "ClassFeatures" VALUES(19,1,139,19,NULL);
-INSERT INTO "ClassFeatures" VALUES(20,1,141,5,NULL);
-INSERT INTO "ClassFeatures" VALUES(21,1,142,5,NULL);
-INSERT INTO "ClassFeatures" VALUES(22,1,143,7,NULL);
-INSERT INTO "ClassFeatures" VALUES(23,1,144,9,NULL);
-INSERT INTO "ClassFeatures" VALUES(24,1,144,13,NULL);
-INSERT INTO "ClassFeatures" VALUES(25,1,144,17,NULL);
-INSERT INTO "ClassFeatures" VALUES(26,1,145,11,NULL);
-INSERT INTO "ClassFeatures" VALUES(27,1,146,15,NULL);
-INSERT INTO "ClassFeatures" VALUES(28,1,147,18,NULL);
-INSERT INTO "ClassFeatures" VALUES(29,1,148,20,NULL);
-INSERT INTO "ClassFeatures" VALUES(30,2,149,1,NULL);
-INSERT INTO "ClassFeatures" VALUES(31,2,42,1,149);
-INSERT INTO "ClassFeatures" VALUES(32,2,42,1,149);
-INSERT INTO "ClassFeatures" VALUES(33,2,150,1,149);
-INSERT INTO "ClassFeatures" VALUES(34,2,150,1,149);
-INSERT INTO "ClassFeatures" VALUES(35,2,150,1,149);
-INSERT INTO "ClassFeatures" VALUES(36,2,150,1,149);
-INSERT INTO "ClassFeatures" VALUES(37,2,151,1,149);
-INSERT INTO "ClassFeatures" VALUES(38,2,151,1,149);
-INSERT INTO "ClassFeatures" VALUES(39,2,150,2,149);
-INSERT INTO "ClassFeatures" VALUES(40,2,151,2,149);
-INSERT INTO "ClassFeatures" VALUES(41,2,150,3,149);
-INSERT INTO "ClassFeatures" VALUES(42,2,151,3,149);
-INSERT INTO "ClassFeatures" VALUES(43,2,152,3,149);
-INSERT INTO "ClassFeatures" VALUES(44,2,152,3,149);
-INSERT INTO "ClassFeatures" VALUES(45,2,42,4,149);
-INSERT INTO "ClassFeatures" VALUES(46,2,150,4,149);
-INSERT INTO "ClassFeatures" VALUES(47,2,152,4,149);
-INSERT INTO "ClassFeatures" VALUES(48,2,150,5,149);
-INSERT INTO "ClassFeatures" VALUES(49,2,153,5,149);
-INSERT INTO "ClassFeatures" VALUES(50,2,153,5,149);
-INSERT INTO "ClassFeatures" VALUES(51,2,150,6,149);
-INSERT INTO "ClassFeatures" VALUES(52,2,153,6,149);
-INSERT INTO "ClassFeatures" VALUES(53,2,150,7,149);
-INSERT INTO "ClassFeatures" VALUES(54,2,154,7,149);
-INSERT INTO "ClassFeatures" VALUES(55,2,150,8,149);
-INSERT INTO "ClassFeatures" VALUES(56,2,154,8,149);
-INSERT INTO "ClassFeatures" VALUES(57,2,150,9,149);
-INSERT INTO "ClassFeatures" VALUES(58,2,154,9,149);
-INSERT INTO "ClassFeatures" VALUES(59,2,155,9,149);
-INSERT INTO "ClassFeatures" VALUES(60,2,42,10,149);
-INSERT INTO "ClassFeatures" VALUES(61,2,150,10,149);
-INSERT INTO "ClassFeatures" VALUES(62,2,150,10,149);
-INSERT INTO "ClassFeatures" VALUES(63,2,155,10,149);
-INSERT INTO "ClassFeatures" VALUES(64,2,150,11,149);
-INSERT INTO "ClassFeatures" VALUES(65,2,156,11,149);
-INSERT INTO "ClassFeatures" VALUES(66,2,150,13,149);
-INSERT INTO "ClassFeatures" VALUES(67,2,157,13,149);
-INSERT INTO "ClassFeatures" VALUES(68,2,150,14,149);
-INSERT INTO "ClassFeatures" VALUES(69,2,150,14,149);
-INSERT INTO "ClassFeatures" VALUES(70,2,150,15,149);
-INSERT INTO "ClassFeatures" VALUES(71,2,158,15,149);
-INSERT INTO "ClassFeatures" VALUES(72,2,150,17,149);
-INSERT INTO "ClassFeatures" VALUES(73,2,159,17,149);
-INSERT INTO "ClassFeatures" VALUES(74,2,150,18,149);
-INSERT INTO "ClassFeatures" VALUES(75,2,150,18,149);
-INSERT INTO "ClassFeatures" VALUES(76,2,155,18,149);
-INSERT INTO "ClassFeatures" VALUES(77,2,156,19,149);
-INSERT INTO "ClassFeatures" VALUES(78,2,157,20,149);
+INSERT INTO "ClassFeatures" VALUES(1,1,114,1,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(2,1,115,1,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(3,1,116,2,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(4,1,117,2,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(5,1,118,3,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(6,1,121,3,119,NULL);
+INSERT INTO "ClassFeatures" VALUES(7,1,122,6,119,NULL);
+INSERT INTO "ClassFeatures" VALUES(8,1,123,10,119,NULL);
+INSERT INTO "ClassFeatures" VALUES(9,1,124,14,119,NULL);
+INSERT INTO "ClassFeatures" VALUES(10,1,125,3,120,NULL);
+INSERT INTO "ClassFeatures" VALUES(11,1,126,3,120,NULL);
+INSERT INTO "ClassFeatures" VALUES(12,1,130,6,120,NULL);
+INSERT INTO "ClassFeatures" VALUES(13,1,134,10,120,NULL);
+INSERT INTO "ClassFeatures" VALUES(14,1,135,14,120,NULL);
+INSERT INTO "ClassFeatures" VALUES(15,1,139,4,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(16,1,139,8,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(17,1,139,12,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(18,1,139,16,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(19,1,139,19,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(20,1,141,5,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(21,1,142,5,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(22,1,143,7,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(23,1,144,9,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(24,1,144,13,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(25,1,144,17,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(26,1,145,11,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(27,1,146,15,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(28,1,147,18,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(29,1,148,20,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(30,2,149,1,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(31,2,42,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(32,2,42,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(33,2,150,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(34,2,150,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(35,2,150,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(36,2,150,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(37,2,151,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(38,2,151,1,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(39,2,150,2,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(40,2,151,2,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(41,2,150,3,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(42,2,151,3,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(43,2,152,3,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(44,2,152,3,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(45,2,42,4,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(46,2,150,4,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(47,2,152,4,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(48,2,150,5,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(49,2,153,5,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(50,2,153,5,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(51,2,150,6,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(52,2,153,6,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(53,2,150,7,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(54,2,154,7,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(55,2,150,8,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(56,2,154,8,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(57,2,150,9,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(58,2,154,9,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(59,2,155,9,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(60,2,42,10,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(61,2,150,10,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(62,2,150,10,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(63,2,155,10,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(64,2,150,11,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(65,2,156,11,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(66,2,150,13,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(67,2,157,13,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(68,2,150,14,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(69,2,150,14,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(70,2,150,15,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(71,2,158,15,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(72,2,150,17,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(73,2,159,17,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(74,2,150,18,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(75,2,150,18,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(76,2,155,18,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(77,2,156,19,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(78,2,157,20,149,NULL);
+INSERT INTO "ClassFeatures" VALUES(79,2,160,1,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(80,2,161,5,160,160);
+INSERT INTO "ClassFeatures" VALUES(81,2,162,10,161,161);
+INSERT INTO "ClassFeatures" VALUES(82,2,163,15,162,162);
+INSERT INTO "ClassFeatures" VALUES(83,2,164,2,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(84,2,165,9,164,164);
+INSERT INTO "ClassFeatures" VALUES(85,2,166,13,165,165);
+INSERT INTO "ClassFeatures" VALUES(86,2,167,17,166,166);
+INSERT INTO "ClassFeatures" VALUES(87,2,81,2,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(88,2,171,3,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(89,2,171,10,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(90,2,172,3,169,NULL);
+INSERT INTO "ClassFeatures" VALUES(91,2,174,6,169,NULL);
+INSERT INTO "ClassFeatures" VALUES(92,2,175,14,169,NULL);
+INSERT INTO "ClassFeatures" VALUES(93,2,16,3,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(94,2,176,3,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(95,2,177,3,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(96,2,178,3,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(97,2,141,6,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(98,2,179,14,170,NULL);
+INSERT INTO "ClassFeatures" VALUES(99,2,139,4,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(100,2,139,8,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(101,2,139,12,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(102,2,139,16,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(103,2,139,19,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(104,2,180,5,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(105,2,181,6,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(106,2,174,10,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(107,2,174,14,NULL,NULL);
+INSERT INTO "ClassFeatures" VALUES(108,2,174,18,NULL,NULL);
 DROP TABLE IF EXISTS "ClassProficiencyGroups";
 CREATE TABLE "ClassProficiencyGroups"
 (
@@ -429,6 +460,26 @@ INSERT INTO "FeatureChoices" VALUES(140,49);
 INSERT INTO "FeatureChoices" VALUES(140,50);
 INSERT INTO "FeatureChoices" VALUES(140,51);
 INSERT INTO "FeatureChoices" VALUES(140,52);
+INSERT INTO "FeatureChoices" VALUES(168,169);
+INSERT INTO "FeatureChoices" VALUES(168,170);
+INSERT INTO "FeatureChoices" VALUES(172,84);
+INSERT INTO "FeatureChoices" VALUES(172,92);
+INSERT INTO "FeatureChoices" VALUES(172,86);
+INSERT INTO "FeatureChoices" VALUES(172,83);
+INSERT INTO "FeatureChoices" VALUES(172,96);
+INSERT INTO "FeatureChoices" VALUES(172,88);
+INSERT INTO "FeatureChoices" VALUES(172,93);
+INSERT INTO "FeatureChoices" VALUES(172,78);
+INSERT INTO "FeatureChoices" VALUES(172,89);
+INSERT INTO "FeatureChoices" VALUES(172,94);
+INSERT INTO "FeatureChoices" VALUES(172,90);
+INSERT INTO "FeatureChoices" VALUES(172,17);
+INSERT INTO "FeatureChoices" VALUES(172,97);
+INSERT INTO "FeatureChoices" VALUES(172,98);
+INSERT INTO "FeatureChoices" VALUES(172,91);
+INSERT INTO "FeatureChoices" VALUES(172,85);
+INSERT INTO "FeatureChoices" VALUES(172,87);
+INSERT INTO "FeatureChoices" VALUES(172,95);
 DROP TABLE IF EXISTS "FeatureLanguages";
 CREATE TABLE FeatureLanguages
 (
@@ -486,6 +537,18 @@ CREATE TABLE FeatureProficiencyGroups
 );
 INSERT INTO "FeatureProficiencyGroups" VALUES(15,1);
 INSERT INTO "FeatureProficiencyGroups" VALUES(16,2);
+DROP TABLE IF EXISTS "FeatureReplacements";
+CREATE TABLE "FeatureReplacements"
+(
+id_replacement INTEGER NOT NULL,
+id_replaced INTEGER NOT NULL,
+CONSTRAINT pk_replacements PRIMARY KEY (id_replacement, id_replaced),
+CONSTRAINT fk_replacement FOREIGN KEY (id_replacement) REFERENCES Features (_id)
+CONSTRAINT fk_replaced FOREIGN KEY (id_replaced) REFERENCES Features (_id)
+);
+INSERT INTO "FeatureReplacements" VALUES(161,160);
+INSERT INTO "FeatureReplacements" VALUES(162,161);
+INSERT INTO "FeatureReplacements" VALUES(163,162);
 DROP TABLE IF EXISTS "FeatureResistances";
 CREATE TABLE FeatureResistances
 (
@@ -621,7 +684,7 @@ INSERT INTO "Features" VALUES(77,'Skill Versatility',1,'You gain proficiency in 
 INSERT INTO "Features" VALUES(78,'Proficiency: skill (Intimidation)',0,'You gain proficiency in the Intimidation skill.');
 INSERT INTO "Features" VALUES(79,'Relentless Endurance',0,'When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can''t use this feature again until you finish a long rest.');
 INSERT INTO "Features" VALUES(80,'Savage Attacks',0,'When you score a critical hit with a melee weapon attack, you can roll one of the weapon''s damage dice one additional time and add it to the extra damage of the critical hit.');
-INSERT INTO "Features" VALUES(81,'Resistance: fire',0,NULL);
+INSERT INTO "Features" VALUES(81,'Jack of All Trades',0,'You can add half your proficiency bonus, rounded down, to any ability check you make that doesn''t already include your proficiency bonus.');
 INSERT INTO "Features" VALUES(82,'Infernal Legacy',0,NULL);
 INSERT INTO "Features" VALUES(83,'Proficiency: skill (Athletics)',0,NULL);
 INSERT INTO "Features" VALUES(84,'Proficiency: skill (Acrobatics)',0,NULL);
@@ -690,7 +753,7 @@ INSERT INTO "Features" VALUES(146,'Persistent Rage',0,'Your rage ends early only
 INSERT INTO "Features" VALUES(147,'Indomitable Might',0,'If your total for a Strength check is less than your Strength score, you can use that score in place of the total.');
 INSERT INTO "Features" VALUES(148,'Primal Champion',0,'Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.');
 INSERT INTO "Features" VALUES(149,'Spellcasting',0,'You have learned to reshape the fabric of reality through magic.');
-INSERT INTO "Features" VALUES(150,'Spell known',1,'You have knowledge of a spell.');
+INSERT INTO "Features" VALUES(150,'Spell known',0,'You have knowledge of a spell.');
 INSERT INTO "Features" VALUES(151,'Spell slot (1st level)',0,'You can expend this slot to cast a 1st-level spell.');
 INSERT INTO "Features" VALUES(152,'Spell slot (2nd level)',0,'You can expend this slot to cast a 2nd-level spell.');
 INSERT INTO "Features" VALUES(153,'Spell slot (3rd level)',0,'You can expend this slot to cast a 3rd-level spell.');
@@ -700,6 +763,29 @@ INSERT INTO "Features" VALUES(156,'Spell slot (6th level)',0,'You can expend thi
 INSERT INTO "Features" VALUES(157,'Spell slot (7th level)',0,'You can expend this slot to cast a 7th-level spell.');
 INSERT INTO "Features" VALUES(158,'Spell slot (8th level)',0,'You can expend this slot to cast a 8th-level spell.');
 INSERT INTO "Features" VALUES(159,'Spell slot (9th level)',0,'You can expend this slot to cast a 9th-level spell.');
+INSERT INTO "Features" VALUES(160,'Bardic Inspiration (d6)',0,'You can inspire others through stirring words or music.');
+INSERT INTO "Features" VALUES(161,'Bardic Inspiration (d8)',0,'You can inspire others through stirring words or music.');
+INSERT INTO "Features" VALUES(162,'Bardic Inspiration (d10)',0,'You can inspire others through stirring words or music.');
+INSERT INTO "Features" VALUES(163,'Bardic Inspiration (d12)',0,'You can inspire others through stirring words or music.');
+INSERT INTO "Features" VALUES(164,'Song of Rest (d6)',0,'You can use soothing music or oration to help revitalize your wounded allies during a short rest.');
+INSERT INTO "Features" VALUES(165,'Song of Rest (d8)',0,'You can use soothing music or oration to help revitalize your wounded allies during a short rest.');
+INSERT INTO "Features" VALUES(166,'Song of Rest (d10)',0,'You can use soothing music or oration to help revitalize your wounded allies during a short rest.');
+INSERT INTO "Features" VALUES(167,'Song of Rest (d12)',0,'You can use soothing music or oration to help revitalize your wounded allies during a short rest.');
+INSERT INTO "Features" VALUES(168,'Bard College',1,'You delve into the advanced techniques of a bard college of your choice.');
+INSERT INTO "Features" VALUES(169,'College of Lore',0,'Bards of this college know something about most things, collecting bits of knowledge from sources as diverse as scholarly tomes and peasant tales.');
+INSERT INTO "Features" VALUES(170,'College of Valor',0,'Bards of this college are daring skalds whose tales keep alive the memory of the great heroes of the past, thereby inspiring a new generation of heroes.');
+INSERT INTO "Features" VALUES(171,'Expertise',0,'Choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.');
+INSERT INTO "Features" VALUES(172,'Bonus skill proficiencies (College of Lore)',1,'You gain proficiency with three skills of your choice.');
+INSERT INTO "Features" VALUES(173,'Cutting Words',0,'You learn how to use your wit to distract, confuse, and otherwise sap the confidence and competence of others.');
+INSERT INTO "Features" VALUES(174,'Magical Secrets',0,'You learn two spells of your choice from any class.');
+INSERT INTO "Features" VALUES(175,'Peerless Skill',0,'When you make an ability check, you can expend one use of Bardic Inspiration and add the number rolled to the check.');
+INSERT INTO "Features" VALUES(176,'Proficiency: shields',0,'You have proficiency with shields.');
+INSERT INTO "Features" VALUES(177,'Proficiency: martial weapons',0,'You have proficiency with all martial weapons.');
+INSERT INTO "Features" VALUES(178,'Combat Inspiration',0,'You learn to inspire others in battle.');
+INSERT INTO "Features" VALUES(179,'Battle Magic',0,'When you use your action to cast a spell, you can make one weapon attack as a bonus action.');
+INSERT INTO "Features" VALUES(180,'Font of Inspiration',0,'You regain all of your expended uses of Bardic Inspiration when you finish a short or long rest.');
+INSERT INTO "Features" VALUES(181,'Countercharm',0,'You have the ability to use musical notes or words of power to disrupt mind-influencing effects.');
+INSERT INTO "Features" VALUES(182,'Superior Inspiration',0,'When you roll initiative and have no uses of Bardic Inspiration left, you regain one use.');
 DROP TABLE IF EXISTS "FeaturesWithOptions";
 CREATE TABLE FeaturesWithOptions
 (
@@ -718,6 +804,8 @@ INSERT INTO "FeaturesWithOptions" VALUES(130,1);
 INSERT INTO "FeaturesWithOptions" VALUES(135,1);
 INSERT INTO "FeaturesWithOptions" VALUES(139,1);
 INSERT INTO "FeaturesWithOptions" VALUES(140,1);
+INSERT INTO "FeaturesWithOptions" VALUES(168,1);
+INSERT INTO "FeaturesWithOptions" VALUES(172,3);
 DROP TABLE IF EXISTS "HigherCastings";
 CREATE TABLE HigherCastings
 (
@@ -1631,16 +1719,19 @@ INSERT INTO "WrittenAlphabets" VALUES(3,'Elvish');
 INSERT INTO "WrittenAlphabets" VALUES(4,'Infernal');
 INSERT INTO "WrittenAlphabets" VALUES(5,'Celestial');
 INSERT INTO "WrittenAlphabets" VALUES(6,'Draconic');
-CREATE VIEW "CheckClassFeatures" AS SELECT
+CREATE VIEW "CheckClassFeatures" AS   SELECT
 CharacterClasses.name AS Class, 
 F1.name AS Feature, 
 CF.requiredLevel as requiredLevel,
-F2.name as requiredFeature
+F2.name as requiredFeature,
+F3.name as replacesFeature
 FROM ClassFeatures AS CF
 JOIN Features AS F1
 ON F1._id = CF.id_feature
 LEFT JOIN Features AS F2
 ON F2._id = CF.requiredFeature
+LEFT JOIN Features AS F3
+ON F3._id = CF.replacesFeature
 JOIN CharacterClasses 
 ON CharacterClasses._id = CF.id_class;
 CREATE VIEW CheckFeatureChoices AS SELECT DISTINCT 
@@ -1661,6 +1752,14 @@ FROM Items, Features
 JOIN FeatureProficiencies
 WHERE Items._id = FeatureProficiencies.id_equipment
 AND Features._id = FeatureProficiencies.id_feature;
+CREATE VIEW CheckFeatureReplacements AS SELECT
+F1.name AS Feature, 
+F2.name as Replaces 
+FROM FeatureReplacements
+JOIN Features AS F1
+ON F1._id = FeatureReplacements.id_replacement
+JOIN Features AS F2
+ON F2._id = FeatureReplacements.id_replaced;
 CREATE VIEW CheckFeatureSkills AS SELECT DISTINCT Skills.name AS Skill, Features.name AS Feature
 FROM Features, Skills
 JOIN FeatureSkills
