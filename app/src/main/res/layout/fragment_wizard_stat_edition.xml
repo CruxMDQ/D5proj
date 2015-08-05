@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btnSettings"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|right"

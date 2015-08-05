@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.callisto.d5proj.Constants;
@@ -165,6 +166,18 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
             @Override
             public void onClick(View v) {
                 reset();
+            }
+        });
+
+        final StatStepSettingsDialogFragment settingsDialogFragment = StatStepSettingsDialogFragment.newInstance(this);
+
+        btnSettings = (ImageButton) rootView.findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                StatStepSettingsDialogFragment settingsDialogFragment = StatStepSettingsDialogFragment.newInstance(this);
+                settingsDialogFragment.show(getActivity().getFragmentManager(),
+                    getStringResource(R.string.tag_statalloc_settings));
             }
         });
     }
@@ -574,6 +587,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
 
     private Button btnResetRolls;
     private Button btnRollNewValues;
+
+    private ImageButton btnSettings;
 
     /**
      * ChoiceTouchListener will handle touch events on draggable views
