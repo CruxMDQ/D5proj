@@ -81,6 +81,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
 
         setRolls();
 
+        disablePointPool();
+
         return rootView;
     }
 
@@ -245,7 +247,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
     private void setMethodCheat() {
         currentMode = getStringResource(R.string.pref_method_manual);
 
-        disableRollsPanel();
+        disableScores();
+        disableTotalRolls();
         disableRolling();
         disablePointPool();
         disableReRollAndReset();
@@ -260,7 +263,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
         SharedPreferences settings = getActivity().getSharedPreferences(
             getString(R.string.tag_statalloc_settings), Context.MODE_PRIVATE);
 
-        disableRollsPanel();
+        disableScores();
+        disablePointPool();
         disableRolling();
         enablePointPool();
         enableStatEditing();
@@ -275,7 +279,7 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
 
         SharedPreferences.Editor editor = getCharSharedPrefs().edit();
 
-        enableRollsPanel();
+        disableTotalRolls();
         disableRolling();
         disableStatEditing();
 
@@ -294,7 +298,8 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
     private void setMethodRoll() {
         currentMode = getStringResource(R.string.pref_method_roll);
 
-        enableRollsPanel();
+        enableScores();
+        enableTotalRolls();
         enableRolling();
         disablePointPool();
         disableStatEditing();
@@ -340,14 +345,20 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
         editor.apply();
     }
 
-    private void enableRollsPanel() {
-        rootView.findViewById(R.id.panelTotalRolls).setVisibility(View.VISIBLE);
-        rootView.findViewById(R.id.panelRolls).setVisibility(View.VISIBLE);
+    private void disableScores() {
+        rootView.findViewById(R.id.panelScores).setVisibility(View.GONE);
     }
 
-    private void disableRollsPanel() {
+    private void enableScores() {
+        rootView.findViewById(R.id.panelScores).setVisibility(View.VISIBLE);
+    }
+
+    private void disableTotalRolls() {
         rootView.findViewById(R.id.panelTotalRolls).setVisibility(View.GONE);
-        rootView.findViewById(R.id.panelRolls).setVisibility(View.GONE);
+    }
+
+    private void enableTotalRolls() {
+        rootView.findViewById(R.id.panelTotalRolls).setVisibility(View.VISIBLE);
     }
 
     private void disablePointPool() {
@@ -513,7 +524,6 @@ public class StatAllocationStep extends WizardStep implements OnInputClickListen
             setPointPool(0);
 
             enableRolling();
-//            setMethodRoll();
         } else if (currentMode.equals(getStringResource(R.string.pref_method_pointbuy))){
             setMethodPointBuy();
         } else if (currentMode.equals(getStringResource(R.string.pref_method_stdscores))) {

@@ -23,7 +23,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|right"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:background="@drawable/circle"
             android:src="@android:drawable/ic_menu_manage"/>
 
@@ -67,7 +67,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/panelRolls"
+                android:id="@+id/panelTotalRolls"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -183,31 +183,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/panelTotalRolls"
+                android:id="@+id/panelScores"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:text="@string/panel_rolls_title"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/txtTotalRolls"-->
-                <!--style="@style/statNumberEditableL"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:text="0"/>-->
-                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
